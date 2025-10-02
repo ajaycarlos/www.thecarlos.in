@@ -1,0 +1,202 @@
+
+/* Reset and body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Fedorka', sans-serif;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+/* 🌍 Global text rules for consistent spacing across all devices */
+  -webkit-text-size-adjust: none;   /* stop phone browsers from resizing text */
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.3px;            /* slight balance */
+  line-height: 1.6;                 /* smooth spacing everywhere */
+  text-align: center;               /* center by default (you can override if needed) */
+
+}
+
+/* Fullscreen video */
+#video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#intro-video {
+  width: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+}
+
+/* Logo top-left */
+#logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: auto;
+  opacity: 0;
+  z-index: 1000;
+  transition: all 2s ease;
+}
+
+/* Since 2025 top-center */
+#since-text {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 2s ease;
+}
+
+#knowledge-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 70%;
+  padding: 20px 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  opacity: 0; /* ADD THIS */
+  transition: opacity 1s ease, transform 0.3s ease, box-shadow 0.3s ease; /* EDITED */
+  cursor: default;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+
+#knowledge-box:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Clock bottom-center */
+#live-clock {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  color: #ccc;
+  font-weight: 500;
+  letter-spacing: 1px;
+  opacity: 0; /* ADD THIS */
+  transition: opacity 1s ease; /* ADD THIS */
+}
+
+/* Footer line */
+#footer-text {
+  position: fixed;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-family: 'Fedorka', sans-serif;
+  color: #aaa;
+  text-align: center;
+  opacity: 0;             /* start hidden */
+  transition: opacity 2s ease;
+}
+
+/* Hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ✅ Responsive fix for phones */
+@media (max-width: 480px) {
+  #knowledge-box {
+    font-size: 14px;   /* smaller text */
+    max-width: 90%;    /* keep it narrower */
+    line-height: 1.5;
+  }
+}
+/* Responsive font size for "Since 2025" */
+@media (max-width: 768px) { /* tablets and smaller */
+  #since-text {
+    font-size: 18px; /* smaller than desktop */
+  }
+}
+
+@media (max-width: 480px) { /* mobile phones */
+  #since-text {
+    font-size: 14px; /* even smaller on phones */
+  }
+}
+
+/* ================= Responsive for smaller screens ================= */
+@media only screen and (max-width: 768px) {
+    /* Knowledge box */
+    #knowledge-box {
+        font-size: 16px; /* smaller text on tablets/phones */
+        max-width: 90%;  /* slightly wider for small screens */
+        padding: 15px 20px;
+        line-height: 1.3; /* reduce line spacing */
+    }
+
+    /* Since 2025 */
+    #since-text {
+        font-size: 18px; /* smaller on small screens */
+    }
+
+    /* Live clock */
+    #live-clock {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    /* Very small phones */
+    #knowledge-box {
+        font-size: 14px; 
+        line-height: 1.2; 
+        padding: 10px 15px;
+    }
+
+    #since-text {
+        font-size: 16px; 
+    }
+
+    #live-clock {
+        font-size: 12px;
+    }
+}
+/* Footer & clock adjustment for phones */
+@media (max-width: 600px) {
+    #live-clock {
+        bottom: 35px; /* move clock slightly up */
+    }
+
+    #footer-text {
+        bottom: 10px; /* footer a bit above bottom */
+        font-size: 10px; /* smaller for mobile */
+    }
+}
