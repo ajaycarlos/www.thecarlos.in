@@ -24,9 +24,25 @@ async function loadKnowledgeBits() {
     }
 }
 
+// ========================
+// 3️⃣ NEW: localStorage Helper Functions to remember seen facts
+function getSeenFacts() {
+    const seen = localStorage.getItem('carlosSeenFacts');
+    // If 'seen' exists in storage, parse it from JSON; otherwise, return an empty array.
+    return seen ? JSON.parse(seen) : [];
+}
+
+function addSeenFact(index) {
+    let seen = getSeenFacts();
+    if (!seen.includes(index)) {
+        seen.push(index);
+        localStorage.setItem('carlosSeenFacts', JSON.stringify(seen));
+    }
+}
+
 
 // ========================
-// 3️⃣ Live Clock (India Time) - UPDATED
+// 4️⃣ Live Clock (India Time)
 function startLiveClock() {
     const clockElement = document.getElementById("live-clock");
 
@@ -39,49 +55,66 @@ function startLiveClock() {
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
         
-        // EDITED: Removed milliseconds for a cleaner look
         clockElement.innerText = `${hours}:${minutes}:${seconds}`;
     }
     
-    updateClock(); // Run once immediately
-    setInterval(updateClock, 1000); // Update every second
+    updateClock();
+    setInterval(updateClock, 1000);
 }
 
 // ========================
-// 4️⃣ Random Knowledge Bit
+// 5️⃣ Random Knowledge Bit (UPDATED with memory)
 function showKnowledgeBit() {
-    if (knowledgeBits.length === 0) return; // Don't run if facts haven't loaded
+    if (knowledgeBits.length === 0) return;
+
+    let seenFacts = getSeenFacts();
+    
+    // Create a list of indices for facts that have NOT been seen yet
+    let availableIndices = knowledgeBits
+        .map((_, i) => i) // Create an array of all possible indices [0, 1, 2, ...]
+        .filter(i => !seenFacts.includes(i)); // Filter out indices that are in the seen list
+
+    // If the user has seen all the facts, reset their history and start over
+    if (availableIndices.length === 0) {
+        console.log("All facts have been seen! Resetting history.");
+        localStorage.removeItem('carlosSeenFacts');
+        availableIndices = knowledgeBits.map((_, i) => i);
+    }
+
+    // Pick a random index from the list of AVAILABLE (unseen) facts
+    const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
+    const newFactIndex = availableIndices[randomAvailableIndex];
 
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
+    const selectedBit = knowledgeBits[newFactIndex];
     
-    const index = Math.floor(Math.random() * knowledgeBits.length);
-    const selectedBit = knowledgeBits[index];
-    
-    // Clear previous explanation and stop any typing animation
     explanationElement.innerHTML = '';
     isTyping = false;
 
     if (selectedBit && selectedBit.fact) {
         factTextElement.innerText = selectedBit.fact;
         currentExplanation = selectedBit.explanation || '';
+        
+        // After showing the fact, add its index to the 'seen' list in localStorage
+        addSeenFact(newFactIndex);
     }
 }
 
 // ========================
-// 5️⃣ Typewriter Effect
+// 6️⃣ Typewriter Effect
 function typeWriter() {
     if (isTyping || !currentExplanation) {
-        return; // Don't run if already typing or no explanation exists
+        return;
     }
 
     const explanationElement = document.getElementById("knowledge-explanation");
-    explanationElement.innerHTML = ''; // Clear previous text
-    explanationElement.classList.add('typing'); // Add class for blinking cursor
+    explanationElement.innerHTML = '';
+    explanationElement.classList.add('typing');
     isTyping = true;
     
     let i = 0;
-    const speed = 30; // Speed of typing in milliseconds
+    const speed = 30;
 
     function type() {
         if (i < currentExplanation.length) {
@@ -89,7 +122,7 @@ function typeWriter() {
             i++;
             setTimeout(type, speed);
         } else {
-            explanationElement.classList.remove('typing'); // Remove cursor when done
+            explanationElement.classList.remove('typing');
             isTyping = false;
         }
     }
@@ -98,7 +131,7 @@ function typeWriter() {
 
 
 // ========================
-// 6️⃣ Video Animation + Logo Fade-in
+// 7️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
     const video = document.getElementById("intro-video");
     const elementsToFadeIn = [
@@ -112,18 +145,15 @@ function startAnimations() {
     let animationHasRun = false;
 
     const runExitAnimation = () => {
-        if (animationHasRun) return; // Ensure this only runs once
+        if (animationHasRun) return;
         animationHasRun = true;
 
-        // Shrink video smoothly
         video.style.transition = "all 2s ease";
         video.style.transform = "scale(0.1)";
         video.style.opacity = "0";
 
-        // Show all other elements
         elementsToFadeIn.forEach(el => el.style.opacity = "1");
 
-        // After shrink animation (2s), hide video container and show main content
         setTimeout(() => {
             document.getElementById("video-container").style.display = "none";
             document.getElementById("main-content-container").style.opacity = "1";
@@ -142,7 +172,7 @@ function startAnimations() {
 
 
 // ========================
-// 7️⃣ Start everything when DOM content loaded
+// 8️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
     await loadKnowledgeBits(); 
     
@@ -150,7 +180,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     startLiveClock();
     startAnimations();
     
-    // Listener for toggling the explanation
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
 
@@ -162,9 +191,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // NEW: Listener for the refresh button
     document.getElementById("refresh-button").addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevents the knowledge-box click event from firing
+        event.stopPropagation();
         showKnowledgeBit();
     });
 });
