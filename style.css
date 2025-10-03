@@ -51,7 +51,7 @@ body {
   position: fixed;
   top: 20px;
   left: 20px;
-  width: 80px; /* EDITED */
+  width: 80px;
   height: auto;
   opacity: 0;
   z-index: 1000;
@@ -61,14 +61,14 @@ body {
 /* Since 2025 below logo */
 #since-logo-text {
   position: fixed;
-  top: 105px; /* EDITED: Positioned below the 80px high logo */
+  top: 105px; /* Positioned below the 80px high logo */
   left: 20px;
-  width: 80px; /* EDITED: Same width as the logo */
+  width: 80px; /* Same width as the logo */
   color: #fff;
   text-align: center;
-  font-family: 'Fedorka', sans-serif; /* ADDED */
-  font-size: 14px; /* EDITED: Larger font to fit new width */
-  white-space: nowrap; /* ADDED: Ensures text is on a single line */
+  font-family: 'Fedorka', sans-serif;
+  font-size: 14px; /* Larger font to fit new width */
+  white-space: nowrap; /* Ensures text is on a single line */
   opacity: 0;
   z-index: 1000;
   transition: opacity 2s ease;
@@ -99,8 +99,8 @@ body {
   background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
   text-align: center;
-  font-family: 'Fedorka', sans-serif; /* ADDED */
-  text-transform: uppercase; /* ADDED */
+  font-family: 'Fedorka', sans-serif;
+  text-transform: uppercase;
   font-size: 15px;
   opacity: 0;
   transition: opacity 1s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -206,6 +206,35 @@ body {
         font-size: 12px;
     }
 }
+
+/* ================= NEW CODE: Responsive for Logo ================= */
+@media only screen and (max-width: 768px) {
+    /* Tablets */
+    #logo {
+        width: 65px;
+    }
+
+    #since-logo-text {
+        width: 65px;
+        top: 90px; /* 20px (logo top) + 65px (logo height) + 5px (gap) */
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    /* Phones */
+    #logo {
+        width: 50px;
+    }
+
+    #since-logo-text {
+        width: 50px;
+        top: 75px; /* 20px (logo top) + 50px (logo height) + 5px (gap) */
+        font-size: 10px;
+    }
+}
+
+
 /* Footer & clock adjustment for phones */
 @media (max-width: 600px) {
     #live-clock {
