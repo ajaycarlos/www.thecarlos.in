@@ -1,4 +1,3 @@
-
 /* Reset and body */
 * {
   margin: 0;
@@ -59,7 +58,21 @@ body {
   transition: all 2s ease;
 }
 
-/* Since 2025 top-center */
+/* Since 2025 below logo */
+#since-logo-text {
+  position: fixed;
+  top: 75px; /* Positioned below the 50px high logo */
+  left: 20px;
+  width: 50px; /* Same width as the logo */
+  color: #fff;
+  text-align: center;
+  font-size: 10px; /* Small font to fit width */
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 2s ease;
+}
+
+/* C.A.R.L.O.S top-center */
 #since-text {
   position: fixed;
   top: 20px;
@@ -139,7 +152,7 @@ body {
     line-height: 1.5;
   }
 }
-/* Responsive font size for "Since 2025" */
+/* Responsive font size for "C.A.R.L.O.S" */
 @media (max-width: 768px) { /* tablets and smaller */
   #since-text {
     font-size: 18px; /* smaller than desktop */
@@ -162,7 +175,7 @@ body {
         line-height: 1.3; /* reduce line spacing */
     }
 
-    /* Since 2025 */
+    /* C.A.R.L.O.S */
     #since-text {
         font-size: 18px; /* smaller on small screens */
     }
