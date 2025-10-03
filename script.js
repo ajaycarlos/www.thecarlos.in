@@ -1,4 +1,3 @@
-
 // ========================
 // 1️⃣ Knowledge Bits Array
 const knowledgeBits = [
@@ -218,6 +217,7 @@ function startAnimations() {
     const video = document.getElementById("intro-video");
     const logo = document.getElementById("logo");
     const sinceText = document.getElementById("since-text");
+    const sinceLogoText = document.getElementById("since-logo-text"); // New element
 
     // Wait until video metadata is loaded to get correct duration
     video.addEventListener('loadedmetadata', () => {
@@ -229,9 +229,10 @@ setTimeout(() => {
     video.style.transform = "scale(0.1)";
     video.style.opacity = "0";
 
-    // Show logo, "Since 2025", and footer text
+    // Show logo, "C.A.R.L.O.S", new "Since 2025" and footer text
     logo.style.opacity = "1";
     sinceText.style.opacity = "1";
+    sinceLogoText.style.opacity = "1"; // Fade in the new text
     document.getElementById("footer-text").style.opacity = "1";
 
     // After shrink animation (2s), hide video container and show knowledge & clock
@@ -253,6 +254,3 @@ document.addEventListener("DOMContentLoaded", () => {
     startLiveClock();     // Start live clock
     startAnimations();  // Play video animation
 });
-
-
-
