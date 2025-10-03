@@ -112,9 +112,31 @@ body {
   font-size: 15px;
   opacity: 0;
   transition: opacity 1s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
+  cursor: pointer; /* EDITED: Show that it's clickable */
   line-height: 1.5;
   letter-spacing: 0.5px;
+}
+
+/* Styles for explanation text */
+#knowledge-explanation {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.4;
+  font-family: 'Fedorka', sans-serif; /* Using a different font for explanation */
+  text-transform: none; /* Normal case for explanations */
+}
+
+/* Blinking cursor effect for typewriter */
+.typing::after {
+  content: '▋';
+  margin-left: 3px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 
@@ -187,6 +209,11 @@ body {
         line-height: 1.3;
     }
 
+    /* EDITED: Responsive font size for explanation */
+    #knowledge-explanation {
+        font-size: 13px;
+    }
+
     /* C.A.R.L.O.S */
     #since-text {
         font-size: 18px;
@@ -204,6 +231,11 @@ body {
         font-size: 14px; 
         line-height: 1.2; 
         padding: 10px 15px;
+    }
+    
+    /* EDITED: Responsive font size for explanation */
+    #knowledge-explanation {
+        font-size: 12px;
     }
 
     #since-text {
