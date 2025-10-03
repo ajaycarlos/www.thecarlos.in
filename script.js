@@ -6,7 +6,7 @@ let isTyping = false;
 
 
 // ========================
-// 2️⃣ NEW: Function to load knowledge from JSON file
+// 2️⃣ Function to load knowledge from JSON file
 async function loadKnowledgeBits() {
     try {
         const response = await fetch('knowledge.json');
@@ -26,7 +26,7 @@ async function loadKnowledgeBits() {
 
 
 // ========================
-// 3️⃣ Live Clock (India Time)
+// 3️⃣ Live Clock (India Time) - UPDATED
 function startLiveClock() {
     const clockElement = document.getElementById("live-clock");
 
@@ -38,11 +38,13 @@ function startLiveClock() {
         const hours = String(istTime.getHours()).padStart(2, '0');
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
-        const millis = String(istTime.getMilliseconds()).padStart(3, '0');
-        clockElement.innerText = `${hours}:${minutes}:${seconds}:${millis}`;
-        requestAnimationFrame(updateClock);
+        
+        // EDITED: Removed milliseconds for a cleaner look
+        clockElement.innerText = `${hours}:${minutes}:${seconds}`;
     }
-    updateClock();
+    
+    updateClock(); // Run once immediately
+    setInterval(updateClock, 1000); // Update every second
 }
 
 // ========================
@@ -103,7 +105,8 @@ function startAnimations() {
         document.getElementById("logo"),
         document.getElementById("since-text"),
         document.getElementById("since-logo-text"),
-        document.getElementById("footer-text")
+        document.getElementById("footer-text"),
+        document.getElementById("live-clock")
     ];
 
     let animationHasRun = false;
@@ -123,8 +126,7 @@ function startAnimations() {
         // After shrink animation (2s), hide video container and show main content
         setTimeout(() => {
             document.getElementById("video-container").style.display = "none";
-            document.getElementById("knowledge-box").style.opacity = "1";
-            document.getElementById("live-clock").style.opacity = "1";
+            document.getElementById("main-content-container").style.opacity = "1";
         }, 2000);
     };
 
@@ -142,13 +144,13 @@ function startAnimations() {
 // ========================
 // 7️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
-    // Make sure to load the facts before trying to show one
     await loadKnowledgeBits(); 
     
     showKnowledgeBit();
     startLiveClock();
     startAnimations();
     
+    // Listener for toggling the explanation
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
 
@@ -158,5 +160,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         else if (explanationElement.innerHTML === '') {
             typeWriter();
         }
+    });
+
+    // NEW: Listener for the refresh button
+    document.getElementById("refresh-button").addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevents the knowledge-box click event from firing
+        showKnowledgeBit();
     });
 });
