@@ -59,7 +59,7 @@ function startLiveClock() {
 }
 
 // ========================
-// 5️⃣ Random Knowledge Bit (UPDATED)
+// 5️⃣ Random Knowledge Bit
 function showKnowledgeBit() {
     if (knowledgeBits.length === 0) return;
     let seenFacts = getSeenFacts();
@@ -72,7 +72,6 @@ function showKnowledgeBit() {
     const newFactIndex = availableIndices[randomAvailableIndex];
     currentFact = knowledgeBits[newFactIndex];
 
-    // Hide all interactive elements when a new fact is shown
     document.getElementById('ask-carlos-trigger').style.visibility = 'hidden';
     document.getElementById('ask-carlos-trigger').style.opacity = '0';
     document.body.classList.remove('ai-modal-open');
@@ -89,7 +88,7 @@ function showKnowledgeBit() {
 }
 
 // ========================
-// 6️⃣ Typewriter Effect (UPDATED)
+// 6️⃣ Typewriter Effect
 function typeWriter() {
     const explanation = currentFact.explanation || '';
     if (isTyping || !explanation) return;
@@ -110,7 +109,6 @@ function typeWriter() {
             explanationElement.classList.remove('typing');
             isTyping = false;
             
-            // Show the "Ask Carlos" trigger text below the box
             askTrigger.style.visibility = 'visible';
             askTrigger.style.opacity = '1';
         }
@@ -160,7 +158,6 @@ function animateAiResponse(text) {
 // ========================
 // 8️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
-    // ... (This function is unchanged)
     const video = document.getElementById("intro-video");
     const elementsToFadeIn = [
         document.getElementById("logo"),
@@ -194,7 +191,6 @@ function startAnimations() {
 // ========================
 // 9️⃣ Share Functionality
 async function shareFact() {
-    // ... (This function is unchanged)
     const factTextElement = document.getElementById("knowledge-bit-text");
     const shareText = `Check out this fact from The C.A.R.L.O.S Project:\n\n"${factTextElement.innerText}"\n\nwww.thecarlos.in`;
     const shareData = {
@@ -249,13 +245,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       body.classList.toggle('sidebar-open');
     });
     
+    // ADDED: Listener for the new close button
+    document.getElementById('sidebar-close-button').addEventListener('click', () => {
+        body.classList.remove('sidebar-open');
+    });
+    
     // --- Load initial content ---
     await loadKnowledgeBits(); 
     showKnowledgeBit();
     startLiveClock();
     startAnimations();
     
-    // --- Main event listeners (UPDATED) ---
+    // --- Main event listeners ---
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
         const askTrigger = document.getElementById('ask-carlos-trigger');
@@ -323,3 +324,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
+
