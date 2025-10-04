@@ -1,4 +1,3 @@
-/* NEW: Define the custom Minecraft font */
 @font-face {
   font-family: 'Mojangles';
   src: url('Minecraft.ttf') format('truetype');
@@ -53,21 +52,23 @@ body {
 }
 
 h1 {
-  font-family: 'Mojangles', sans-serif; /* EDITED: Applied Minecraft font */
+  font-family: 'Mojangles', sans-serif;
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
+  text-transform: uppercase; /* Ensure CARLOS is uppercase */
 }
 
 h1 sup {
   font-size: 14px;
+  text-transform: lowercase; /* Ensure ai is lowercase */
 }
 
 #chat-window {
   flex-grow: 1;
   overflow-y: auto;
   padding-right: 10px;
-  font-size: 14px;
+  font-size: 13px; /* EDITED: Font size slightly reduced */
 }
 
 .message {
