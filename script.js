@@ -117,7 +117,7 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ Starstream Animation & AI Typewriter (UPDATED)
+// 7️⃣ Starstream Animation & AI Typewriter
 function typewriterForAi(text, responseArea, onComplete) {
     let i = 0;
     const speed = 30;
@@ -143,10 +143,10 @@ function playStarstreamAnimation() {
         const rect = responseArea.getBoundingClientRect();
         const destinationX = rect.left + rect.width / 2;
         const destinationY = rect.top + rect.height / 2;
-        const duration = 1500; // EDITED: Longer duration for a more pronounced "thinking" phase
+        const duration = 1500;
 
         const particles = [];
-        for (let i = 0; i < 250; i++) { // EDITED: Increased density to 250 stars
+        for (let i = 0; i < 500; i++) {
             const star = document.createElement('div');
             star.className = 'flying-star';
             const size = anime.random(1, 3) + 'px';
@@ -176,7 +176,7 @@ function playStarstreamAnimation() {
             opacity: [1, 0],
             easing: 'easeInExpo',
             duration: duration,
-            delay: anime.stagger(7), // EDITED: Adjusted stagger for new density and duration
+            delay: anime.stagger(3),
             complete: () => {
                 particles.forEach(p => p.remove());
                 resolve();
@@ -187,9 +187,8 @@ function playStarstreamAnimation() {
 
 
 // ========================
-// 8️⃣ Video Animation + Logo Fade-in
+// 8️⃣ Video Animation + Logo Fade-in (UPDATED)
 function startAnimations() {
-    const video = document.getElementById("intro-video");
     const elementsToFadeIn = [
         document.getElementById("logo"),
         document.getElementById("since-text"),
@@ -197,10 +196,30 @@ function startAnimations() {
         document.getElementById("footer-text"),
         document.getElementById("live-clock")
     ];
+
+    // This function skips the intro and shows the main content immediately
+    function skipIntro() {
+        document.getElementById("video-container").style.display = "none";
+        elementsToFadeIn.forEach(el => el.style.opacity = "1");
+        document.getElementById("main-content-container").style.opacity = "1";
+    }
+
+    // Check if the intro has been played in this session
+    if (sessionStorage.getItem('introPlayed') === 'true') {
+        skipIntro();
+        return; // Stop the function here
+    }
+
+    // If intro hasn't been played, run the full animation
+    const video = document.getElementById("intro-video");
     let animationHasRun = false;
     const runExitAnimation = () => {
         if (animationHasRun) return;
         animationHasRun = true;
+        
+        // Set the flag in sessionStorage so it doesn't play again
+        sessionStorage.setItem('introPlayed', 'true');
+
         video.style.transition = "all 2s ease";
         video.style.transform = "scale(0.1)";
         video.style.opacity = "0";
@@ -210,6 +229,7 @@ function startAnimations() {
             document.getElementById("main-content-container").style.opacity = "1";
         }, 2000);
     };
+
     video.addEventListener('ended', runExitAnimation);
     video.play().catch(error => {
         console.error("Autoplay was prevented. Starting animation immediately.", error);
@@ -327,27 +347,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         const responseArea = document.getElementById('ai-response-area');
         responseArea.innerHTML = 'C.A.R.L.O.S. is thinking...';
         input.value = '';
-        isAiResponding = true;
 
         try {
-            const [apiResponse] = await Promise.all([
-                fetch('/api/ask-carlos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        question: userInput,
-                        contextFact: currentFact.fact 
-                    }),
+            const response = await fetch('/api/ask-carlos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: userInput,
+                    contextFact: currentFact.fact 
                 }),
-                playStarstreamAnimation()
-            ]);
+            });
 
-            if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
+            if (!response.ok) { throw new Error('Network response was not ok'); }
             
-            const data = await apiResponse.json();
+            const data = await response.json();
             
-            typewriterForAi(data.answer, responseArea, () => {
-                isAiResponding = false;
+            playStarstreamAnimation().then(() => {
+                typewriterForAi(data.answer, responseArea, () => {
+                    isAiResponding = false;
+                });
             });
 
         } catch (error) {
