@@ -21,6 +21,16 @@
     <div class="icon-moon"></div>
   </div>
 
+  <div id="explore-sidebar">
+    <div class="sidebar-header">
+      <h2>Explore</h2>
+    </div>
+    <nav>
+      <a href="index.html" class="nav-link">Knowledge Center</a>
+      <a href="#" class="nav-link" id="nav-carlos-chat">C.A.R.L.O.S. Chat</a>
+    </nav>
+  </div>
+
   <div id="video-container">
     <video id="intro-video" autoplay muted>
       <source src="logo.mp4" type="video/mp4">
@@ -38,6 +48,16 @@
     <div id="knowledge-box">
       <span id="knowledge-bit-text"></span>
       <p id="knowledge-explanation"></p>
+
+      <div id="ai-chat-container">
+        <span id="ask-carlos-prompt">Have a doubt? Ask C.A.R.L.O.S.</span>
+        <form id="ai-chat-form">
+          <input type="text" id="ai-chat-input" placeholder="Ask a follow-up question..." autocomplete="off">
+          <button type="submit">&#10148;</button>
+        </form>
+        <div id="ai-response-area"></div>
+      </div>
+
     </div>
     <div id="refresh-button">&#8635;</div>
     <div id="share-button">&#10148;</div>
