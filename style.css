@@ -247,6 +247,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 #knowledge-box {
   position: relative;
   max-width: 700px;
+  min-height: 80px; /* Give it a minimum height to prevent collapsing */
   padding: 20px 30px;
   border-radius: 20px;
   background-color: var(--box-bg-color);
@@ -283,28 +284,56 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   50% { opacity: 1; }
 }
 
-/* ================= 8. AI Chat Interface ================= */
-#ai-chat-container {
-  margin-top: 20px;
-  border-top: 1px solid var(--sidebar-border-color);
-  padding-top: 20px;
-}
-
-#ask-carlos-prompt {
+/* ================= 8. AI Chat Interface (REDESIGNED) ================= */
+#ask-carlos-trigger {
+  position: fixed;
+  bottom: 80px; /* Positioned above the clock/footer */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px; /* Very small font size */
   font-style: italic;
   color: var(--text-secondary-color);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.5s ease;
-  display: none;
+  visibility: hidden; /* Start completely hidden */
+}
+
+#ai-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: var(--box-bg-color);
+  backdrop-filter: blur(10px);
+  z-index: 1003;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+body.ai-modal-open #ai-modal {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#ai-modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: var(--text-secondary-color);
+  cursor: pointer;
 }
 
 #ai-chat-form {
-  display: none;
+  display: flex;
   align-items: center;
-  margin-top: 10px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
 }
 
 #ai-chat-input {
@@ -341,16 +370,15 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   text-align: left;
   font-style: italic;
   color: var(--text-tertiary-color);
-  /* NEW: Prepare container for animation */
-  min-height: 50px; /* Give it some space */
-  position: relative; /* Needed for positioning the letters */
+  min-height: 50px;
+  position: relative;
   overflow: hidden;
+  line-height: 1.5;
 }
 
-/* NEW: Styles for the accumulating letters animation */
 #ai-response-area .char {
   display: inline-block;
-  opacity: 0; /* Start invisible */
+  opacity: 0;
   transform-style: preserve-3d;
   transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

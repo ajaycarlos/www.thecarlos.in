@@ -3,7 +3,7 @@
 let knowledgeBits = [];
 let currentFact = {};
 let isTyping = false;
-let isAiResponding = false; // To prevent multiple AI requests at once
+let isAiResponding = false;
 
 
 // ========================
@@ -59,7 +59,7 @@ function startLiveClock() {
 }
 
 // ========================
-// 5️⃣ Random Knowledge Bit
+// 5️⃣ Random Knowledge Bit (UPDATED)
 function showKnowledgeBit() {
     if (knowledgeBits.length === 0) return;
     let seenFacts = getSeenFacts();
@@ -71,13 +71,14 @@ function showKnowledgeBit() {
     const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
     const newFactIndex = availableIndices[randomAvailableIndex];
     currentFact = knowledgeBits[newFactIndex];
+
+    // Hide all interactive elements when a new fact is shown
+    document.getElementById('ask-carlos-trigger').style.visibility = 'hidden';
+    document.getElementById('ask-carlos-trigger').style.opacity = '0';
+    document.body.classList.remove('ai-modal-open');
+
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
-    document.getElementById('ask-carlos-prompt').style.display = 'none';
-    document.getElementById('ask-carlos-prompt').style.opacity = '0';
-    document.getElementById('ai-chat-form').style.display = 'none';
-    document.getElementById('ai-chat-form').style.opacity = '0';
-    document.getElementById('ai-response-area').innerHTML = '';
     explanationElement.innerHTML = '';
     isTyping = false;
     isAiResponding = false;
@@ -88,12 +89,13 @@ function showKnowledgeBit() {
 }
 
 // ========================
-// 6️⃣ Typewriter Effect
+// 6️⃣ Typewriter Effect (UPDATED)
 function typeWriter() {
     const explanation = currentFact.explanation || '';
     if (isTyping || !explanation) return;
+
     const explanationElement = document.getElementById("knowledge-explanation");
-    const askPrompt = document.getElementById('ask-carlos-prompt');
+    const askTrigger = document.getElementById('ask-carlos-trigger');
     explanationElement.innerHTML = '';
     explanationElement.classList.add('typing');
     isTyping = true;
@@ -107,49 +109,41 @@ function typeWriter() {
         } else {
             explanationElement.classList.remove('typing');
             isTyping = false;
-            askPrompt.style.display = 'block';
-            setTimeout(() => askPrompt.style.opacity = '1', 10);
+            
+            // Show the "Ask Carlos" trigger text below the box
+            askTrigger.style.visibility = 'visible';
+            askTrigger.style.opacity = '1';
         }
     }
     type();
 }
 
 // ========================
-// 7️⃣ NEW: Accumulating Letters Animation
+// 7️⃣ Accumulating Letters Animation
 function animateAiResponse(text) {
     const responseArea = document.getElementById('ai-response-area');
-    responseArea.innerHTML = ''; // Clear previous response or loading message
+    responseArea.innerHTML = '';
     isAiResponding = true;
-
-    const words = text.split(/(\s+)/); // Split by spaces, but keep them
+    const words = text.split(/(\s+)/);
     let charCount = 0;
-
     words.forEach(word => {
-        if (word.trim() === '') { // If it's just a space
+        if (word.trim() === '') {
             responseArea.append(document.createTextNode(word));
             return;
         }
-
         word.split('').forEach(char => {
             const charSpan = document.createElement('span');
             charSpan.className = 'char';
             charSpan.textContent = char;
-
-            // Random starting position and rotation
-            const x = (Math.random() - 0.5) * 400; // horizontal range
-            const y = (Math.random() - 0.5) * 200; // vertical range
+            const x = (Math.random() - 0.5) * 400;
+            const y = (Math.random() - 0.5) * 200;
             const rot = (Math.random() - 0.5) * 360;
             charSpan.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
-            
-            // Stagger the animation start time
             charSpan.style.transitionDelay = `${charCount * 0.02}s`;
-
             responseArea.appendChild(charSpan);
             charCount++;
         });
     });
-
-    // Trigger the animation by resetting the transform and opacity
     setTimeout(() => {
         const allChars = responseArea.querySelectorAll('.char');
         allChars.forEach(char => {
@@ -157,17 +151,16 @@ function animateAiResponse(text) {
             char.style.transform = 'translate(0, 0) rotate(0deg)';
         });
     }, 100);
-    
-    // Set a timeout to mark the end of the animation
     setTimeout(() => {
         isAiResponding = false;
-    }, (charCount * 20) + 1500); // Animation duration + total delay
+    }, (charCount * 20) + 1500);
 }
 
 
 // ========================
 // 8️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
+    // ... (This function is unchanged)
     const video = document.getElementById("intro-video");
     const elementsToFadeIn = [
         document.getElementById("logo"),
@@ -201,12 +194,13 @@ function startAnimations() {
 // ========================
 // 9️⃣ Share Functionality
 async function shareFact() {
+    // ... (This function is unchanged)
     const factTextElement = document.getElementById("knowledge-bit-text");
     const shareText = `Check out this fact from The C.A.R.L.O.S Project:\n\n"${factTextElement.innerText}"\n\nwww.thecarlos.in`;
     const shareData = {
         title: 'A Fact from The C.A.R.L.O.S Project',
         text: `"${factTextElement.innerText}"`,
-        url: '[https://www.thecarlos.in](https://www.thecarlos.in)'
+        url: 'https://www.thecarlos.in'
     };
     if (navigator.share) {
         try {
@@ -233,29 +227,24 @@ async function shareFact() {
 // ========================
 // 10️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
+    const body = document.body;
+
     // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
-    const body = document.body;
     const applySavedTheme = () => {
-        const savedTheme = localStorage.getItem('carlosTheme');
-        if (savedTheme === 'light') {
+        if (localStorage.getItem('carlosTheme') === 'light') {
             body.classList.add('light-theme');
         }
     };
     const toggleTheme = () => {
         body.classList.toggle('light-theme');
-        if (body.classList.contains('light-theme')) {
-            localStorage.setItem('carlosTheme', 'light');
-        } else {
-            localStorage.setItem('carlosTheme', 'dark');
-        }
+        localStorage.setItem('carlosTheme', body.classList.contains('light-theme') ? 'light' : 'dark');
     };
     applySavedTheme();
     themeSwitcher.addEventListener('click', toggleTheme);
     
     // --- Sidebar toggle logic ---
-    const logo = document.getElementById('logo');
-    logo.addEventListener('click', (event) => {
+    document.getElementById('logo').addEventListener('click', (event) => {
       event.preventDefault();
       body.classList.toggle('sidebar-open');
     });
@@ -266,11 +255,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     startLiveClock();
     startAnimations();
     
-    // --- Main event listeners ---
+    // --- Main event listeners (UPDATED) ---
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
-        if (explanationElement.innerHTML === '' && !isTyping) {
-            typeWriter();
+        const askTrigger = document.getElementById('ask-carlos-trigger');
+
+        if (explanationElement.innerHTML !== '' && !isTyping) {
+            explanationElement.innerHTML = ''; // Hide explanation
+            askTrigger.style.opacity = '0'; // Hide trigger
+            askTrigger.style.visibility = 'hidden';
+        } 
+        else if (explanationElement.innerHTML === '' && !isTyping) {
+            typeWriter(); // Show explanation
         }
     });
 
@@ -284,21 +280,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         shareFact();
     });
 
-    // --- AI Chat UI Listeners (UPDATED) ---
-    const askPrompt = document.getElementById('ask-carlos-prompt');
-    const aiForm = document.getElementById('ai-chat-form');
-    
-    askPrompt.addEventListener('click', (event) => {
+    // --- AI Chat MODAL Listeners ---
+    document.getElementById('ask-carlos-trigger').addEventListener('click', (event) => {
         event.stopPropagation();
-        askPrompt.style.opacity = '0';
-        setTimeout(() => {
-            askPrompt.style.display = 'none';
-            aiForm.style.display = 'flex';
-            setTimeout(() => aiForm.style.opacity = '1', 10);
-        }, 500);
+        body.classList.add('ai-modal-open');
+    });
+    
+    document.getElementById('ai-modal-close-button').addEventListener('click', () => {
+        body.classList.remove('ai-modal-open');
     });
 
-    aiForm.addEventListener('submit', async (event) => {
+    document.getElementById('ai-chat-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
 
@@ -321,10 +313,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             if (!response.ok) { throw new Error('Network response was not ok'); }
-
             const data = await response.json();
-            
-            // Call the new animation function with the AI's answer
             animateAiResponse(data.answer);
 
         } catch (error) {
