@@ -299,8 +299,6 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   50% { opacity: 1; }
 }
 
-/* ... (all previous styles up to section 8 are the same) ... */
-
 /* ================= 8. AI Chat Interface ================= */
 #ask-carlos-trigger {
   position: fixed;
@@ -387,24 +385,19 @@ body.ai-modal-open #ai-modal {
   text-align: left;
   font-style: italic;
   color: var(--text-tertiary-color);
-  min-height: 80px; /* Increased min height */
+  min-height: 80px;
   position: relative;
   line-height: 1.5;
 }
 
-/* EDITED: Styles for the new animation */
-#ai-response-area .char-wrapper {
-  position: relative;
-  display: inline-block;
-  visibility: hidden; /* Rendered but invisible to calculate final position */
+/* NEW: Styles for the flying star particles */
+.flying-star {
+  position: fixed; /* Animate across the whole screen */
+  background-color: var(--star-color);
+  border-radius: 50%;
+  z-index: 1004; /* Above the modal */
+  pointer-events: none; /* Make them unclickable */
 }
-
-#ai-response-area .char {
-  position: fixed; /* Positioned relative to the viewport for the animation */
-  display: inline-block;
-}
-
-/* ... (rest of the css file is the same) ... */
 
 
 /* ================= 9. Action Buttons & Footer ================= */
