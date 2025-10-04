@@ -116,9 +116,24 @@ body.sidebar-open #explore-sidebar {
 }
 
 #explore-sidebar .sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid var(--sidebar-border-color);
+}
+
+#sidebar-close-button {
+  font-size: 28px;
+  color: var(--text-secondary-color);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#sidebar-close-button:hover {
+  color: var(--text-color);
+  transform: rotate(90deg);
 }
 
 #explore-sidebar h2 {
@@ -247,7 +262,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 #knowledge-box {
   position: relative;
   max-width: 700px;
-  min-height: 80px; /* Give it a minimum height to prevent collapsing */
+  min-height: 80px;
   padding: 20px 30px;
   border-radius: 20px;
   background-color: var(--box-bg-color);
@@ -284,19 +299,19 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   50% { opacity: 1; }
 }
 
-/* ================= 8. AI Chat Interface (REDESIGNED) ================= */
+/* ================= 8. AI Chat Interface ================= */
 #ask-carlos-trigger {
   position: fixed;
-  bottom: 80px; /* Positioned above the clock/footer */
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 12px; /* Very small font size */
+  font-size: 12px;
   font-style: italic;
   color: var(--text-secondary-color);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.5s ease;
-  visibility: hidden; /* Start completely hidden */
+  visibility: hidden;
 }
 
 #ai-modal {
