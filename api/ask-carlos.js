@@ -24,7 +24,7 @@ export default async function handler(request, response) {
     Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
 
     // EDITED: Using a highly compatible and stable model name as a final attempt.
-    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0" });
     
     const result = await model.generateContent(prompt);
     const aiResponse = await result.response;
