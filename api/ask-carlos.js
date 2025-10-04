@@ -12,20 +12,27 @@ export default async function handler(request, response) {
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const { question, contextFact } = request.body;
+    const { question, contextFact } = request.body; // contextFact might be undefined
 
     if (!question) {
       return response.status(400).json({ error: "No question provided." });
     }
 
-    const prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
-    A user is viewing the fact: "${contextFact}"
-    They have a follow-up question: "${question}"
-    Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
+    let prompt;
 
-    // FINAL FIX: Using the correct model name from your account's list.
+    // EDITED: Logic to handle two different types of prompts
+    if (contextFact) {
+      // Prompt for the inline-doubts on the main page
+      prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
+      A user is viewing the fact: "${contextFact}"
+      They have a follow-up question: "${question}"
+      Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
+    } else {
+      // General-purpose prompt for the main chatbot page
+      prompt = `You are C.A.R.L.O.S., an intelligent and helpful AI assistant with a vast knowledge base. Your personality is futuristic, clean, and direct. Answer the user's question: "${question}"`;
+    }
+
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-    
     const result = await model.generateContent(prompt);
     const aiResponse = await result.response;
     const text = aiResponse.text();
