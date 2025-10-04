@@ -23,8 +23,8 @@ export default async function handler(request, response) {
     They have a follow-up question: "${question}"
     Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
 
-    // EDITED: Changed the model name to the latest flash model. This should fix the 404 error.
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    // EDITED: Using a highly compatible and stable model name as a final attempt.
+    const model = genAI.getGenerativeModel({ model: "gemini-1.0-pro" });
     
     const result = await model.generateContent(prompt);
     const aiResponse = await result.response;
