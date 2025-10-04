@@ -146,7 +146,7 @@ function playStarstreamAnimation() {
         const duration = 1500; // EDITED: Longer duration for a more pronounced "thinking" phase
 
         const particles = [];
-        for (let i = 0; i < 750; i++) { // EDITED: Increased density to 250 stars
+        for (let i = 0; i < 250; i++) { // EDITED: Increased density to 250 stars
             const star = document.createElement('div');
             star.className = 'flying-star';
             const size = anime.random(1, 3) + 'px';
