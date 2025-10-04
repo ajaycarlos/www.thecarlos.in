@@ -388,16 +388,10 @@ body.ai-modal-open #ai-modal {
   min-height: 80px;
   position: relative;
   line-height: 1.5;
-  font-size: 14px; /* ADDED: Base font size */
+  font-size: 14px;
 }
 
-.flying-star {
-  position: fixed;
-  background-color: var(--star-color);
-  border-radius: 50%;
-  z-index: 1004;
-  pointer-events: none;
-}
+/* DELETED: Removed animation styles for .char and .flying-star */
 
 
 /* ================= 9. Action Buttons & Footer ================= */
@@ -456,7 +450,7 @@ body.ai-modal-open #ai-modal {
   #main-content-container { width: 90%; }
   #knowledge-box { font-size: 16px; padding: 15px 20px; line-height: 1.3; }
   #knowledge-explanation { font-size: 13px; }
-  #ai-response-area { font-size: 13px; } /* NEW: Responsive size for tablets */
+  #ai-response-area { font-size: 13px; }
   #refresh-button { font-size: 24px; margin-left: 15px; }
   #share-button { font-size: 22px; }
   #live-clock { font-size: 14px; }
@@ -468,7 +462,7 @@ body.ai-modal-open #ai-modal {
   #since-text { font-size: 14px; }
   #knowledge-box { font-size: 14px; line-height: 1.2; padding: 10px 15px; }
   #knowledge-explanation { font-size: 12px; }
-  #ai-response-area { font-size: 12px; } /* NEW: Responsive size for phones */
+  #ai-response-area { font-size: 12px; }
   #live-clock { font-size: 12px; }
   #logo { width: 50px; }
   #since-logo-text { width: 50px; top: 75px; font-size: 10px; }
