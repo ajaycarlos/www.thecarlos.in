@@ -1,9 +1,17 @@
+/* NEW: Define the custom Minecraft font */
+@font-face {
+  font-family: 'Mojangles';
+  src: url('Minecraft.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --bg-color: #000;
   --text-color: #fff;
   --text-secondary-color: #aaa;
-  --glow-color: rgba(0, 255, 13, 0.4); /* A subtle green glow for the terminal text */
-  --user-text-color: #00aeff; /* A different color for the user's text */
+  --glow-color: rgba(0, 255, 13, 0.4);
+  --user-text-color: #00aeff;
 }
 
 body.light-theme {
@@ -28,7 +36,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  font-family: 'SF Mono', 'Consolas', 'Menlo', monospace; /* Monospaced font for terminal look */
+  font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -38,14 +46,14 @@ body {
   height: 90%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0,0,0,0.1); /* Darken the container slightly */
+  background-color: rgba(0,0,0,0.1);
   border: 1px solid var(--text-secondary-color);
   border-radius: 10px;
   padding: 20px;
 }
 
 h1 {
-  font-family: 'Mojangles', sans-serif;
+  font-family: 'Mojangles', sans-serif; /* EDITED: Applied Minecraft font */
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
@@ -65,10 +73,9 @@ h1 sup {
 .message {
   margin-bottom: 10px;
   line-height: 1.5;
-  text-shadow: 0 0 5px var(--glow-color); /* Add the text glow */
+  text-shadow: 0 0 5px var(--glow-color);
 }
 
-/* Add prefixes before each message */
 .ai-message::before {
   content: 'C.A.R.L.O.S.> ';
   color: var(--text-secondary-color);
@@ -95,7 +102,7 @@ h1 sup {
   border-bottom: 1px solid var(--text-secondary-color);
   color: var(--text-color);
   font-size: 16px;
-  font-family: inherit; /* Use the same monospaced font */
+  font-family: inherit;
   padding: 10px;
   outline: none;
 }
@@ -129,7 +136,7 @@ h1 sup {
 .typing::after {
   content: '▋';
   animation: blink 1s step-end infinite;
-  text-shadow: none; /* Blinking cursor shouldn't glow */
+  text-shadow: none;
 }
 
 @keyframes blink {
@@ -141,7 +148,6 @@ h1 sup {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
 
-/* Theme switcher is copied from main style for consistency */
 #theme-switcher { position: fixed; top: 20px; right: 20px; width: 24px; height: 24px; cursor: pointer; z-index: 1001; }
 .icon-sun, .icon-moon { width: 100%; height: 100%; position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
 .icon-sun { background-color: #FFD700; border-radius: 50%; box-shadow: 0 0 10px #FFD700; }
