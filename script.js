@@ -1,7 +1,7 @@
 // ========================
 // 1️⃣ Global Variables
 let knowledgeBits = [];
-let currentExplanation = '';
+let currentFact = {}; // Store the whole current fact object
 let isTyping = false;
 
 
@@ -24,7 +24,7 @@ async function loadKnowledgeBits() {
 }
 
 // ========================
-// 3️⃣ localStorage Helper Functions to remember seen facts
+// 3️⃣ localStorage Helper Functions
 function getSeenFacts() {
     const seen = localStorage.getItem('carlosSeenFacts');
     return seen ? JSON.parse(seen) : [];
@@ -61,47 +61,50 @@ function startLiveClock() {
 }
 
 // ========================
-// 5️⃣ Random Knowledge Bit
+// 5️⃣ Random Knowledge Bit (UPDATED)
 function showKnowledgeBit() {
     if (knowledgeBits.length === 0) return;
 
     let seenFacts = getSeenFacts();
-    
-    let availableIndices = knowledgeBits
-        .map((_, i) => i)
-        .filter(i => !seenFacts.includes(i));
+    let availableIndices = knowledgeBits.map((_, i) => i).filter(i => !seenFacts.includes(i));
 
     if (availableIndices.length === 0) {
-        console.log("All facts have been seen! Resetting history.");
         localStorage.removeItem('carlosSeenFacts');
         availableIndices = knowledgeBits.map((_, i) => i);
     }
 
     const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
     const newFactIndex = availableIndices[randomAvailableIndex];
+    
+    currentFact = knowledgeBits[newFactIndex]; // Store the current fact object
 
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
-    const selectedBit = knowledgeBits[newFactIndex];
     
+    // Hide all AI chat elements when a new fact is shown
+    document.getElementById('ask-carlos-prompt').style.display = 'none';
+    document.getElementById('ai-chat-form').style.display = 'none';
+    document.getElementById('ai-response-area').innerHTML = '';
+
     explanationElement.innerHTML = '';
     isTyping = false;
 
-    if (selectedBit && selectedBit.fact) {
-        factTextElement.innerText = selectedBit.fact;
-        currentExplanation = selectedBit.explanation || '';
+    if (currentFact && currentFact.fact) {
+        factTextElement.innerText = currentFact.fact;
         addSeenFact(newFactIndex);
     }
 }
 
 // ========================
-// 6️⃣ Typewriter Effect
+// 6️⃣ Typewriter Effect (UPDATED)
 function typeWriter() {
-    if (isTyping || !currentExplanation) {
+    const explanation = currentFact.explanation || '';
+    if (isTyping || !explanation) {
         return;
     }
 
     const explanationElement = document.getElementById("knowledge-explanation");
+    const askPrompt = document.getElementById('ask-carlos-prompt');
     explanationElement.innerHTML = '';
     explanationElement.classList.add('typing');
     isTyping = true;
@@ -110,13 +113,17 @@ function typeWriter() {
     const speed = 30;
 
     function type() {
-        if (i < currentExplanation.length) {
-            explanationElement.innerHTML += currentExplanation.charAt(i);
+        if (i < explanation.length) {
+            explanationElement.innerHTML += explanation.charAt(i);
             i++;
             setTimeout(type, speed);
         } else {
             explanationElement.classList.remove('typing');
             isTyping = false;
+            
+            // NEW: Show the "Ask Carlos" prompt when typing is done
+            askPrompt.style.display = 'block';
+            setTimeout(() => askPrompt.style.opacity = '1', 10); // Fade in
         }
     }
     type();
@@ -223,21 +230,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     applySavedTheme();
     themeSwitcher.addEventListener('click', toggleTheme);
-    // --- End of theme logic ---
     
+    // --- Sidebar toggle logic ---
+    const logo = document.getElementById('logo');
+    logo.addEventListener('click', (event) => {
+      event.preventDefault();
+      body.classList.toggle('sidebar-open');
+    });
+    
+    // --- Load initial content ---
     await loadKnowledgeBits(); 
-    
     showKnowledgeBit();
     startLiveClock();
     startAnimations();
     
+    // --- Main event listeners ---
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
-
-        if (explanationElement.innerHTML !== '' && !isTyping) {
-            explanationElement.innerHTML = '';
-        } 
-        else if (explanationElement.innerHTML === '') {
+        if (explanationElement.innerHTML === '' && !isTyping) {
             typeWriter();
         }
     });
@@ -251,11 +261,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         event.stopPropagation();
         shareFact();
     });
+
+    // --- NEW: AI Chat UI Listeners ---
+    const askPrompt = document.getElementById('ask-carlos-prompt');
+    const aiForm = document.getElementById('ai-chat-form');
     
-    // --- NEW: Sidebar toggle logic ---
-    const logo = document.getElementById('logo');
-    logo.addEventListener('click', (event) => {
-      event.preventDefault(); // Good practice to prevent any default browser action on image click
-      body.classList.toggle('sidebar-open');
+    askPrompt.addEventListener('click', (event) => {
+        event.stopPropagation();
+        askPrompt.style.opacity = '0';
+        setTimeout(() => {
+            askPrompt.style.display = 'none';
+            aiForm.style.display = 'flex';
+            setTimeout(() => aiForm.style.opacity = '1', 10);
+        }, 500);
+    });
+
+    aiForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const userInput = document.getElementById('ai-chat-input').value;
+        console.log("User asked:", userInput);
+        console.log("Context fact:", currentFact.fact);
+        // In the next step, we will send this to the backend API.
     });
 });
