@@ -23,21 +23,20 @@ document.addEventListener("DOMContentLoaded", () => {
     themeSwitcher.addEventListener('click', toggleTheme);
     // --- End theme logic ---
 
-    // Function to add a message to the chat window (UPDATED for terminal style)
+    // EDITED: Corrected the addMessage function
     function addMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
         
-        if (sender === 'user') {
-            messageDiv.textContent = message;
-        }
+        // This part was missing for the AI, now it's fixed
+        messageDiv.textContent = message;
         
         chatWindow.appendChild(messageDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-        return messageDiv; // Return the div for the typewriter
+        return messageDiv;
     }
 
-    // Typewriter function for AI responses (UPDATED for terminal style)
+    // Typewriter function for AI responses
     function typewriterForAi(text, divElement) {
         let i = 0;
         const speed = 20;
@@ -65,7 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
         addMessage(userInput, 'user');
         chatInput.value = '';
 
-        const thinkingMessage = addMessage("", 'ai'); // Create an empty AI message line
+        // Show thinking indicator
+        const thinkingMessage = addMessage("...", 'ai');
+        thinkingMessage.classList.add('typing');
 
         try {
             const response = await fetch('/api/ask-carlos', {
@@ -82,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const data = await response.json();
             
+            // Remove typing indicator and start typewriter for the real answer
+            thinkingMessage.classList.remove('typing');
             typewriterForAi(data.answer, thinkingMessage);
 
         } catch (error) {
@@ -95,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const welcomeMessage = document.querySelector('.ai-message');
     if (welcomeMessage) {
         const welcomeText = welcomeMessage.textContent;
+        // The div already exists, so we pass it to the typewriter
         typewriterForAi(welcomeText, welcomeMessage);
     }
 });
