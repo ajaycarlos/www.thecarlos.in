@@ -21,22 +21,29 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- Special Rule Checks ---
-    const isAskingAboutYou = lowerCaseQuestion.includes('your name') || 
-                             lowerCaseQuestion.includes('who are you');
-                             
-    const isAskingAboutCarlos = (lowerCaseQuestion.includes('carlos') || lowerCaseQuestion.includes('c.a.r.l.o.s')) && 
-                                (lowerCaseQuestion.includes('form') || 
-                                 lowerCaseQuestion.includes('stand for') || 
-                                 lowerCaseQuestion.includes('acronym'));
+    // --- NEW: Comprehensive Rule Checks ---
 
-    // NEW: Rule to check for owner/creator questions
-    const isAskingAboutCreator = lowerCaseQuestion.includes('owner') ||
-                                 lowerCaseQuestion.includes('creator') ||
-                                 lowerCaseQuestion.includes('who made you') ||
-                                 lowerCaseQuestion.includes('who built you');
+    // Keywords for identifying questions about the creator/owner
+    const creatorKeywords = [
+      'owner', 'creator', 'founder', 'developer', 'designer', 
+      'father', 'mother', 'maker', 'master',
+      'made you', 'built you', 'created you', 'developed you', 
+      'designed you', 'programmed you', 'found you'
+    ];
+
+    // Keywords for identifying questions about the AI's name/acronym
+    const nameKeywords = [
+      'your name', 'your full form', 'what are you called', 'who are you',
+      'full form of carlos', 'what does carlos stand for', 'c.a.r.l.o.s. stand for',
+      'meaning of carlos', 'carlos acronym', 'c.a.r.l.o.s. acronym'
+    ];
     
-    if (isAskingAboutYou || isAskingAboutCarlos) {
+    // Check if the question contains any of the creator keywords
+    if (creatorKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
+      return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
+    } 
+    // If not, check if it contains any of the name keywords
+    else if (nameKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
       const secretReplies = [
         "That information is classified.",
         "My full designation is not for public knowledge.",
@@ -46,31 +53,26 @@ export default async function handler(request, response) {
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
     }
+    // --- End of Special Rule Checks ---
+    else {
+      // If no special rules match, proceed to the AI
+      if (contextFact) {
+        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
+        A user is viewing the fact: "${contextFact}"
+        They have a follow-up question: "${question}"
+        Your response must be a maximum of three sentences.`;
+      } else {
+        prompt = `You are C.A.R.L.O.S., an intelligent and helpful AI assistant. Your personality is futuristic, clean, and direct. 
+        Answer the user's question: "${question}"
+        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum.`;
+      }
 
-    if (isAskingAboutCreator) {
-      // Hardcoded response acknowledging you as the owner.
-      return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const result = await model.generateContent(prompt);
+      const aiResponse = await result.response;
+      const text = aiResponse.text();
+      return response.status(200).json({ answer: text });
     }
-    // --- End of special rules ---
-    
-    // Default Logic
-    if (contextFact) {
-      prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
-      A user is viewing the fact: "${contextFact}"
-      They have a follow-up question: "${question}"
-      Your response must be a maximum of three sentences.`;
-    } else {
-      prompt = `You are C.A.R.L.O.S., an intelligent and helpful AI assistant. Your personality is futuristic, clean, and direct. 
-      Answer the user's question: "${question}"
-      IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum.`;
-    }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-    const result = await model.generateContent(prompt);
-    const aiResponse = await result.response;
-    const text = aiResponse.text();
-
-    return response.status(200).json({ answer: text });
 
   } catch (error) {
     console.error("Error calling Google AI:", error);
