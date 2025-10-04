@@ -201,11 +201,10 @@ async function shareFact() {
 // ========================
 // 9️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
-    // --- NEW: Theme switcher logic ---
+    // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
     const body = document.body;
 
-    // Function to apply the saved theme on load
     const applySavedTheme = () => {
         const savedTheme = localStorage.getItem('carlosTheme');
         if (savedTheme === 'light') {
@@ -213,10 +212,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    // Function to toggle the theme
     const toggleTheme = () => {
         body.classList.toggle('light-theme');
-        // Save the new theme preference
         if (body.classList.contains('light-theme')) {
             localStorage.setItem('carlosTheme', 'light');
         } else {
@@ -253,5 +250,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("share-button").addEventListener("click", (event) => {
         event.stopPropagation();
         shareFact();
+    });
+    
+    // --- NEW: Sidebar toggle logic ---
+    const logo = document.getElementById('logo');
+    logo.addEventListener('click', (event) => {
+      event.preventDefault(); // Good practice to prevent any default browser action on image click
+      body.classList.toggle('sidebar-open');
     });
 });
