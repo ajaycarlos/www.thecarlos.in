@@ -299,6 +299,8 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   50% { opacity: 1; }
 }
 
+/* ... (all previous styles up to section 8 are the same) ... */
+
 /* ================= 8. AI Chat Interface ================= */
 #ask-carlos-trigger {
   position: fixed;
@@ -385,19 +387,24 @@ body.ai-modal-open #ai-modal {
   text-align: left;
   font-style: italic;
   color: var(--text-tertiary-color);
-  min-height: 50px;
+  min-height: 80px; /* Increased min height */
   position: relative;
-  overflow: hidden;
   line-height: 1.5;
 }
 
-#ai-response-area .char {
+/* EDITED: Styles for the new animation */
+#ai-response-area .char-wrapper {
+  position: relative;
   display: inline-block;
-  opacity: 0;
-  transform-style: preserve-3d;
-  /* EDITED: Faster animation duration */
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  visibility: hidden; /* Rendered but invisible to calculate final position */
 }
+
+#ai-response-area .char {
+  position: fixed; /* Positioned relative to the viewport for the animation */
+  display: inline-block;
+}
+
+/* ... (rest of the css file is the same) ... */
 
 
 /* ================= 9. Action Buttons & Footer ================= */
