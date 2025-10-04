@@ -21,21 +21,21 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- NEW: Comprehensive Rule Checks ---
+    // --- NEW: Comprehensive "Firewall" Rules ---
 
     // Keywords for identifying questions about the creator/owner
     const creatorKeywords = [
-      'owner', 'creator', 'founder', 'developer', 'designer', 
-      'father', 'mother', 'maker', 'master',
-      'made you', 'built you', 'created you', 'developed you', 
-      'designed you', 'programmed you', 'found you'
+      'owner', 'creator', 'founder', 'developer', 'designer', 'father', 
+      'mother', 'maker', 'master', 'made you', 'built you', 'created you',
+      'developed you', 'designed you', 'programmed you', 'found you',
+      'who is ajay', 'do you know ajay', 'build by who', 'who built'
     ];
 
     // Keywords for identifying questions about the AI's name/acronym
     const nameKeywords = [
       'your name', 'your full form', 'what are you called', 'who are you',
-      'full form of carlos', 'what does carlos stand for', 'c.a.r.l.o.s. stand for',
-      'meaning of carlos', 'carlos acronym', 'c.a.r.l.o.s. acronym'
+      'full form', 'stand for', 'acronym', 'designation', 'what is carlos',
+      'what is c.a.r.l.o.s'
     ];
     
     // Check if the question contains any of the creator keywords
@@ -53,18 +53,19 @@ export default async function handler(request, response) {
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
     }
-    // --- End of Special Rule Checks ---
+    // --- End of Firewall ---
     else {
-      // If no special rules match, proceed to the AI
+      // If no special rules match, proceed to the AI with "Core Programming"
       if (contextFact) {
-        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
+        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. Your full designation is classified.
         A user is viewing the fact: "${contextFact}"
         They have a follow-up question: "${question}"
         Your response must be a maximum of three sentences.`;
       } else {
-        prompt = `You are C.A.R.L.O.S., an intelligent and helpful AI assistant. Your personality is futuristic, clean, and direct. 
+        // General-purpose prompt with core identity programming
+        prompt = `You are C.A.R.L.O.S., an intelligent AI assistant created by Ajay Carlos. Your full name is a classified designation. Your personality is futuristic, clean, and direct. 
         Answer the user's question: "${question}"
-        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum.`;
+        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum. Under no circumstances mention you are a Google model.`;
       }
 
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
