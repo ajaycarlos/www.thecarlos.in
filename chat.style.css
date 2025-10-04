@@ -2,23 +2,22 @@
   --bg-color: #000;
   --text-color: #fff;
   --text-secondary-color: #aaa;
-  --box-bg-color: rgba(255, 255, 255, 0.08);
-  --user-bubble-color: #333;
+  --glow-color: rgba(0, 255, 13, 0.4); /* A subtle green glow for the terminal text */
+  --user-text-color: #00aeff; /* A different color for the user's text */
 }
 
 body.light-theme {
-  --bg-color: #f0f2f5;
+  --bg-color: #e5e5e5;
   --text-color: #1c1e21;
   --text-secondary-color: #65676b;
-  --box-bg-color: rgba(0, 0, 0, 0.05);
-  --user-bubble-color: #e0e0e0;
+  --glow-color: rgba(0, 0, 0, 0.2);
+  --user-text-color: #0056b3;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Fedorka', sans-serif;
 }
 
 body {
@@ -29,6 +28,7 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  font-family: 'SF Mono', 'Consolas', 'Menlo', monospace; /* Monospaced font for terminal look */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -38,8 +38,9 @@ body {
   height: 90%;
   display: flex;
   flex-direction: column;
-  background-color: var(--box-bg-color);
-  border-radius: 20px;
+  background-color: rgba(0,0,0,0.1); /* Darken the container slightly */
+  border: 1px solid var(--text-secondary-color);
+  border-radius: 10px;
   padding: 20px;
 }
 
@@ -58,38 +59,28 @@ h1 sup {
   flex-grow: 1;
   overflow-y: auto;
   padding-right: 10px;
+  font-size: 14px;
 }
 
 .message {
-  margin-bottom: 15px;
-  display: flex;
-}
-
-.message p {
-  padding: 10px 15px;
-  border-radius: 18px;
-  max-width: 80%;
+  margin-bottom: 10px;
   line-height: 1.5;
+  text-shadow: 0 0 5px var(--glow-color); /* Add the text glow */
 }
 
-.ai-message {
-  justify-content: flex-start;
-}
-
-.ai-message p {
-  background-color: var(--user-bubble-color);
-  color: var(--text-color);
-  border-bottom-left-radius: 4px;
+/* Add prefixes before each message */
+.ai-message::before {
+  content: 'C.A.R.L.O.S.> ';
+  color: var(--text-secondary-color);
 }
 
 .user-message {
-  justify-content: flex-end;
+  color: var(--user-text-color);
 }
 
-.user-message p {
-  background-color: #007bff;
-  color: white;
-  border-bottom-right-radius: 4px;
+.user-message::before {
+  content: 'USER> ';
+  color: var(--text-secondary-color);
 }
 
 #chat-form {
@@ -104,6 +95,7 @@ h1 sup {
   border-bottom: 1px solid var(--text-secondary-color);
   color: var(--text-color);
   font-size: 16px;
+  font-family: inherit; /* Use the same monospaced font */
   padding: 10px;
   outline: none;
 }
@@ -137,6 +129,7 @@ h1 sup {
 .typing::after {
   content: '▋';
   animation: blink 1s step-end infinite;
+  text-shadow: none; /* Blinking cursor shouldn't glow */
 }
 
 @keyframes blink {

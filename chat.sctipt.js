@@ -23,34 +23,34 @@ document.addEventListener("DOMContentLoaded", () => {
     themeSwitcher.addEventListener('click', toggleTheme);
     // --- End theme logic ---
 
-    // Function to add a message to the chat window
+    // Function to add a message to the chat window (UPDATED for terminal style)
     function addMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
         
-        const p = document.createElement('p');
-        p.textContent = message;
+        if (sender === 'user') {
+            messageDiv.textContent = message;
+        }
         
-        messageDiv.appendChild(p);
         chatWindow.appendChild(messageDiv);
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to bottom
-        return p; // Return the paragraph element for the typewriter
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        return messageDiv; // Return the div for the typewriter
     }
 
-    // Typewriter function for AI responses
-    function typewriterForAi(text, pElement) {
+    // Typewriter function for AI responses (UPDATED for terminal style)
+    function typewriterForAi(text, divElement) {
         let i = 0;
         const speed = 20;
-        pElement.textContent = '';
-        pElement.classList.add('typing');
+        divElement.textContent = '';
+        divElement.classList.add('typing');
 
         function type() {
             if (i < text.length) {
-                pElement.textContent += text.charAt(i);
+                divElement.textContent += text.charAt(i);
                 i++;
                 setTimeout(type, speed);
             } else {
-                pElement.classList.remove('typing');
+                divElement.classList.remove('typing');
             }
         }
         type();
@@ -65,9 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addMessage(userInput, 'user');
         chatInput.value = '';
 
-        // Show thinking indicator
-        const thinkingMessage = addMessage("...", 'ai');
-        thinkingMessage.classList.add('typing');
+        const thinkingMessage = addMessage("", 'ai'); // Create an empty AI message line
 
         try {
             const response = await fetch('/api/ask-carlos', {
@@ -75,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     question: userInput
-                    // No contextFact is sent here, so the backend knows it's a general question
                 }),
             });
             
@@ -85,8 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const data = await response.json();
             
-            // Remove typing indicator and start typewriter for the real answer
-            thinkingMessage.classList.remove('typing');
             typewriterForAi(data.answer, thinkingMessage);
 
         } catch (error) {
@@ -95,4 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Error:', error);
         }
     });
+
+    // Initial welcome message typewriter
+    const welcomeMessage = document.querySelector('.ai-message');
+    if (welcomeMessage) {
+        const welcomeText = welcomeMessage.textContent;
+        typewriterForAi(welcomeText, welcomeMessage);
+    }
 });
