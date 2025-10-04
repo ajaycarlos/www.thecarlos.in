@@ -117,11 +117,11 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ NEW: Starstream + Typewriter Animation for AI Response
+// 7️⃣ Starstream Animation & AI Typewriter (UPDATED)
 function typewriterForAi(text, responseArea, onComplete) {
     let i = 0;
-    const speed = 30; // ms per character
-    responseArea.innerHTML = ''; // Clear area
+    const speed = 30;
+    responseArea.innerHTML = '';
     responseArea.classList.add('typing');
 
     function type() {
@@ -137,58 +137,52 @@ function typewriterForAi(text, responseArea, onComplete) {
     type();
 }
 
-function playStarstreamAnimation(text) {
-    const responseArea = document.getElementById('ai-response-area');
-    responseArea.innerHTML = ''; // Clear loading message
-    isAiResponding = true;
-    
-    // --- Particle Animation ---
-    const rect = responseArea.getBoundingClientRect();
-    const destinationX = rect.left + rect.width / 2;
-    const destinationY = rect.top + rect.height / 2;
-    const duration = text.length * 30 + 500; // Match duration to typewriter
+function playStarstreamAnimation() {
+    // This function now returns a Promise that resolves when the animation is complete.
+    return new Promise(resolve => {
+        const responseArea = document.getElementById('ai-response-area');
+        const rect = responseArea.getBoundingClientRect();
+        const destinationX = rect.left + rect.width / 2;
+        const destinationY = rect.top + rect.height / 2;
+        const duration = 1200; // A fixed, fast duration for the "thinking" phase
 
-    const particles = [];
-    for (let i = 0; i < 80; i++) { // Create 80 star particles
-        const star = document.createElement('div');
-        star.className = 'flying-star';
-        const size = anime.random(1, 3) + 'px';
-        star.style.width = size;
-        star.style.height = size;
-        
-        // Start from a random edge of the screen
-        const startPos = {};
-        if (Math.random() < 0.5) {
-            startPos.x = Math.random() < 0.5 ? 0 : window.innerWidth;
-            startPos.y = Math.random() * window.innerHeight;
-        } else {
-            startPos.x = Math.random() * window.innerWidth;
-            startPos.y = Math.random() < 0.5 ? 0 : window.innerHeight;
+        const particles = [];
+        for (let i = 0; i < 160; i++) { // EDITED: Increased density to 160 stars
+            const star = document.createElement('div');
+            star.className = 'flying-star';
+            const size = anime.random(1, 3) + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            
+            const startPos = {};
+            if (Math.random() < 0.5) {
+                startPos.x = Math.random() < 0.5 ? 0 : window.innerWidth;
+                startPos.y = Math.random() * window.innerHeight;
+            } else {
+                startPos.x = Math.random() * window.innerWidth;
+                startPos.y = Math.random() < 0.5 ? 0 : window.innerHeight;
+            }
+            star.style.left = startPos.x + 'px';
+            star.style.top = startPos.y + 'px';
+            
+            document.body.appendChild(star);
+            particles.push(star);
         }
-        star.style.left = startPos.x + 'px';
-        star.style.top = startPos.y + 'px';
         
-        document.body.appendChild(star);
-        particles.push(star);
-    }
-    
-    anime({
-        targets: particles,
-        left: destinationX,
-        top: destinationY,
-        scale: 0, // Shrink to nothing
-        opacity: [1, 0], // Fade out
-        easing: 'easeInExpo',
-        duration: duration,
-        delay: anime.stagger(20),
-        complete: () => {
-            particles.forEach(p => p.remove()); // Clean up the DOM
-        }
-    });
-
-    // --- Simultaneous Typewriter Animation ---
-    typewriterForAi(text, responseArea, () => {
-        isAiResponding = false;
+        anime({
+            targets: particles,
+            left: destinationX,
+            top: destinationY,
+            scale: 0,
+            opacity: [1, 0],
+            easing: 'easeInExpo',
+            duration: duration,
+            delay: anime.stagger(10), // Faster stagger for the increased density
+            complete: () => {
+                particles.forEach(p => p.remove());
+                resolve(); // Resolve the promise to signal completion
+            }
+        });
     });
 }
 
@@ -323,6 +317,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.classList.remove('ai-modal-open');
     });
 
+    // EDITED: Form submission logic updated to the new flow
     document.getElementById('ai-chat-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
@@ -334,22 +329,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         const responseArea = document.getElementById('ai-response-area');
         responseArea.innerHTML = 'C.A.R.L.O.S. is thinking...';
         input.value = '';
+        isAiResponding = true;
 
         try {
-            const response = await fetch('/api/ask-carlos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: userInput,
-                    contextFact: currentFact.fact 
+            // Run the API call and the star animation in parallel
+            const [apiResponse] = await Promise.all([
+                fetch('/api/ask-carlos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: userInput,
+                        contextFact: currentFact.fact 
+                    }),
                 }),
-            });
+                playStarstreamAnimation() // The star animation plays during the 'thinking' phase
+            ]);
 
-            if (!response.ok) { throw new Error('Network response was not ok'); }
-            const data = await response.json();
+            if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
             
-            // Call the NEW animation function
-            playStarstreamAnimation(data.answer);
+            const data = await apiResponse.json();
+            
+            // After both are complete, start the typewriter with the result
+            typewriterForAi(data.answer, responseArea, () => {
+                isAiResponding = false;
+            });
 
         } catch (error) {
             console.error('Error fetching AI response:', error);
