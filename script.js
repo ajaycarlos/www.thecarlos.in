@@ -117,31 +117,40 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ Accumulating Letters Animation
+// 7️⃣ Accumulating Letters Animation (UPDATED)
 function animateAiResponse(text) {
     const responseArea = document.getElementById('ai-response-area');
     responseArea.innerHTML = '';
     isAiResponding = true;
+
     const words = text.split(/(\s+)/);
     let charCount = 0;
+
     words.forEach(word => {
         if (word.trim() === '') {
             responseArea.append(document.createTextNode(word));
             return;
         }
+
         word.split('').forEach(char => {
             const charSpan = document.createElement('span');
             charSpan.className = 'char';
             charSpan.textContent = char;
-            const x = (Math.random() - 0.5) * 400;
-            const y = (Math.random() - 0.5) * 200;
-            const rot = (Math.random() - 0.5) * 360;
+
+            // EDITED: Increased the random range for a full-screen effect
+            const x = (Math.random() - 0.5) * 1000; // Increased horizontal range
+            const y = (Math.random() - 0.5) * 600;  // Increased vertical range
+            const rot = (Math.random() - 0.5) * 720; // More rotation
             charSpan.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
-            charSpan.style.transitionDelay = `${charCount * 0.02}s`;
+            
+            // EDITED: Slightly faster stagger effect
+            charSpan.style.transitionDelay = `${charCount * 0.015}s`;
+
             responseArea.appendChild(charSpan);
             charCount++;
         });
     });
+
     setTimeout(() => {
         const allChars = responseArea.querySelectorAll('.char');
         allChars.forEach(char => {
@@ -149,9 +158,10 @@ function animateAiResponse(text) {
             char.style.transform = 'translate(0, 0) rotate(0deg)';
         });
     }, 100);
+    
     setTimeout(() => {
         isAiResponding = false;
-    }, (charCount * 20) + 1500);
+    }, (charCount * 15) + 1500);
 }
 
 
@@ -245,7 +255,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       body.classList.toggle('sidebar-open');
     });
     
-    // ADDED: Listener for the new close button
     document.getElementById('sidebar-close-button').addEventListener('click', () => {
         body.classList.remove('sidebar-open');
     });
@@ -262,12 +271,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const askTrigger = document.getElementById('ask-carlos-trigger');
 
         if (explanationElement.innerHTML !== '' && !isTyping) {
-            explanationElement.innerHTML = ''; // Hide explanation
-            askTrigger.style.opacity = '0'; // Hide trigger
+            explanationElement.innerHTML = '';
+            askTrigger.style.opacity = '0';
             askTrigger.style.visibility = 'hidden';
         } 
         else if (explanationElement.innerHTML === '' && !isTyping) {
-            typeWriter(); // Show explanation
+            typeWriter();
         }
     });
 
@@ -324,4 +333,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
-
