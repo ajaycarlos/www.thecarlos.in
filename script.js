@@ -1,8 +1,9 @@
 // ========================
 // 1️⃣ Global Variables
 let knowledgeBits = [];
-let currentFact = {}; // Store the whole current fact object
+let currentFact = {};
 let isTyping = false;
+let isAiResponding = false; // To prevent multiple AI requests at once
 
 
 // ========================
@@ -18,7 +19,7 @@ async function loadKnowledgeBits() {
         console.error("Could not load knowledge bits:", error);
         knowledgeBits = [{
             fact: "Error: Could not load facts.",
-            explanation: "The knowledge.json file could not be loaded. Please check the file path and that it is valid JSON."
+            explanation: "The knowledge.json file could not be loaded."
         }];
     }
 }
@@ -43,7 +44,6 @@ function addSeenFact(index) {
 // 4️⃣ Live Clock (India Time)
 function startLiveClock() {
     const clockElement = document.getElementById("live-clock");
-
     function updateClock() {
         const now = new Date();
         const istOffset = 5.5 * 60;
@@ -52,43 +52,35 @@ function startLiveClock() {
         const hours = String(istTime.getHours()).padStart(2, '0');
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
-        
         clockElement.innerText = `${hours}:${minutes}:${seconds}`;
     }
-    
     updateClock();
     setInterval(updateClock, 1000);
 }
 
 // ========================
-// 5️⃣ Random Knowledge Bit (UPDATED)
+// 5️⃣ Random Knowledge Bit
 function showKnowledgeBit() {
     if (knowledgeBits.length === 0) return;
-
     let seenFacts = getSeenFacts();
     let availableIndices = knowledgeBits.map((_, i) => i).filter(i => !seenFacts.includes(i));
-
     if (availableIndices.length === 0) {
         localStorage.removeItem('carlosSeenFacts');
         availableIndices = knowledgeBits.map((_, i) => i);
     }
-
     const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
     const newFactIndex = availableIndices[randomAvailableIndex];
-    
-    currentFact = knowledgeBits[newFactIndex]; // Store the current fact object
-
+    currentFact = knowledgeBits[newFactIndex];
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
-    
-    // Hide all AI chat elements when a new fact is shown
     document.getElementById('ask-carlos-prompt').style.display = 'none';
+    document.getElementById('ask-carlos-prompt').style.opacity = '0';
     document.getElementById('ai-chat-form').style.display = 'none';
+    document.getElementById('ai-chat-form').style.opacity = '0';
     document.getElementById('ai-response-area').innerHTML = '';
-
     explanationElement.innerHTML = '';
     isTyping = false;
-
+    isAiResponding = false;
     if (currentFact && currentFact.fact) {
         factTextElement.innerText = currentFact.fact;
         addSeenFact(newFactIndex);
@@ -96,22 +88,17 @@ function showKnowledgeBit() {
 }
 
 // ========================
-// 6️⃣ Typewriter Effect (UPDATED)
+// 6️⃣ Typewriter Effect
 function typeWriter() {
     const explanation = currentFact.explanation || '';
-    if (isTyping || !explanation) {
-        return;
-    }
-
+    if (isTyping || !explanation) return;
     const explanationElement = document.getElementById("knowledge-explanation");
     const askPrompt = document.getElementById('ask-carlos-prompt');
     explanationElement.innerHTML = '';
     explanationElement.classList.add('typing');
     isTyping = true;
-    
     let i = 0;
     const speed = 30;
-
     function type() {
         if (i < explanation.length) {
             explanationElement.innerHTML += explanation.charAt(i);
@@ -120,18 +107,66 @@ function typeWriter() {
         } else {
             explanationElement.classList.remove('typing');
             isTyping = false;
-            
-            // NEW: Show the "Ask Carlos" prompt when typing is done
             askPrompt.style.display = 'block';
-            setTimeout(() => askPrompt.style.opacity = '1', 10); // Fade in
+            setTimeout(() => askPrompt.style.opacity = '1', 10);
         }
     }
     type();
 }
 
+// ========================
+// 7️⃣ NEW: Accumulating Letters Animation
+function animateAiResponse(text) {
+    const responseArea = document.getElementById('ai-response-area');
+    responseArea.innerHTML = ''; // Clear previous response or loading message
+    isAiResponding = true;
+
+    const words = text.split(/(\s+)/); // Split by spaces, but keep them
+    let charCount = 0;
+
+    words.forEach(word => {
+        if (word.trim() === '') { // If it's just a space
+            responseArea.append(document.createTextNode(word));
+            return;
+        }
+
+        word.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.className = 'char';
+            charSpan.textContent = char;
+
+            // Random starting position and rotation
+            const x = (Math.random() - 0.5) * 400; // horizontal range
+            const y = (Math.random() - 0.5) * 200; // vertical range
+            const rot = (Math.random() - 0.5) * 360;
+            charSpan.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+            
+            // Stagger the animation start time
+            charSpan.style.transitionDelay = `${charCount * 0.02}s`;
+
+            responseArea.appendChild(charSpan);
+            charCount++;
+        });
+    });
+
+    // Trigger the animation by resetting the transform and opacity
+    setTimeout(() => {
+        const allChars = responseArea.querySelectorAll('.char');
+        allChars.forEach(char => {
+            char.style.opacity = '1';
+            char.style.transform = 'translate(0, 0) rotate(0deg)';
+        });
+    }, 100);
+    
+    // Set a timeout to mark the end of the animation
+    setTimeout(() => {
+        isAiResponding = false;
+    }, (charCount * 20) + 1500); // Animation duration + total delay
+}
+
 
 // ========================
-// 7️⃣ Video Animation + Logo Fade-in
+// 8️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
     const video = document.getElementById("intro-video");
     const elementsToFadeIn = [
@@ -141,48 +176,38 @@ function startAnimations() {
         document.getElementById("footer-text"),
         document.getElementById("live-clock")
     ];
-
     let animationHasRun = false;
-
     const runExitAnimation = () => {
         if (animationHasRun) return;
         animationHasRun = true;
-
         video.style.transition = "all 2s ease";
         video.style.transform = "scale(0.1)";
         video.style.opacity = "0";
-
         elementsToFadeIn.forEach(el => el.style.opacity = "1");
-
         setTimeout(() => {
             document.getElementById("video-container").style.display = "none";
             document.getElementById("main-content-container").style.opacity = "1";
         }, 2000);
     };
-
     video.addEventListener('ended', runExitAnimation);
-    
     video.play().catch(error => {
         console.error("Autoplay was prevented. Starting animation immediately.", error);
         runExitAnimation();
     });
-
     setTimeout(runExitAnimation, 7000);
 }
 
 
 // ========================
-// 8️⃣ Share Functionality
+// 9️⃣ Share Functionality
 async function shareFact() {
     const factTextElement = document.getElementById("knowledge-bit-text");
     const shareText = `Check out this fact from The C.A.R.L.O.S Project:\n\n"${factTextElement.innerText}"\n\nwww.thecarlos.in`;
-
     const shareData = {
         title: 'A Fact from The C.A.R.L.O.S Project',
         text: `"${factTextElement.innerText}"`,
-        url: 'https://www.thecarlos.in'
+        url: '[https://www.thecarlos.in](https://www.thecarlos.in)'
     };
-
     if (navigator.share) {
         try {
             await navigator.share(shareData);
@@ -206,19 +231,17 @@ async function shareFact() {
 
 
 // ========================
-// 9️⃣ Start everything when DOM content loaded
+// 10️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
     // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
     const body = document.body;
-
     const applySavedTheme = () => {
         const savedTheme = localStorage.getItem('carlosTheme');
         if (savedTheme === 'light') {
             body.classList.add('light-theme');
         }
     };
-
     const toggleTheme = () => {
         body.classList.toggle('light-theme');
         if (body.classList.contains('light-theme')) {
@@ -227,7 +250,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             localStorage.setItem('carlosTheme', 'dark');
         }
     };
-
     applySavedTheme();
     themeSwitcher.addEventListener('click', toggleTheme);
     
@@ -262,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         shareFact();
     });
 
-    // --- NEW: AI Chat UI Listeners ---
+    // --- AI Chat UI Listeners (UPDATED) ---
     const askPrompt = document.getElementById('ask-carlos-prompt');
     const aiForm = document.getElementById('ai-chat-form');
     
@@ -276,11 +298,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         }, 500);
     });
 
-    aiForm.addEventListener('submit', (event) => {
+    aiForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const userInput = document.getElementById('ai-chat-input').value;
-        console.log("User asked:", userInput);
-        console.log("Context fact:", currentFact.fact);
-        // In the next step, we will send this to the backend API.
+        if (isAiResponding) return;
+
+        const input = document.getElementById('ai-chat-input');
+        const userInput = input.value.trim();
+        if (userInput === '') return;
+        
+        const responseArea = document.getElementById('ai-response-area');
+        responseArea.innerHTML = 'C.A.R.L.O.S. is thinking...';
+        input.value = '';
+
+        try {
+            const response = await fetch('/api/ask-carlos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: userInput,
+                    contextFact: currentFact.fact 
+                }),
+            });
+
+            if (!response.ok) { throw new Error('Network response was not ok'); }
+
+            const data = await response.json();
+            
+            // Call the new animation function with the AI's answer
+            animateAiResponse(data.answer);
+
+        } catch (error) {
+            console.error('Error fetching AI response:', error);
+            responseArea.innerText = 'Sorry, an error occurred. Please try again.';
+            isAiResponding = false;
+        }
     });
 });
