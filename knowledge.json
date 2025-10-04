@@ -638,5 +638,325 @@
   {
     "fact": "The observable universe has at least 2 trillion galaxies.",
     "explanation": "This is the current estimate based on deep-field observations from the Hubble Space Telescope. Each of these galaxies can contain billions or even trillions of stars."
+  },
+  {
+    "fact": "AI can learn to play video games with no prior instructions.",
+    "explanation": "Using a technique called deep reinforcement learning, an AI can learn by simply observing the screen and trying random inputs. It receives a 'reward' for increasing its score, gradually teaching itself to master the game."
+  },
+  {
+    "fact": "Swarm robots can coordinate complex tasks without a central leader.",
+    "explanation": "Inspired by ant colonies, each robot follows simple rules and communicates with its neighbors. This decentralized approach allows the group to perform complex tasks like mapping an area or self-assembling into shapes."
+  },
+  {
+    "fact": "AI can now create realistic, fake human faces from scratch.",
+    "explanation": "This technology, using Generative Adversarial Networks (GANs), pits two neural networks against each other. One generates faces while the other judges their realism, and they both improve until the generated faces are indistinguishable from real photos."
+  },
+  {
+    "fact": "AI is used to create personalized medicine and treatment plans.",
+    "explanation": "By analyzing a patient's genetic makeup, lifestyle, and medical history, AI can predict which treatments and medications will be most effective for that individual, moving away from a one-size-fits-all approach."
+  },
+  {
+    "fact": "AI can lip-read more accurately than human experts.",
+    "explanation": "Deep learning models trained on thousands of hours of video can analyze the subtle mouth movements associated with speech, often outperforming professional lip-readers in accuracy."
+  },
+  {
+    "fact": "Robots are being designed to mimic animal movements.",
+    "explanation": "This field, called biomimetics, creates robots that run like cheetahs or swim like fish. Studying animal locomotion helps engineers build more agile and efficient robots for exploration and rescue."
+  },
+  {
+    "fact": "Ethical AI is a growing field focused on preventing algorithmic bias.",
+    "explanation": "Researchers are developing methods to ensure AI systems are fair and don't perpetuate human biases found in training data, which is crucial for applications in law, hiring, and finance."
+  },
+  {
+    "fact": "AI can predict a person's personality from their text.",
+    "explanation": "By analyzing word choice, sentence structure, and frequency, natural language processing models can infer personality traits (like the Big Five) from a person's writing on social media or in emails."
+  },
+  {
+    "fact": "AI is helping to decipher ancient, unreadable texts.",
+    "explanation": "Machine learning models can recognize patterns in damaged or unknown scripts, helping historians and archaeologists piece together and translate texts that have been mysteries for centuries."
+  },
+  {
+    "fact": "AI can generate a unique scent or perfume from a description.",
+    "explanation": "Companies are training AI on the chemical composition of thousands of scents. The AI can then predict and create a novel fragrance based on inputs like 'a woody, citrus scent for summer'."
+  },
+  {
+    "fact": "Some robots can learn a task just by watching a human do it once.",
+    "explanation": "This is called 'one-shot imitation learning'. The robot's AI analyzes the human's movements from video and translates them into actions for its own robotic limbs, dramatically speeding up the training process."
+  },
+  {
+    "fact": "AI can identify bird species just from their song.",
+    "explanation": "Apps use machine learning to analyze the unique frequencies and patterns of a bird's call, matching it against a vast database to provide an instant identification, similar to how Shazam identifies music."
+  },
+  {
+    "fact": "AI-powered prosthetics can anticipate the user's movements.",
+    "explanation": "These smart limbs use sensors to detect muscle signals in the user's residual limb. An AI algorithm then interprets these signals to predict the intended movement, allowing for more natural and intuitive control."
+  },
+  {
+    "fact": "AI is now used to direct and edit movie trailers.",
+    "explanation": "IBM's Watson was used to analyze a horror film's scenes for emotional content, and then selected the most suspenseful moments to create a compelling movie trailer with minimal human input."
+  },
+  {
+    "fact": "AI can generate realistic 3D models of people from a single photo.",
+    "explanation": "By training on a massive dataset of 3D human scans, these AI models can infer the full three-dimensional shape of a person from a 2D image, a technique with huge potential for gaming and virtual reality."
+  },
+  {
+    "fact": "AI can help manage and reduce food waste on a large scale.",
+    "explanation": "Smart systems in grocery stores and restaurants can track inventory and sales data to predict demand more accurately, helping to reduce over-ordering and waste. Some systems even identify which food is about to expire."
+  },
+  {
+    "fact": "Robots can now perform surgery with superhuman precision.",
+    "explanation": "Surgical robots, like the da Vinci system, are controlled by a human surgeon but can make movements that are far smaller and more steady than a human hand, leading to less invasive procedures and faster recovery times."
+  },
+  {
+    "fact": "AI can generate entire virtual worlds from simple commands.",
+    "explanation": "Game engines and design tools are incorporating AI that can take a prompt like 'create a dense forest with a river' and procedurally generate the entire landscape, including trees, terrain, and lighting."
+  },
+  {
+    "fact": "AI is being used to discover new, powerful antibiotics.",
+    "explanation": "Deep learning models can analyze the molecular structure of millions of chemical compounds to predict which ones might have antibacterial properties, drastically accelerating the search for drugs to fight 'superbugs'."
+  },
+  {
+    "fact": "Soft robots are made of flexible materials for safety.",
+    "explanation": "Unlike rigid industrial robots, soft robots are made from materials like silicone. This makes them safer for interacting with humans and better at handling delicate or irregularly shaped objects."
+  },
+  {
+    "fact": "3D printers can now create houses and human organs.",
+    "explanation": "Using techniques like concrete extrusion for houses or 'bio-ink' made of living cells for organs, additive manufacturing is moving beyond simple plastic objects to create complex, functional structures."
+  },
+  {
+    "fact": "Haptic technology allows you to 'feel' virtual objects.",
+    "explanation": "Devices use targeted vibrations, force, and motion to simulate the sensation of touch, texture, and resistance, making virtual reality experiences and gaming much more immersive."
+  },
+  {
+    "fact": "Graphene is a one-atom-thick material stronger than steel.",
+    "explanation": "A single layer of carbon atoms in a honeycomb lattice, graphene is 200 times stronger than steel and an incredible conductor of heat and electricity, with applications in electronics, batteries, and composites."
+  },
+  {
+    "fact": "Li-Fi transmits data using visible light instead of radio waves.",
+    "explanation": "Li-Fi (Light Fidelity) uses modulated light from LED bulbs to transmit data at very high speeds. It's more secure than Wi-Fi because the signal cannot pass through walls, and it offers a much broader spectrum."
+  },
+  {
+    "fact": "The Internet of Things (IoT) connects everyday objects to the web.",
+    "explanation": "This network includes everything from smart thermostats and refrigerators to industrial sensors. These devices collect and share data, allowing for automation and remote control of our environment."
+  },
+  {
+    "fact": "Aerogel is the world's lightest solid material.",
+    "explanation": "Often called 'frozen smoke', aerogel is a synthetic material derived from a gel in which the liquid component has been replaced with a gas. It is composed of up to 99.8% air and is an incredible thermal insulator."
+  },
+  {
+    "fact": "USB-C can transmit data, power, and video over a single cable.",
+    "explanation": "This reversible connector standard is designed to be a universal solution. It supports high-speed data transfer (up to 40Gbps with Thunderbolt), can deliver enough power to charge a laptop, and can output high-resolution video."
+  },
+  {
+    "fact": "Solid-state drives (SSDs) are faster because they have no moving parts.",
+    "explanation": "Unlike traditional hard disk drives (HDDs) that use a spinning platter and a mechanical arm, SSDs use flash memory, similar to a USB drive. This allows for instant access to data, making computers boot up and load programs much faster."
+  },
+  {
+    "fact": "Bluetooth was named after a 10th-century Viking king.",
+    "explanation": "It was named after Harald 'Bluetooth' Gormsson, who was known for uniting different Danish tribes. The name was chosen to symbolize how Bluetooth technology unites different communication protocols."
+  },
+  {
+    "fact": "Cybersecurity uses 'honeypots' to trap hackers.",
+    "explanation": "A honeypot is a decoy computer system set up to attract cyberattacks. Security experts can then study the attackers' methods and use that information to improve their real security systems."
+  },
+  {
+    "fact": "Some data is now stored on synthetic DNA.",
+    "explanation": "Scientists have successfully encoded digital data (like text and images) into the base pairs of DNA molecules. DNA is an incredibly dense and durable storage medium that could last for thousands of years."
+  },
+  {
+    "fact": "The first computer bug was a literal moth.",
+    "explanation": "In 1947, operators of the Harvard Mark II computer found a moth stuck in a relay, impeding its operation. They removed it and taped it into their logbook, popularizing the term 'debugging' for fixing computer problems."
+  },
+  {
+    "fact": "3D printing is used to create custom medical implants.",
+    "explanation": "Using a patient's CT scan, doctors can 3D print perfectly fitting implants, such as cranial plates or hip joints, made from materials like titanium. This leads to better surgical outcomes and faster recovery."
+  },
+  {
+    "fact": "E-ink displays don't use power to hold an image.",
+    "explanation": "Used in e-readers like the Kindle, e-ink screens use tiny capsules of black and white charged particles. An electric field arranges the particles to form an image, and once it's set, no more power is needed until the page changes."
+  },
+  {
+    "fact": "Computer viruses can be designed to physically destroy hardware.",
+    "explanation": "Malware like Stuxnet can cause physical machinery (like centrifuges) to spin out of control. Other types could potentially target hardware by forcing components to overheat, though this is rare."
+  },
+  {
+    "fact": "The QWERTY keyboard was designed to slow typists down.",
+    "explanation": "On early mechanical typewriters, typing too fast would cause the keys to jam. The QWERTY layout was created to separate commonly used letter pairs, reducing the frequency of jams."
+  },
+  {
+    "fact": "Some apps use your phone's microphone for 'acoustic fingerprinting'.",
+    "explanation": "This controversial technology can identify what TV show you're watching or what ads are playing by listening for inaudible audio beacons, allowing companies to track your viewing habits across devices."
+  },
+  {
+    "fact": "Perovskite is a material that could make solar panels far more efficient.",
+    "explanation": "Perovskite solar cells can be made more cheaply and can absorb a different part of the light spectrum than traditional silicon cells. Tandem cells combining both materials could dramatically boost efficiency."
+  },
+  {
+    "fact": "The concept of 'the cloud' has existed since the 1960s.",
+    "explanation": "The idea of a network of computers that you could access for computing power and data was proposed by J.C.R. Licklider as an 'Intergalactic Computer Network', long before the modern internet made it a reality."
+  },
+  {
+    "fact": "Captcha tests are used to train AI systems.",
+    "explanation": "When you identify street signs or distorted text to prove you're not a robot, you are often providing free labeled data that companies like Google use to train their own computer vision and OCR AI models."
+  },
+  {
+    "fact": "Lagrange Points are 'parking spots' in space for satellites.",
+    "explanation": "These are five points where the gravitational pull of two large bodies (like the Sun and Earth) is balanced. A satellite placed at one of these points can maintain its position with minimal fuel, making them ideal for telescopes like the James Webb."
+  },
+  {
+    "fact": "Quasars are the brightest objects in the known universe.",
+    "explanation": "A quasar is not a star, but an extremely luminous galactic nucleus powered by a supermassive black hole consuming vast amounts of matter. They can outshine their entire host galaxy by thousands of times."
+  },
+  {
+    "fact": "Our galaxy is being pulled toward an anomaly called the Great Attractor.",
+    "explanation": "The Great Attractor is a gravitational anomaly in intergalactic space that is pulling the Milky Way and other galaxies towards it at over 600 kilometers per second. Its exact nature is obscured by our own galaxy's plane."
+  },
+  {
+    "fact": "Pulsars are like cosmic lighthouses.",
+    "explanation": "A pulsar is a rapidly spinning neutron star that emits beams of radiation from its magnetic poles. If the beam sweeps across Earth as the star rotates, we detect it as a regular, repeating pulse."
+  },
+  {
+    "fact": "The Oort Cloud is a theoretical sphere of comets surrounding our solar system.",
+    "explanation": "It's believed to be a vast, distant shell of icy objects extending almost a quarter of the way to the next nearest star. It is thought to be the origin of long-period comets."
+  },
+  {
+    "fact": "There is a 'supervoid' in space that is unusually empty.",
+    "explanation": "The Eridanus Supervoid is a massive region of space, over a billion light-years across, that has far fewer galaxies, stars, and gas than is typical. Its existence challenges some models of the universe's evolution."
+  },
+  {
+    "fact": "The Sun's magnetic field flips approximately every 11 years.",
+    "explanation": "This flip marks the peak of the solar cycle, a period of maximum solar activity, including more sunspots and solar flares. This cycle influences space weather throughout the solar system."
+  },
+  {
+    "fact": "A 'standard candle' is used to measure cosmic distances.",
+    "explanation": "This is an astronomical object that has a known, consistent brightness. By comparing its known brightness to how dim it appears from Earth, astronomers can calculate its distance, a key method for mapping the universe."
+  },
+  {
+    "fact": "Magnetars are neutron stars with incredibly strong magnetic fields.",
+    "explanation": "The magnetic field of a magnetar is a thousand trillion times stronger than Earth's. It's so powerful that it could wipe a credit card from halfway to the Moon and would be lethal to a human from thousands of kilometers away."
+  },
+  {
+    "fact": "Space itself is expanding, carrying galaxies along with it.",
+    "explanation": "According to general relativity, it's not that galaxies are flying apart through space, but that the fabric of spacetime itself is stretching. This is why distant galaxies appear to be moving away from us faster."
+  },
+  {
+    "fact": "Some nebulae are stellar nurseries where new stars are born.",
+    "explanation": "These vast clouds of gas and dust can collapse under their own gravity. As they collapse, the core heats up, eventually becoming hot and dense enough to ignite nuclear fusion and form a new star."
+  },
+  {
+    "fact": "Brown dwarfs are 'failed stars' that aren't massive enough for fusion.",
+    "explanation": "These objects are more massive than planets but lack the mass needed to sustain the hydrogen fusion that powers stars like our Sun. They glow faintly from the heat of their formation."
+  },
+  {
+    "fact": "The asteroid belt may be the remnants of a planet that never formed.",
+    "explanation": "One leading theory suggests that the gravitational influence of the massive planet Jupiter prevented the rocky material between it and Mars from ever coalescing to form a full-sized planet."
+  },
+  {
+    "fact": "The Pillars of Creation is a star-forming region in the Eagle Nebula.",
+    "explanation": "This iconic Hubble image shows towering columns of interstellar gas and dust. The dense pockets within these pillars are incubators for newborn stars, which then erode the pillars with their intense radiation."
+  },
+  {
+    "fact": "Our solar system has a 'heliosphere' bubble around it.",
+    "explanation": "The heliosphere is a vast bubble of space inflated by the solar wind. It shields our solar system from the harsh interstellar radiation of the wider galaxy. The Voyager probes have crossed its boundary."
+  },
+  {
+    "fact": "The zodiacal light is sunlight reflecting off cosmic dust.",
+    "explanation": "This faint, triangular glow seen in the night sky is caused by sunlight scattering off dust particles that are scattered throughout our solar system, mostly in the plane of the planets' orbits."
+  },
+  {
+    "fact": "Some galaxies are 'cannibals', consuming smaller ones.",
+    "explanation": "Galactic cannibalism is a common process where a large galaxy merges with a smaller companion through gravitational interaction. The Milky Way is currently in the process of consuming several smaller dwarf galaxies."
+  },
+  {
+    "fact": "Earth's magnetic field protects us from deadly solar radiation.",
+    "explanation": "Generated by the molten iron core of our planet, the magnetosphere deflects the majority of charged particles from the solar wind. Without it, the solar wind would strip away our atmosphere."
+  },
+  {
+    "fact": "The 'Wow!' signal was a strong, unexplained radio signal from space.",
+    "explanation": "Detected in 1977 by a SETI project, this powerful, narrow-band radio signal lasted for 72 seconds and appeared to come from the direction of the constellation Sagittarius. It has never been detected again and its origin remains a mystery."
+  },
+  {
+    "fact": "Cosmic rays are high-energy particles that constantly bombard Earth.",
+    "explanation": "These particles, mostly protons and atomic nuclei, originate from outside our solar system, likely from supernovae and other cataclysmic events. They travel at nearly the speed of light."
+  },
+  {
+    "fact": "Tardigrades, or 'water bears', can survive the vacuum of space.",
+    "explanation": "These microscopic, eight-legged animals are one of the most resilient life forms known. They can enter a state of suspended animation, allowing them to withstand extreme temperatures, radiation, and even direct exposure to outer space."
+  },
+  {
+    "fact": "The Higgs boson particle gives other fundamental particles their mass.",
+    "explanation": "Discovered at the Large Hadron Collider in 2012, this particle is an excitation of the Higgs field. As other particles travel through this field, they interact with it and acquire mass; the stronger the interaction, the more massive the particle."
+  },
+  {
+    "fact": "The Earth's continents are constantly moving.",
+    "explanation": "The Earth's crust is broken into large 'tectonic plates' that float on the semi-fluid mantle beneath. Their slow, constant movement is responsible for earthquakes, mountain formation, and the changing shape of the continents over millions of years."
+  },
+  {
+    "fact": "A 'placebo effect' can cause real physiological changes.",
+    "explanation": "When a person believes they are receiving a real treatment (but are actually receiving a fake one, like a sugar pill), their brain can release endorphins and other chemicals that genuinely reduce pain and other symptoms."
+  },
+  {
+    "fact": "Sonoluminescence is the process of creating light from sound.",
+    "explanation": "When powerful sound waves are focused in a liquid, they can cause tiny bubbles to form and then collapse violently. This collapse generates such intense heat and pressure that a flash of light is emitted."
+  },
+  {
+    "fact": "Mycorrhizal networks allow trees to communicate and share resources.",
+    "explanation": "Often called the 'Wood Wide Web', this is an underground network of fungi that connects the roots of different plants. Trees can send chemical signals and transfer nutrients like carbon and nitrogen to each other through this network."
+  },
+  {
+    "fact": "The 'observer effect' in quantum mechanics changes what is measured.",
+    "explanation": "At the quantum level, the very act of observing or measuring a particle, such as an electron, will inevitably change its state. For example, you cannot know both a particle's exact position and its exact momentum at the same time."
+  },
+  {
+    "fact": "Extremophiles are organisms that thrive in lethal environments.",
+    "explanation": "These microbes can be found in boiling hot springs, highly acidic waters, deep-sea hydrothermal vents, and even frozen solid in Antarctic ice. Their existence expands the known range of conditions where life can exist."
+  },
+  {
+    "fact": "The human brain operates on about 20 watts of power.",
+    "explanation": "Despite being the most complex object known in the universe, the brain is incredibly energy-efficient. Its power consumption is roughly equivalent to that of a dim light bulb, far less than a typical supercomputer."
+  },
+  {
+    "fact": "Spontaneous generation was once the leading theory for the origin of life.",
+    "explanation": "For centuries, it was widely believed that life could arise spontaneously from non-living matter, for example, that maggots were created from rotting meat. This was disproven by Louis Pasteur in the 19th century."
+  },
+  {
+    "fact": "Some fungi are carnivorous, trapping and digesting small worms.",
+    "explanation": "Certain species of soil fungi have evolved to create microscopic snares or sticky knobs on their mycelium. When a nematode worm passes by, it gets trapped and the fungus digests it for nitrogen."
+  },
+  {
+    "fact": "The Earth has a 'second moon' called Cruithne.",
+    "explanation": "Cruithne is not a true moon but a 'quasi-orbital satellite'. It's an asteroid that orbits the Sun in a way that, from Earth's perspective, makes it appear to follow a complex, horseshoe-shaped path around our planet."
+  },
+  {
+    "fact": "Geckos can stick to surfaces using intermolecular forces.",
+    "explanation": "A gecko's toes are covered in millions of microscopic hairs called setae. These tiny hairs create a weak attraction, known as van der Waals forces, with the molecules of the surface, allowing the gecko to cling to almost anything."
+  },
+  {
+    "fact": "The average cloud can weigh over 500 tons.",
+    "explanation": "While they look light and fluffy, clouds are composed of countless tiny water droplets or ice crystals. A typical cumulus cloud has a water density that, when calculated over its large volume, adds up to a massive weight."
+  },
+  {
+    "fact": "Quantum entanglement links particles no matter the distance.",
+    "explanation": "Two entangled particles remain connected in such a way that measuring a property of one particle instantly influences the corresponding property of the other, even if they are light-years apart. Einstein famously called this 'spooky action at a distance'."
+  },
+  {
+    "fact": "The 'Mpemba effect' is a phenomenon where hot water can freeze faster than cold water.",
+    "explanation": "While counter-intuitive, this has been observed under certain conditions. The exact cause is still debated but is thought to be related to factors like evaporation, convection, and the effects of dissolved gases."
+  },
+  {
+    "fact": "Glass is an amorphous solid, not a slow-moving liquid.",
+    "explanation": "The old myth that stained glass in cathedrals is thicker at the bottom because glass flows over centuries is false. Glass is a non-crystalline solid; its atoms are locked in place but lack the orderly structure of a crystal."
+  },
+  {
+    "fact": "The 'smell' of rain is caused by a chemical called geosmin.",
+    "explanation": "This distinct, earthy scent, known as petrichor, is produced by soil-dwelling bacteria. When raindrops hit the ground, they trap tiny air bubbles that then float up and release aerosols carrying the geosmin scent."
+  },
+  {
+    "fact": "Photosynthesis in plants is a form of quantum mechanics.",
+    "explanation": "When a photon of light hits a chlorophyll molecule, the energy travels through the plant cell with near-perfect efficiency. This process relies on quantum coherence, where the energy can explore all possible paths simultaneously to find the quickest route."
+  },
+  {
+    "fact": "A chimera is an organism with cells from two different individuals.",
+    "explanation": "This can occur naturally when two embryos fuse in the womb, or be created artificially. The resulting organism has two distinct sets of DNA, which can sometimes manifest as patches of different colored skin or fur."
   }
 ]
