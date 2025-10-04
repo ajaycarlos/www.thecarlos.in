@@ -117,51 +117,75 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ Accumulating Letters Animation (UPDATED)
+// 7️⃣ Accumulating Letters Animation (REWRITTEN with Anime.js)
 function animateAiResponse(text) {
     const responseArea = document.getElementById('ai-response-area');
     responseArea.innerHTML = '';
     isAiResponding = true;
 
-    const words = text.split(/(\s+)/);
-    let charCount = 0;
-
-    words.forEach(word => {
-        if (word.trim() === '') {
-            responseArea.append(document.createTextNode(word));
-            return;
-        }
-
-        word.split('').forEach(char => {
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char';
-            charSpan.textContent = char;
-
-            // EDITED: Increased the random range for a full-screen effect
-            const x = (Math.random() - 0.5) * 1000; // Increased horizontal range
-            const y = (Math.random() - 0.5) * 600;  // Increased vertical range
-            const rot = (Math.random() - 0.5) * 720; // More rotation
-            charSpan.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
-            
-            // EDITED: Slightly faster stagger effect
-            charSpan.style.transitionDelay = `${charCount * 0.015}s`;
-
-            responseArea.appendChild(charSpan);
-            charCount++;
-        });
+    // 1. Create invisible wrappers to calculate final positions
+    text.split('').forEach(char => {
+        const wrapper = document.createElement('span');
+        wrapper.className = 'char-wrapper';
+        wrapper.innerHTML = (char === ' ') ? '&nbsp;' : char;
+        responseArea.appendChild(wrapper);
     });
 
-    setTimeout(() => {
-        const allChars = responseArea.querySelectorAll('.char');
-        allChars.forEach(char => {
-            char.style.opacity = '1';
-            char.style.transform = 'translate(0, 0) rotate(0deg)';
+    // 2. Create the actual characters to be animated
+    const chars = [];
+    document.querySelectorAll('#ai-response-area .char-wrapper').forEach((wrapper, i) => {
+        const rect = wrapper.getBoundingClientRect();
+        const char = document.createElement('span');
+        char.className = 'char';
+        char.innerHTML = wrapper.innerHTML;
+        
+        // Add character to the body to animate freely
+        document.body.appendChild(char);
+        
+        chars.push({
+            el: char,
+            finalX: rect.left + window.scrollX,
+            finalY: rect.top + window.scrollY
         });
-    }, 100);
+    });
     
-    setTimeout(() => {
-        isAiResponding = false;
-    }, (charCount * 15) + 1500);
+    // Clear the wrappers from the response area
+    responseArea.innerHTML = '';
+
+    // 3. Animate each character with Anime.js
+    anime({
+        targets: chars.map(c => c.el),
+        left: (target, i) => chars[i].finalX,
+        top: (target, i) => chars[i].finalY,
+        translateX: [ (target, i) => {
+            // Start from a random edge of the screen
+            const side = Math.floor(Math.random() * 4);
+            if (side === 0) return -window.innerWidth/2; // Left
+            if (side === 1) return window.innerWidth/2; // Right
+            return 0;
+        }, 0],
+        translateY: [ (target, i) => {
+            const side = Math.floor(Math.random() * 4);
+            if (side === 2) return -window.innerHeight/2; // Top
+            if (side === 3) return window.innerHeight/2; // Bottom
+            return (Math.random() - 0.5) * window.innerHeight;
+        }, 0],
+        rotate: [() => anime.random(-360, 360), 0],
+        scale: [() => anime.random(0.5, 2), 1],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1200, // Faster animation
+        delay: anime.stagger(20), // Faster stagger
+        complete: () => {
+            // After animation, move the characters into the response area and clean up
+            chars.forEach(c => {
+                c.el.style.position = 'static';
+                c.el.style.transform = 'none';
+                responseArea.appendChild(c.el);
+            });
+            isAiResponding = false;
+        }
+    });
 }
 
 
@@ -235,7 +259,6 @@ async function shareFact() {
 document.addEventListener("DOMContentLoaded", async () => {
     const body = document.body;
 
-    // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
     const applySavedTheme = () => {
         if (localStorage.getItem('carlosTheme') === 'light') {
@@ -249,7 +272,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     applySavedTheme();
     themeSwitcher.addEventListener('click', toggleTheme);
     
-    // --- Sidebar toggle logic ---
     document.getElementById('logo').addEventListener('click', (event) => {
       event.preventDefault();
       body.classList.toggle('sidebar-open');
@@ -259,13 +281,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.classList.remove('sidebar-open');
     });
     
-    // --- Load initial content ---
     await loadKnowledgeBits(); 
     showKnowledgeBit();
     startLiveClock();
     startAnimations();
     
-    // --- Main event listeners ---
     document.getElementById("knowledge-box").addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
         const askTrigger = document.getElementById('ask-carlos-trigger');
@@ -290,7 +310,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         shareFact();
     });
 
-    // --- AI Chat MODAL Listeners ---
     document.getElementById('ask-carlos-trigger').addEventListener('click', (event) => {
         event.stopPropagation();
         body.classList.add('ai-modal-open');
