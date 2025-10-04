@@ -21,14 +21,20 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- EDITED: Made the rule more flexible to catch typos ---
+    // --- Special Rule Checks ---
     const isAskingAboutYou = lowerCaseQuestion.includes('your name') || 
                              lowerCaseQuestion.includes('who are you');
                              
     const isAskingAboutCarlos = (lowerCaseQuestion.includes('carlos') || lowerCaseQuestion.includes('c.a.r.l.o.s')) && 
-                                (lowerCaseQuestion.includes('form') || // Now just looks for 'form' instead of 'full form'
+                                (lowerCaseQuestion.includes('form') || 
                                  lowerCaseQuestion.includes('stand for') || 
                                  lowerCaseQuestion.includes('acronym'));
+
+    // NEW: Rule to check for owner/creator questions
+    const isAskingAboutCreator = lowerCaseQuestion.includes('owner') ||
+                                 lowerCaseQuestion.includes('creator') ||
+                                 lowerCaseQuestion.includes('who made you') ||
+                                 lowerCaseQuestion.includes('who built you');
     
     if (isAskingAboutYou || isAskingAboutCarlos) {
       const secretReplies = [
@@ -40,7 +46,12 @@ export default async function handler(request, response) {
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
     }
-    // --- End of special rule ---
+
+    if (isAskingAboutCreator) {
+      // Hardcoded response acknowledging you as the owner.
+      return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
+    }
+    // --- End of special rules ---
     
     // Default Logic
     if (contextFact) {
