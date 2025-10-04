@@ -21,20 +21,21 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- EDITED: More robust rule for detecting questions about the AI's name ---
+    // --- EDITED: Made the rule more flexible to catch typos ---
     const isAskingAboutYou = lowerCaseQuestion.includes('your name') || 
-                             lowerCaseQuestion.includes('your full form') ||
                              lowerCaseQuestion.includes('who are you');
                              
     const isAskingAboutCarlos = (lowerCaseQuestion.includes('carlos') || lowerCaseQuestion.includes('c.a.r.l.o.s')) && 
-                                (lowerCaseQuestion.includes('full form') || lowerCaseQuestion.includes('stand for') || lowerCaseQuestion.includes('acronym'));
+                                (lowerCaseQuestion.includes('form') || // Now just looks for 'form' instead of 'full form'
+                                 lowerCaseQuestion.includes('stand for') || 
+                                 lowerCaseQuestion.includes('acronym'));
     
     if (isAskingAboutYou || isAskingAboutCarlos) {
       const secretReplies = [
         "That information is classified.",
         "My full designation is not for public knowledge.",
         "That's a secret.",
-        "You would have to ask Ajay about that."
+        "You'll have to ask Ajay about that."
       ];
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
