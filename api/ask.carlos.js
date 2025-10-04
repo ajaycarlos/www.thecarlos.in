@@ -58,7 +58,7 @@ export default async function handler(request, response) {
       }
     }
 
-    // Use the model name that we confirmed is available for your account
+    // This line already uses the correct model
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     
     const result = await model.generateContent(prompt);
