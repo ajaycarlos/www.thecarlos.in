@@ -138,16 +138,15 @@ function typewriterForAi(text, responseArea, onComplete) {
 }
 
 function playStarstreamAnimation() {
-    // This function now returns a Promise that resolves when the animation is complete.
     return new Promise(resolve => {
         const responseArea = document.getElementById('ai-response-area');
         const rect = responseArea.getBoundingClientRect();
         const destinationX = rect.left + rect.width / 2;
         const destinationY = rect.top + rect.height / 2;
-        const duration = 1200; // A fixed, fast duration for the "thinking" phase
+        const duration = 1500; // EDITED: Longer duration for a more pronounced "thinking" phase
 
         const particles = [];
-        for (let i = 0; i < 160; i++) { // EDITED: Increased density to 160 stars
+        for (let i = 0; i < 250; i++) { // EDITED: Increased density to 250 stars
             const star = document.createElement('div');
             star.className = 'flying-star';
             const size = anime.random(1, 3) + 'px';
@@ -177,10 +176,10 @@ function playStarstreamAnimation() {
             opacity: [1, 0],
             easing: 'easeInExpo',
             duration: duration,
-            delay: anime.stagger(10), // Faster stagger for the increased density
+            delay: anime.stagger(7), // EDITED: Adjusted stagger for new density and duration
             complete: () => {
                 particles.forEach(p => p.remove());
-                resolve(); // Resolve the promise to signal completion
+                resolve();
             }
         });
     });
@@ -317,7 +316,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.classList.remove('ai-modal-open');
     });
 
-    // EDITED: Form submission logic updated to the new flow
     document.getElementById('ai-chat-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
@@ -332,7 +330,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            // Run the API call and the star animation in parallel
             const [apiResponse] = await Promise.all([
                 fetch('/api/ask-carlos', {
                     method: 'POST',
@@ -342,14 +339,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                         contextFact: currentFact.fact 
                     }),
                 }),
-                playStarstreamAnimation() // The star animation plays during the 'thinking' phase
+                playStarstreamAnimation()
             ]);
 
             if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
             
             const data = await apiResponse.json();
             
-            // After both are complete, start the typewriter with the result
             typewriterForAi(data.answer, responseArea, () => {
                 isAiResponding = false;
             });
