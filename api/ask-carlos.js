@@ -1,12 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(request, response) {
-  // Check that the request is a POST request
   if (request.method !== 'POST') {
     return response.status(405).json({ error: "Method Not Allowed" });
   }
   
-  // NEW: Check if the API key is set up correctly in Vercel
   if (!process.env.GOOGLE_API_KEY) {
     console.error("GOOGLE_API_KEY environment variable is not set.");
     return response.status(500).json({ error: "Server configuration error: API key is missing." });
@@ -25,7 +23,9 @@ export default async function handler(request, response) {
     They have a follow-up question: "${question}"
     Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // EDITED: Changed the model name to the standard 'gemini-pro'
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    
     const result = await model.generateContent(prompt);
     const aiResponse = await result.response;
     const text = aiResponse.text();
