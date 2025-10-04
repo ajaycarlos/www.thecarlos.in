@@ -1,36 +1,39 @@
-// TEMPORARY DIAGNOSTIC SCRIPT for /api/ask-carlos.js
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(request, response) {
-  const apiKey = process.env.GOOGLE_API_KEY;
-
-  if (!apiKey) {
+  if (request.method !== 'POST') {
+    return response.status(405).json({ error: "Method Not Allowed" });
+  }
+  
+  if (!process.env.GOOGLE_API_KEY) {
+    console.error("GOOGLE_API_KEY environment variable is not set.");
     return response.status(500).json({ error: "Server configuration error: API key is missing." });
   }
 
-  // We will call the same URL from the error message, but ask for a list of models.
-  const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
-
   try {
-    const apiResponse = await fetch(url);
-    const data = await apiResponse.json();
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    const { question, contextFact } = request.body;
 
-    if (!apiResponse.ok) {
-        // If Google sends an error, we'll show it.
-        return response.status(apiResponse.status).json(data);
+    if (!question) {
+      return response.status(400).json({ error: "No question provided." });
     }
 
-    // If successful, we filter for models that can generate content and return their names.
-    const contentModels = data.models
-      .filter(m => m.supportedGenerationMethods.includes("generateContent"))
-      .map(m => m.name);
+    const prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
+    A user is viewing the fact: "${contextFact}"
+    They have a follow-up question: "${question}"
+    Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
 
-    return response.status(200).json({
-      message: "Here is the definitive list of models available to your API key:",
-      models: contentModels
-    });
+    // FINAL FIX: Using the correct model name from your account's list.
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    
+    const result = await model.generateContent(prompt);
+    const aiResponse = await result.response;
+    const text = aiResponse.text();
+
+    return response.status(200).json({ answer: text });
 
   } catch (error) {
-    console.error("Failed to fetch from Google API:", error);
-    return response.status(500).json({ error: "Failed to connect to Google API." });
+    console.error("Error calling Google AI:", error);
+    return response.status(500).json({ error: "Failed to get a response from the AI." });
   }
 }
