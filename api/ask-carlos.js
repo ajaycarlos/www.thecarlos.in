@@ -1,39 +1,36 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// TEMPORARY DIAGNOSTIC SCRIPT for /api/ask-carlos.js
 
 export default async function handler(request, response) {
-  if (request.method !== 'POST') {
-    return response.status(405).json({ error: "Method Not Allowed" });
-  }
-  
-  if (!process.env.GOOGLE_API_KEY) {
-    console.error("GOOGLE_API_KEY environment variable is not set.");
+  const apiKey = process.env.GOOGLE_API_KEY;
+
+  if (!apiKey) {
     return response.status(500).json({ error: "Server configuration error: API key is missing." });
   }
 
-  try {
-    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const { question, contextFact } = request.body;
+  // We will call the same URL from the error message, but ask for a list of models.
+  const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
 
-    if (!question) {
-      return response.status(400).json({ error: "No question provided." });
+  try {
+    const apiResponse = await fetch(url);
+    const data = await apiResponse.json();
+
+    if (!apiResponse.ok) {
+        // If Google sends an error, we'll show it.
+        return response.status(apiResponse.status).json(data);
     }
 
-    const prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
-    A user is viewing the fact: "${contextFact}"
-    They have a follow-up question: "${question}"
-    Please provide a brief, helpful answer. Your response must be a maximum of three sentences.`;
+    // If successful, we filter for models that can generate content and return their names.
+    const contentModels = data.models
+      .filter(m => m.supportedGenerationMethods.includes("generateContent"))
+      .map(m => m.name);
 
-    // EDITED: Using a highly compatible and stable model name as a final attempt.
-    const model = genAI.getGenerativeModel({ model: "gemini-1.0" });
-    
-    const result = await model.generateContent(prompt);
-    const aiResponse = await result.response;
-    const text = aiResponse.text();
-
-    return response.status(200).json({ answer: text });
+    return response.status(200).json({
+      message: "Here is the definitive list of models available to your API key:",
+      models: contentModels
+    });
 
   } catch (error) {
-    console.error("Error calling Google AI:", error);
-    return response.status(500).json({ error: "Failed to get a response from the AI." });
+    console.error("Failed to fetch from Google API:", error);
+    return response.status(500).json({ error: "Failed to connect to Google API." });
   }
 }
