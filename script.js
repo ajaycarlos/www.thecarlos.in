@@ -88,7 +88,7 @@ function showKnowledgeBit() {
 }
 
 // ========================
-// 6️⃣ Typewriter Effect
+// 6️⃣ Typewriter Effect (for explanations)
 function typeWriter() {
     const explanation = currentFact.explanation || '';
     if (isTyping || !explanation) return;
@@ -117,74 +117,78 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ Accumulating Letters Animation (REWRITTEN with Anime.js)
-function animateAiResponse(text) {
-    const responseArea = document.getElementById('ai-response-area');
-    responseArea.innerHTML = '';
-    isAiResponding = true;
+// 7️⃣ NEW: Starstream + Typewriter Animation for AI Response
+function typewriterForAi(text, responseArea, onComplete) {
+    let i = 0;
+    const speed = 30; // ms per character
+    responseArea.innerHTML = ''; // Clear area
+    responseArea.classList.add('typing');
 
-    // 1. Create invisible wrappers to calculate final positions
-    text.split('').forEach(char => {
-        const wrapper = document.createElement('span');
-        wrapper.className = 'char-wrapper';
-        wrapper.innerHTML = (char === ' ') ? '&nbsp;' : char;
-        responseArea.appendChild(wrapper);
-    });
-
-    // 2. Create the actual characters to be animated
-    const chars = [];
-    document.querySelectorAll('#ai-response-area .char-wrapper').forEach((wrapper, i) => {
-        const rect = wrapper.getBoundingClientRect();
-        const char = document.createElement('span');
-        char.className = 'char';
-        char.innerHTML = wrapper.innerHTML;
-        
-        // Add character to the body to animate freely
-        document.body.appendChild(char);
-        
-        chars.push({
-            el: char,
-            finalX: rect.left + window.scrollX,
-            finalY: rect.top + window.scrollY
-        });
-    });
-    
-    // Clear the wrappers from the response area
-    responseArea.innerHTML = '';
-
-    // 3. Animate each character with Anime.js
-    anime({
-        targets: chars.map(c => c.el),
-        left: (target, i) => chars[i].finalX,
-        top: (target, i) => chars[i].finalY,
-        translateX: [ (target, i) => {
-            // Start from a random edge of the screen
-            const side = Math.floor(Math.random() * 4);
-            if (side === 0) return -window.innerWidth/2; // Left
-            if (side === 1) return window.innerWidth/2; // Right
-            return 0;
-        }, 0],
-        translateY: [ (target, i) => {
-            const side = Math.floor(Math.random() * 4);
-            if (side === 2) return -window.innerHeight/2; // Top
-            if (side === 3) return window.innerHeight/2; // Bottom
-            return (Math.random() - 0.5) * window.innerHeight;
-        }, 0],
-        rotate: [() => anime.random(-360, 360), 0],
-        scale: [() => anime.random(0.5, 2), 1],
-        opacity: [0, 1],
-        easing: 'easeOutExpo',
-        duration: 1200, // Faster animation
-        delay: anime.stagger(20), // Faster stagger
-        complete: () => {
-            // After animation, move the characters into the response area and clean up
-            chars.forEach(c => {
-                c.el.style.position = 'static';
-                c.el.style.transform = 'none';
-                responseArea.appendChild(c.el);
-            });
-            isAiResponding = false;
+    function type() {
+        if (i < text.length) {
+            responseArea.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            responseArea.classList.remove('typing');
+            if (onComplete) onComplete();
         }
+    }
+    type();
+}
+
+function playStarstreamAnimation(text) {
+    const responseArea = document.getElementById('ai-response-area');
+    responseArea.innerHTML = ''; // Clear loading message
+    isAiResponding = true;
+    
+    // --- Particle Animation ---
+    const rect = responseArea.getBoundingClientRect();
+    const destinationX = rect.left + rect.width / 2;
+    const destinationY = rect.top + rect.height / 2;
+    const duration = text.length * 30 + 500; // Match duration to typewriter
+
+    const particles = [];
+    for (let i = 0; i < 80; i++) { // Create 80 star particles
+        const star = document.createElement('div');
+        star.className = 'flying-star';
+        const size = anime.random(1, 3) + 'px';
+        star.style.width = size;
+        star.style.height = size;
+        
+        // Start from a random edge of the screen
+        const startPos = {};
+        if (Math.random() < 0.5) {
+            startPos.x = Math.random() < 0.5 ? 0 : window.innerWidth;
+            startPos.y = Math.random() * window.innerHeight;
+        } else {
+            startPos.x = Math.random() * window.innerWidth;
+            startPos.y = Math.random() < 0.5 ? 0 : window.innerHeight;
+        }
+        star.style.left = startPos.x + 'px';
+        star.style.top = startPos.y + 'px';
+        
+        document.body.appendChild(star);
+        particles.push(star);
+    }
+    
+    anime({
+        targets: particles,
+        left: destinationX,
+        top: destinationY,
+        scale: 0, // Shrink to nothing
+        opacity: [1, 0], // Fade out
+        easing: 'easeInExpo',
+        duration: duration,
+        delay: anime.stagger(20),
+        complete: () => {
+            particles.forEach(p => p.remove()); // Clean up the DOM
+        }
+    });
+
+    // --- Simultaneous Typewriter Animation ---
+    typewriterForAi(text, responseArea, () => {
+        isAiResponding = false;
     });
 }
 
@@ -343,7 +347,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!response.ok) { throw new Error('Network response was not ok'); }
             const data = await response.json();
-            animateAiResponse(data.answer);
+            
+            // Call the NEW animation function
+            playStarstreamAnimation(data.answer);
 
         } catch (error) {
             console.error('Error fetching AI response:', error);
