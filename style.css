@@ -7,6 +7,8 @@
   --box-bg-color: rgba(255, 255, 255, 0.08);
   --box-shadow-color: rgba(255, 255, 255, 0.2);
   --star-color: #FFF;
+  --sidebar-bg-color: rgba(10, 10, 10, 0.9);
+  --sidebar-border-color: #333;
 }
 
 body.light-theme {
@@ -17,6 +19,8 @@ body.light-theme {
   --box-bg-color: rgba(0, 0, 0, 0.05);
   --box-shadow-color: rgba(0, 0, 0, 0.1);
   --star-color: #333;
+  --sidebar-bg-color: rgba(255, 255, 255, 0.9);
+  --sidebar-border-color: #ddd;
 }
 
 /* ================= 2. Animated Starfield Background ================= */
@@ -37,7 +41,6 @@ body.light-theme {
   width: 200%;
   height: 200%;
   animation: animStar 50s linear infinite;
-  /* The color is now controlled by a variable */
   background-image: radial-gradient(1px 1px at 20px 30px, var(--star-color), transparent), radial-gradient(1px 1px at 90px 60px, var(--star-color), transparent), radial-gradient(1.5px 1.5px at 150px 120px, var(--star-color), transparent);
 }
 
@@ -89,7 +92,61 @@ body {
   text-align: center;
 }
 
-/* ================= 5. NEW: Theme Switcher ================= */
+/* ================= 5. NEW: Explore Sidebar ================= */
+#explore-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 50%;
+  max-width: 400px; /* Max width for larger screens */
+  background-color: var(--sidebar-bg-color);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--sidebar-border-color);
+  z-index: 1002;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+body.sidebar-open #explore-sidebar {
+  transform: translateX(0);
+}
+
+#explore-sidebar .sidebar-header {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--sidebar-border-color);
+}
+
+#explore-sidebar h2 {
+  font-family: 'Mojangles', sans-serif;
+  font-size: 24px;
+  text-align: left;
+}
+
+#explore-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#explore-sidebar .nav-link {
+  font-size: 18px;
+  color: var(--text-color);
+  text-decoration: none;
+  margin-bottom: 15px;
+  transition: color 0.2s ease;
+}
+
+#explore-sidebar .nav-link:hover {
+  color: var(--text-secondary-color);
+}
+
+
+/* ================= 6. Theme Switcher ================= */
 #theme-switcher {
   position: fixed;
   top: 20px;
@@ -107,14 +164,12 @@ body {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Pixelated Sun */
 .icon-sun {
   background-color: #FFD700;
   border-radius: 50%;
   box-shadow: 0 0 10px #FFD700;
 }
 
-/* Pixelated Moon */
 .icon-moon {
   width: 18px;
   height: 18px;
@@ -122,12 +177,11 @@ body {
   box-shadow: 4px -4px 0 0 #f0f0f0;
 }
 
-/* Logic to show/hide icons based on theme */
 body.light-theme .icon-moon { opacity: 0; transform: scale(0); }
 body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 
 
-/* ================= 6. Page Elements ================= */
+/* ================= 7. Page Elements ================= */
 #video-container {
   position: fixed;
   top: 0;
@@ -145,6 +199,10 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   width: 50vw;
   max-width: 600px;
   max-height: 600px;
+}
+
+#logo {
+  cursor: pointer; /* Make it obvious the logo is clickable */
 }
 
 #logo, #since-logo-text, #since-text {
@@ -274,7 +332,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   display: none;
 }
 
-/* ================= 7. Media Queries ================= */
+/* ================= 8. Media Queries ================= */
 @media (max-width: 768px) {
   #since-text { font-size: 18px; }
   #main-content-container { width: 90%; }
@@ -294,6 +352,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   #live-clock { font-size: 12px; }
   #logo { width: 50px; }
   #since-logo-text { width: 50px; top: 75px; font-size: 10px; }
+  #explore-sidebar { width: 80%; } /* Sidebar wider on phones */
 }
 
 @media (max-width: 600px) {
