@@ -1,8 +1,15 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(request, response) {
+  // Check that the request is a POST request
   if (request.method !== 'POST') {
     return response.status(405).json({ error: "Method Not Allowed" });
+  }
+  
+  // NEW: Check if the API key is set up correctly in Vercel
+  if (!process.env.GOOGLE_API_KEY) {
+    console.error("GOOGLE_API_KEY environment variable is not set.");
+    return response.status(500).json({ error: "Server configuration error: API key is missing." });
   }
 
   try {
@@ -13,7 +20,6 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: "No question provided." });
     }
 
-    // UPDATED PROMPT
     const prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant. 
     A user is viewing the fact: "${contextFact}"
     They have a follow-up question: "${question}"
@@ -24,14 +30,10 @@ export default async function handler(request, response) {
     const aiResponse = await result.response;
     const text = aiResponse.text();
 
-    response.status(200).json({
-      answer: text
-    });
+    return response.status(200).json({ answer: text });
 
   } catch (error) {
     console.error("Error calling Google AI:", error);
-    response.status(500).json({
-      error: "Failed to get a response from the AI."
-    });
+    return response.status(500).json({ error: "Failed to get a response from the AI." });
   }
 }
