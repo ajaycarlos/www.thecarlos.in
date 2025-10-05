@@ -41,22 +41,69 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time)
+// ... (all previous code is the same) ... //
+
+// ========================
+// 4️⃣ Live Clock (India Time) (REWRITTEN)
 function startLiveClock() {
-    const clockElement = document.getElementById("live-clock");
+    const clock = document.getElementById("live-clock");
+    const digits = clock.querySelectorAll('.digit');
+
+    function updateDigit(digit, value) {
+        const currentValue = digit.getAttribute('data-current');
+        if (currentValue === value) {
+            return; // No change, do nothing
+        }
+
+        digit.setAttribute('data-next', value);
+        digit.classList.add('flip');
+
+        setTimeout(() => {
+            digit.setAttribute('data-current', value);
+            digit.classList.remove('flip');
+        }, 600); // Must match the CSS transition duration
+    }
+
     function updateClock() {
         const now = new Date();
         const istOffset = 5.5 * 60;
         const utc = now.getTime() + now.getTimezoneOffset() * 60000;
         const istTime = new Date(utc + istOffset * 60000);
+        
         const hours = String(istTime.getHours()).padStart(2, '0');
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
-        clockElement.innerText = `${hours}:${minutes}:${seconds}`;
+
+        updateDigit(digits[0], hours[0]);
+        updateDigit(digits[1], hours[1]);
+        updateDigit(digits[2], minutes[0]);
+        updateDigit(digits[3], minutes[1]);
+        updateDigit(digits[4], seconds[0]);
+        updateDigit(digits[5], seconds[1]);
     }
-    updateClock();
+    
+    // Set initial values without animation
+    const now = new Date();
+    const istOffset = 5.5 * 60;
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const istTime = new Date(utc + istOffset * 60000);
+    const initialHours = String(istTime.getHours()).padStart(2, '0');
+    const initialMinutes = String(istTime.getMinutes()).padStart(2, '0');
+    const initialSeconds = String(istTime.getSeconds()).padStart(2, '0');
+    
+    digits[0].setAttribute('data-current', initialHours[0]);
+    digits[1].setAttribute('data-current', initialHours[1]);
+    digits[2].setAttribute('data-current', initialMinutes[0]);
+    digits[3].setAttribute('data-current', initialMinutes[1]);
+    digits[4].setAttribute('data-current', initialSeconds[0]);
+    digits[5].setAttribute('data-current', initialSeconds[1]);
+
+    // Start the animation loop
     setInterval(updateClock, 1000);
 }
+
+
+// ... (the rest of your script.js file is the same) ... //
 
 // ========================
 // 5️⃣ Random Knowledge Bit
