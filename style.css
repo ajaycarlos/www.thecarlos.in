@@ -72,6 +72,8 @@ body.light-theme {
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  /* EDITED: Added font-display to prevent loading delay */
+  font-display: swap;
 }
 
 /* ================= 4. General Body & Layout ================= */
@@ -91,6 +93,8 @@ body {
   line-height: 1.6;
   text-align: center;
 }
+
+/* ... rest of your style.css file remains the same ... */
 
 /* ================= 5. Explore Sidebar ================= */
 #explore-sidebar {
