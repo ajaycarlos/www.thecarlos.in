@@ -76,4 +76,4 @@ export default async function handler(request, response) {
     console.error("Error calling Google AI:", error);
     return response.status(500).json({ error: "Failed to get a response from the AI." });
   }
-}
+      }
