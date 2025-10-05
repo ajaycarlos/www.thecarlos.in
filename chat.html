@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C.A.R.L.O.S. AI Chat</title>
-    <link rel="stylesheet" href="chat.style.css?v=1.0">
+    <link rel="stylesheet" href="chat.style.css">
     <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
@@ -28,6 +28,20 @@
         </form>
     </div>
 
-    <script src="chat.script.js?v=1.0"></script>
+    <script src="chat.script.js"></script>
+
+    <script>
+      (function() {
+        const timestamp = new Date().getTime();
+        // Target local CSS files
+        document.querySelectorAll('link[href^="chat.style.css"]').forEach(link => {
+          link.href = `${link.href.split('?')[0]}?t=${timestamp}`;
+        });
+        // Target local JS files
+        document.querySelectorAll('script[src^="chat.script.js"]').forEach(script => {
+          script.src = `${script.src.split('?')[0]}?t=${timestamp}`;
+        });
+      })();
+    </script>
 </body>
 </html>
