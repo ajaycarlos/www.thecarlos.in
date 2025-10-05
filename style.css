@@ -438,7 +438,7 @@ body.ai-modal-open #ai-modal {
   box-shadow: 0 0 30px var(--box-shadow-color);
 }
 
-/* EDITED: New simpler styles for the animated clock */
+/* CORRECTED: New simpler styles for the animated clock */
 #live-clock {
   position: fixed;
   bottom: 20px;
@@ -466,20 +466,20 @@ body.ai-modal-open #ai-modal {
 .digit-box {
   position: relative;
   width: 0.8em;
-  height: 1.2em; /* Height to hold two numbers */
+  height: 1.2em;
   margin: 0 1px;
-  overflow: hidden; /* Crucial to hide the sliding numbers */
+  overflow: hidden;
 }
 
 .digit-box span {
   display: block;
   position: absolute;
   left: 0;
-  top: 0; /* Start top number at top */
+  top: 0;
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.4s ease-in-out; /* Animation for sliding */
+  transition: transform 0.4s ease-in-out;
 }
 
 .digit-box .digit-top {
@@ -487,10 +487,9 @@ body.ai-modal-open #ai-modal {
 }
 
 .digit-box .digit-bottom {
-  transform: translateY(100%); /* Start bottom number below view */
+  transform: translateY(100%);
 }
 
-/* Class to trigger animation */
 .digit-box.drop .digit-top {
   transform: translateY(-100%);
 }
