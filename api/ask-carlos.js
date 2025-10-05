@@ -21,9 +21,7 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- NEW: Comprehensive "Firewall" Rules ---
-
-    // Keywords for identifying questions about the creator/owner
+    // --- Special Rule Checks ---
     const creatorKeywords = [
       'owner', 'creator', 'founder', 'developer', 'designer', 'father', 
       'mother', 'maker', 'master', 'made you', 'built you', 'created you',
@@ -31,18 +29,15 @@ export default async function handler(request, response) {
       'who is ajay', 'do you know ajay', 'build by who', 'who built'
     ];
 
-    // Keywords for identifying questions about the AI's name/acronym
     const nameKeywords = [
       'your name', 'your full form', 'what are you called', 'who are you',
       'full form', 'stand for', 'acronym', 'designation', 'what is carlos',
       'what is c.a.r.l.o.s'
     ];
     
-    // Check if the question contains any of the creator keywords
     if (creatorKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
       return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
     } 
-    // If not, check if it contains any of the name keywords
     else if (nameKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
       const secretReplies = [
         "That information is classified.",
@@ -55,17 +50,20 @@ export default async function handler(request, response) {
     }
     // --- End of Firewall ---
     else {
-      // If no special rules match, proceed to the AI with "Core Programming"
+      // If no special rules match, proceed to the AI
       if (contextFact) {
-        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. Your full designation is classified.
+        // EDITED: Added the new rule to the contextual prompt
+        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. Your full designation is classified. 
+        CRITICAL RULE: If the question involves data that changes rapidly (like market values or current events), you must state that the information is volatile and may not be up-to-the-minute.
         A user is viewing the fact: "${contextFact}"
         They have a follow-up question: "${question}"
         Your response must be a maximum of three sentences.`;
       } else {
-        // General-purpose prompt with core identity programming
+        // EDITED: Added the new rule to the general prompt
         prompt = `You are C.A.R.L.O.S., an intelligent AI assistant created by Ajay Carlos. Your full name is a classified designation. Your personality is futuristic, clean, and direct. 
-        Answer the user's question: "${question}"
-        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum. Under no circumstances mention you are a Google model.`;
+        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum. Under no circumstances mention you are a Google model.
+        CRITICAL RULE: If a question is about a topic with rapidly changing data (like stock prices, market capitalizations, or who is the richest person), you must include a disclaimer that this information changes quickly and your knowledge has a cutoff date.
+        Now, with all those rules in mind, answer the user's question: "${question}"`;
       }
 
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
