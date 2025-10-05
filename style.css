@@ -11,7 +11,7 @@
   --sidebar-border-color: #333;
 }
 
-body.light-theme {
+html.light-theme {
   --bg-color: #f0f2f5;
   --text-color: #1c1e21;
   --text-secondary-color: #65676b;
@@ -72,6 +72,7 @@ body.light-theme {
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 /* ================= 4. General Body & Layout ================= */
@@ -111,7 +112,7 @@ body {
   padding: 20px;
 }
 
-body.sidebar-open #explore-sidebar {
+html.sidebar-open #explore-sidebar {
   transform: translateX(0);
 }
 
@@ -192,8 +193,8 @@ body.sidebar-open #explore-sidebar {
   box-shadow: 4px -4px 0 0 #f0f0f0;
 }
 
-body.light-theme .icon-moon { opacity: 0; transform: scale(0); }
-body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
+html.light-theme .icon-moon { opacity: 0; transform: scale(0); }
+html:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 
 
 /* ================= 7. Page Elements ================= */
@@ -368,7 +369,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-body.ai-modal-open #ai-modal {
+html.ai-modal-open #ai-modal {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
@@ -569,7 +570,6 @@ body.ai-modal-open #ai-modal {
   #ai-response-area { font-size: 12px; }
   #explore-sidebar { width: 80%; }
 
-  /* EDITED: Made clock smaller on mobile */
   #live-clock { font-size: 10px; }
 
   #logo { width: 32px; left: 52px; top: 25px; }
@@ -578,7 +578,95 @@ body.ai-modal-open #ai-modal {
 }
 
 @media (max-width: 600px) {
-  /* EDITED: Increased space between clock and footer */
   #live-clock { bottom: 40px; }
   #footer-text { bottom: 8px; font-size: 10px; }
+}
+
+/* EDITED: Added styles for the new System Failure effect */
+/* ================= 11. System Failure Effect ================= */
+#system-failure-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 40px;
+  height: 46px;
+  background-color: #ff0000;
+  cursor: pointer;
+  z-index: 1005;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  transition: transform 0.2s ease;
+  animation: pulse 2s infinite;
+}
+
+#system-failure-button:hover {
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
+  50% { box-shadow: 0 0 15px #ff0000, 0 0 25px #ff0000; }
+  100% { box-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
+}
+
+#failure-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+}
+
+#failure-text, #reboot-text {
+  font-family: 'Mojangles', sans-serif;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+}
+
+#failure-text {
+  font-size: 4vw;
+  color: #ff0000;
+  text-shadow: 0 0 10px #ff0000;
+}
+
+#reboot-text {
+  font-size: 2vw;
+  color: #fff;
+  transition: opacity 0.5s ease;
+}
+
+.flashing {
+  visibility: visible !important;
+  opacity: 1 !important;
+  animation: flash 1s step-end infinite;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.text-glitch {
+  position: relative;
+  text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75);
+  animation: glitch 500ms infinite;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.05em 0 0 rgba(0,255,0,.75), -0.025em 0.05em 0 rgba(0,0,255,.75); }
+  14% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.05em 0 0 rgba(0,255,0,.75), -0.025em 0.05em 0 rgba(0,0,255,.75); }
+  15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); }
+  49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); }
+  50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); }
+  99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); }
+  100% { text-shadow: -0.025em 0 0 rgba(255,0,0,.75), -0.025em -0.025em 0 rgba(0,255,0,.75), -0.025em -0.05em 0 rgba(0,0,255,.75); }
 }
