@@ -33,7 +33,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100dvh; /* EDITED: Changed vh to dvh to fix mobile cropping */
   overflow: hidden;
   font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
   transition: background-color 0.3s ease, color 0.3s ease;
