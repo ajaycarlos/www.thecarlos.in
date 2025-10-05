@@ -410,8 +410,9 @@ body.ai-modal-open #ai-modal {
   pointer-events: none;
 }
 
+/* ... (all previous styles up to section 9 are the same) ... */
 
-/* ================= 9. Action Buttons & Footer ================= */
+/* ================= 9. Action Buttons & Footer (and Clock) ================= */
 #refresh-button, #share-button {
   color: var(--text-secondary-color);
   cursor: pointer;
@@ -438,28 +439,80 @@ body.ai-modal-open #ai-modal {
   box-shadow: 0 0 30px var(--box-shadow-color);
 }
 
-#live-clock, #footer-text {
+/* EDITED: New styles for the animated clock */
+#live-clock {
   position: fixed;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  font-family: 'Fedorka', sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 2s ease;
+  font-size: 18px; /* Base font size */
+}
+
+.time-group {
+  display: flex;
+}
+
+.separator {
+  margin: 0 5px;
+}
+
+.digit {
+  position: relative;
+  display: inline-block;
+  width: 0.8em;
+  text-align: center;
+  perspective: 100px; /* Enable 3D transform */
+}
+
+.digit::before, .digit::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  content: attr(data-current);
+  background: var(--bg-color);
+  transition: transform 0.6s cubic-bezier(0.2, 1, 0.7, 1);
+}
+
+.digit::before {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+  transform-origin: bottom;
+}
+
+.digit::after {
+  content: attr(data-next);
+  clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+  transform-origin: top;
+  transform: rotateX(180deg);
+}
+
+/* Animation classes */
+.digit.flip::before {
+  transform: rotateX(-180deg);
+}
+.digit.flip::after {
+  transform: rotateX(0deg);
+}
+
+
+#footer-text {
+  position: fixed;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
   color: var(--text-secondary-color);
   opacity: 0;
   transition: opacity 2s ease;
 }
-#live-clock {
-  bottom: 20px;
-  font-size: 18px;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
-#footer-text {
-  bottom: 5px;
-  font-size: 10px;
-}
 
-::-webkit-scrollbar {
-  display: none;
-}
+/* ... (rest of the file is the same) ... */
 
 /* ================= 10. Media Queries ================= */
 @media (max-width: 768px) {
