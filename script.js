@@ -41,24 +41,36 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time) (CORRECTED ANIMATION LOGIC)
+// 4️⃣ Live Clock (India Time) (REWRITTEN)
 function startLiveClock() {
-    const clock = document.getElementById("live-clock");
-    const digits = clock.querySelectorAll('.digit');
+    const digits = document.querySelectorAll('#live-clock .digit');
 
-    function updateDigit(digit, value) {
-        const currentValue = digit.getAttribute('data-current');
-        if (currentValue === value) {
-            return; // No change, do nothing
+    function updateDigit(digitElement, newValue) {
+        const currentValue = digitElement.querySelector('.digit-inner:last-child').textContent;
+        if (currentValue === newValue) {
+            return;
         }
 
-        digit.setAttribute('data-next', value);
-        digit.classList.add('flip');
+        const newDigitInner = document.createElement('span');
+        newDigitInner.className = 'digit-inner';
+        newDigitInner.textContent = newValue;
+        newDigitInner.style.transform = 'translateY(-100%)';
+        
+        const oldDigitInner = digitElement.querySelector('.digit-inner');
+        
+        digitElement.appendChild(newDigitInner);
+        digitElement.classList.add('drop');
 
-        setTimeout(() => {
-            digit.setAttribute('data-current', value);
-            digit.classList.remove('flip');
-        }, 600); // Must match the CSS transition duration
+        // Force a reflow to apply the initial state before transitioning
+        void newDigitInner.offsetWidth;
+
+        newDigitInner.style.transform = 'translateY(0)';
+        oldDigitInner.style.transform = 'translateY(100%)';
+        
+        oldDigitInner.addEventListener('transitionend', () => {
+            oldDigitInner.remove();
+            digitElement.classList.remove('drop');
+        }, { once: true });
     }
 
     function updateClock() {
@@ -79,25 +91,20 @@ function startLiveClock() {
         updateDigit(digits[5], seconds[1]);
     }
     
-    // Set initial values without animation
+    // Set initial state without animation
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const istTime = new Date(utc + istOffset * 60000);
-    const initialHours = String(istTime.getHours()).padStart(2, '0');
-    const initialMinutes = String(istTime.getMinutes()).padStart(2, '0');
-    const initialSeconds = String(istTime.getSeconds()).padStart(2, '0');
-    
+    const initialTime = [
+        ...String(istTime.getHours()).padStart(2, '0'),
+        ...String(istTime.getMinutes()).padStart(2, '0'),
+        ...String(istTime.getSeconds()).padStart(2, '0')
+    ];
     digits.forEach((digit, index) => {
-        let value;
-        if (index < 2) value = initialHours[index];
-        else if (index < 4) value = initialMinutes[index - 2];
-        else value = initialSeconds[index - 4];
-        digit.setAttribute('data-current', value);
-        digit.textContent = value; // Set initial text content as a fallback
+        digit.innerHTML = `<span class="digit-inner">${initialTime[index]}</span>`;
     });
 
-    // Start the animation loop
     setInterval(updateClock, 1000);
 }
 
@@ -161,7 +168,7 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ Starstream Animation & AI Typewriter
+// 7️⃣ AI Typewriter
 function typewriterForAi(text, responseArea, onComplete) {
     let i = 0;
     const speed = 30;
@@ -179,54 +186,6 @@ function typewriterForAi(text, responseArea, onComplete) {
         }
     }
     type();
-}
-
-function playStarstreamAnimation() {
-    return new Promise(resolve => {
-        const responseArea = document.getElementById('ai-response-area');
-        const rect = responseArea.getBoundingClientRect();
-        const destinationX = rect.left + rect.width / 2;
-        const destinationY = rect.top + rect.height / 2;
-        const duration = 1500;
-
-        const particles = [];
-        for (let i = 0; i < 500; i++) {
-            const star = document.createElement('div');
-            star.className = 'flying-star';
-            const size = anime.random(1, 3) + 'px';
-            star.style.width = size;
-            star.style.height = size;
-            
-            const startPos = {};
-            if (Math.random() < 0.5) {
-                startPos.x = Math.random() < 0.5 ? 0 : window.innerWidth;
-                startPos.y = Math.random() * window.innerHeight;
-            } else {
-                startPos.x = Math.random() * window.innerWidth;
-                startPos.y = Math.random() < 0.5 ? 0 : window.innerHeight;
-            }
-            star.style.left = startPos.x + 'px';
-            star.style.top = startPos.y + 'px';
-            
-            document.body.appendChild(star);
-            particles.push(star);
-        }
-        
-        anime({
-            targets: particles,
-            left: destinationX,
-            top: destinationY,
-            scale: 0,
-            opacity: [1, 0],
-            easing: 'easeInExpo',
-            duration: duration,
-            delay: anime.stagger(3),
-            complete: () => {
-                particles.forEach(p => p.remove());
-                resolve();
-            }
-        });
-    });
 }
 
 
@@ -408,21 +367,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            const [apiResponse] = await Promise.all([
-                fetch('/api/ask-carlos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        question: userInput,
-                        contextFact: currentFact.fact 
-                    }),
+            const response = await fetch('/api/ask-carlos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: userInput,
+                    contextFact: currentFact.fact 
                 }),
-                playStarstreamAnimation()
-            ]);
+            });
 
-            if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
+            if (!response.ok) { throw new Error('Network response was not ok'); }
             
-            const data = await apiResponse.json();
+            const data = await response.json();
             
             typewriterForAi(data.answer, responseArea, () => {
                 isAiResponding = false;
