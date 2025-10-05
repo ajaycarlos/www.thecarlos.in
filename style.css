@@ -438,7 +438,6 @@ body.ai-modal-open #ai-modal {
   box-shadow: 0 0 30px var(--box-shadow-color);
 }
 
-/* CORRECTED: New simpler styles for the animated clock */
 #live-clock {
   position: fixed;
   bottom: 20px;
@@ -498,7 +497,6 @@ body.ai-modal-open #ai-modal {
   transform: translateY(0);
 }
 
-
 #footer-text {
   position: fixed;
   bottom: 5px;
@@ -541,7 +539,7 @@ body.ai-modal-open #ai-modal {
   #knowledge-box { font-size: 14px; line-height: 1.2; padding: 10px 15px; }
   #knowledge-explanation { font-size: 12px; }
   #ai-response-area { font-size: 12px; }
-  #live-clock { font-size: 14px; }
+  #live-clock { font-size: 12px; } /* EDITED: Was 14px */
   #logo { width: 50px; }
   #since-logo-text { width: 50px; top: 75px; font-size: 10px; }
   #explore-sidebar { width: 80%; }
