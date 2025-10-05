@@ -41,39 +41,30 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time) (REWRITTEN FOR DROP-DOWN ANIMATION)
+// 4️⃣ Live Clock (India Time)
 function startLiveClock() {
-    const digitBoxes = document.querySelectorAll('#live-clock .digit-box'); // Get all 6 digit containers
+    const digitBoxes = document.querySelectorAll('#live-clock .digit-box');
 
     function updateDigit(digitBox, newValue) {
-        // Get the current top and bottom spans
         const currentTop = digitBox.querySelector('.digit-top');
         const currentBottom = digitBox.querySelector('.digit-bottom');
-        
-        // Get the value currently displayed at the top
         const displayedValue = currentTop.textContent;
 
-        // Only animate if the value has actually changed
         if (displayedValue === newValue) {
             return;
         }
 
-        // Set the current value to the top span
         currentTop.textContent = displayedValue;
-        // Set the new value to the bottom span
         currentBottom.textContent = newValue;
 
-        // Trigger the animation by adding the 'drop' class
         digitBox.classList.add('drop');
 
-        // After the animation (must match CSS transition duration), reset for next flip
         setTimeout(() => {
-            currentTop.textContent = newValue; // New value becomes the "current" top
-            currentTop.style.transform = 'translateY(0)'; // Reset top span transform
-            currentBottom.style.transform = 'translateY(100%)'; // Reset bottom span transform
-
-            digitBox.classList.remove('drop'); // Remove class to reset animation state
-        }, 400); // Must match CSS transition duration (0.4s)
+            currentTop.textContent = newValue;
+            currentTop.style.transform = 'translateY(0)';
+            currentBottom.style.transform = 'translateY(100%)';
+            digitBox.classList.remove('drop');
+        }, 400);
     }
 
     function updateClockDisplay() {
@@ -86,15 +77,13 @@ function startLiveClock() {
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
 
-        const timeString = `${hours}${minutes}${seconds}`; // e.g., "123456"
+        const timeString = `${hours}${minutes}${seconds}`;
 
-        // Update each digit box
         for (let i = 0; i < 6; i++) {
             updateDigit(digitBoxes[i], timeString[i]);
         }
     }
     
-    // Set initial values without animation when page loads
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -107,13 +96,11 @@ function startLiveClock() {
     
     digitBoxes.forEach((digitBox, index) => {
         digitBox.querySelector('.digit-top').textContent = initialTime[index];
-        digitBox.querySelector('.digit-top').style.transform = 'translateY(0)'; // Ensure initial position
+        digitBox.querySelector('.digit-top').style.transform = 'translateY(0)';
         digitBox.querySelector('.digit-bottom').textContent = initialTime[index];
-        digitBox.querySelector('.digit-bottom').style.transform = 'translateY(100%)'; // Ensure initial position
+        digitBox.querySelector('.digit-bottom').style.transform = 'translateY(100%)';
     });
 
-
-    // Start the animation loop
     setInterval(updateClockDisplay, 1000);
 }
 
@@ -199,12 +186,13 @@ function typewriterForAi(text, responseArea, onComplete) {
 
 
 // ========================
-// 8️⃣ Video Animation + Logo Fade-in
+// 8️⃣ Video Animation + Logo Fade-in (CORRECTED)
 function startAnimations() {
     const videoContainer = document.getElementById("video-container");
     const video = document.getElementById("intro-video");
     const tapToEnter = document.getElementById("tap-to-enter");
     
+    // Define the list of elements at the top of the function
     const elementsToFadeIn = [
         document.getElementById("logo"),
         document.getElementById("since-text"),
@@ -213,29 +201,9 @@ function startAnimations() {
         document.getElementById("live-clock")
     ];
 
-    let animationHasRun = false;
-
-    const runExitAnimation = () => {
-        if (animationHasRun) return;
-        animationHasRun = true;
-        sessionStorage.setItem('introPlayed', 'true');
-
-        videoContainer.style.transition = "opacity 2s ease";
-        videoContainer.style.opacity = "0";
-        
-        elementsToFadeIn.forEach(el => {
-            if (el) el.style.opacity = "1";
-        });
-
-        setTimeout(() => {
-            videoContainer.style.display = "none";
-            const mainContent = document.getElementById("main-content-container");
-            if (mainContent) mainContent.style.opacity = "1";
-        }, 2000);
-    };
-
+    // This function is now defined *inside* startAnimations, so it can see elementsToFadeIn
     function skipIntro() {
-        videoContainer.style.display = "none";
+        if (videoContainer) videoContainer.style.display = "none";
         elementsToFadeIn.forEach(el => {
             if (el) el.style.opacity = "1";
         });
@@ -243,25 +211,52 @@ function startAnimations() {
         if (mainContent) mainContent.style.opacity = "1";
     }
 
+    // Check if the intro has been played in this session
     if (sessionStorage.getItem('introPlayed') === 'true') {
         skipIntro();
-        return;
+        return; // Stop the function here
     }
 
-    video.addEventListener('ended', runExitAnimation);
+    // If intro hasn't been played, run the full animation
+    let animationHasRun = false;
+    const runExitAnimation = () => {
+        if (animationHasRun) return;
+        animationHasRun = true;
+        
+        sessionStorage.setItem('introPlayed', 'true');
 
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.error("Autoplay was prevented:", error);
-            video.style.display = 'none';
-            tapToEnter.style.visibility = 'visible';
-            tapToEnter.style.opacity = '1';
-            videoContainer.addEventListener('click', runExitAnimation);
+        if(videoContainer) {
+            videoContainer.style.transition = "opacity 2s ease";
+            videoContainer.style.opacity = "0";
+        }
+        
+        elementsToFadeIn.forEach(el => {
+            if (el) el.style.opacity = "1";
         });
+        setTimeout(() => {
+            if (videoContainer) videoContainer.style.display = "none";
+            const mainContent = document.getElementById("main-content-container");
+            if (mainContent) mainContent.style.opacity = "1";
+        }, 2000);
+    };
+
+    if (video) {
+        video.addEventListener('ended', runExitAnimation);
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.error("Autoplay was prevented:", error);
+                if(video) video.style.display = 'none';
+                if(tapToEnter) {
+                    tapToEnter.style.visibility = 'visible';
+                    tapToEnter.style.opacity = '1';
+                }
+                if(videoContainer) videoContainer.addEventListener('click', runExitAnimation);
+            });
+        }
     }
 
-    setTimeout(runExitAnimation, 4000);
+    setTimeout(runExitAnimation, 7000);
 }
 
 
@@ -312,24 +307,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.classList.toggle('light-theme');
         localStorage.setItem('carlosTheme', body.classList.contains('light-theme') ? 'light' : 'dark');
     };
+    if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
     applySavedTheme();
-    themeSwitcher.addEventListener('click', toggleTheme);
     
-    document.getElementById('logo').addEventListener('click', (event) => {
+    const logo = document.getElementById('logo');
+    if(logo) logo.addEventListener('click', (event) => {
       event.preventDefault();
       body.classList.toggle('sidebar-open');
     });
     
-    document.getElementById('sidebar-close-button').addEventListener('click', () => {
+    const closeButton = document.getElementById('sidebar-close-button');
+    if(closeButton) closeButton.addEventListener('click', () => {
         body.classList.remove('sidebar-open');
     });
     
     await loadKnowledgeBits(); 
     showKnowledgeBit();
-    startLiveClock(); // Initialize and start the new clock
+    startLiveClock();
     startAnimations();
     
-    document.getElementById("knowledge-box").addEventListener("click", () => {
+    const knowledgeBox = document.getElementById("knowledge-box");
+    if(knowledgeBox) knowledgeBox.addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
         const askTrigger = document.getElementById('ask-carlos-trigger');
 
@@ -343,26 +341,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    document.getElementById("refresh-button").addEventListener("click", (event) => {
+    const refreshButton = document.getElementById("refresh-button");
+    if(refreshButton) refreshButton.addEventListener("click", (event) => {
         event.stopPropagation();
         showKnowledgeBit();
     });
     
-    document.getElementById("share-button").addEventListener("click", (event) => {
+    const shareButton = document.getElementById("share-button");
+    if(shareButton) shareButton.addEventListener("click", (event) => {
         event.stopPropagation();
         shareFact();
     });
 
-    document.getElementById('ask-carlos-trigger').addEventListener('click', (event) => {
+    const askTrigger = document.getElementById('ask-carlos-trigger');
+    if(askTrigger) askTrigger.addEventListener('click', (event) => {
         event.stopPropagation();
         body.classList.add('ai-modal-open');
     });
     
-    document.getElementById('ai-modal-close-button').addEventListener('click', () => {
+    const modalCloseButton = document.getElementById('ai-modal-close-button');
+    if(modalCloseButton) modalCloseButton.addEventListener('click', () => {
         body.classList.remove('ai-modal-open');
     });
 
-    document.getElementById('ai-chat-form').addEventListener('submit', async (event) => {
+    const aiForm = document.getElementById('ai-chat-form');
+    if(aiForm) aiForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
 
