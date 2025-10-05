@@ -451,6 +451,7 @@ body.ai-modal-open #ai-modal {
   opacity: 0;
   transition: opacity 2s ease;
   font-size: 18px;
+  color: var(--text-color);
 }
 
 .time-group {
@@ -459,29 +460,45 @@ body.ai-modal-open #ai-modal {
 
 .separator {
   margin: 0 5px;
-}
-
-.digit {
-  position: relative;
-  display: inline-block;
-  width: 0.8em;
-  height: 1.2em; /* Give the container height */
   line-height: 1.2em;
-  text-align: center;
-  overflow: hidden; /* Hide the sliding numbers */
 }
 
-.digit-inner {
+.digit-box {
+  position: relative;
+  width: 0.8em;
+  height: 1.2em; /* Height to hold two numbers */
+  margin: 0 1px;
+  overflow: hidden; /* Crucial to hide the sliding numbers */
+}
+
+.digit-box span {
+  display: block;
   position: absolute;
   left: 0;
-  right: 0;
-  transition: transform 0.4s ease-in-out;
+  top: 0; /* Start top number at top */
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.4s ease-in-out; /* Animation for sliding */
 }
 
-/* Animation class */
-.digit.drop .digit-inner {
+.digit-box .digit-top {
+  transform: translateY(0);
+}
+
+.digit-box .digit-bottom {
+  transform: translateY(100%); /* Start bottom number below view */
+}
+
+/* Class to trigger animation */
+.digit-box.drop .digit-top {
   transform: translateY(-100%);
 }
+
+.digit-box.drop .digit-bottom {
+  transform: translateY(0);
+}
+
 
 #footer-text {
   position: fixed;
@@ -534,4 +551,4 @@ body.ai-modal-open #ai-modal {
 @media (max-width: 600px) {
   #live-clock { bottom: 35px; }
   #footer-text { bottom: 10px; font-size: 10px; }
-}
+  }
