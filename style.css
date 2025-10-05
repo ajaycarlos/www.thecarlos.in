@@ -314,6 +314,17 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   visibility: hidden;
 }
 
+/* NEW: Styles for the custom font span */
+.carlos-ai-font {
+  font-family: 'Mojangles', sans-serif;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+.carlos-ai-font sup {
+  text-transform: lowercase;
+}
+
 #ai-modal {
   position: fixed;
   top: 50%;
@@ -391,7 +402,13 @@ body.ai-modal-open #ai-modal {
   font-size: 14px;
 }
 
-/* DELETED: Removed animation styles for .char and .flying-star */
+.flying-star {
+  position: fixed;
+  background-color: var(--star-color);
+  border-radius: 50%;
+  z-index: 1004;
+  pointer-events: none;
+}
 
 
 /* ================= 9. Action Buttons & Footer ================= */
