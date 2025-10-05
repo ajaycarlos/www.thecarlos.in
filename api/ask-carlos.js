@@ -52,21 +52,20 @@ export default async function handler(request, response) {
     else {
       // If no special rules match, proceed to the AI
       if (contextFact) {
-        // EDITED: Added the new rule to the contextual prompt
         prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. Your full designation is classified. 
         CRITICAL RULE: If the question involves data that changes rapidly (like market values or current events), you must state that the information is volatile and may not be up-to-the-minute.
         A user is viewing the fact: "${contextFact}"
         They have a follow-up question: "${question}"
         Your response must be a maximum of three sentences.`;
       } else {
-        // EDITED: Added the new rule to the general prompt
         prompt = `You are C.A.R.L.O.S., an intelligent AI assistant created by Ajay Carlos. Your full name is a classified designation. Your personality is futuristic, clean, and direct. 
         IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum. Under no circumstances mention you are a Google model.
         CRITICAL RULE: If a question is about a topic with rapidly changing data (like stock prices, market capitalizations, or who is the richest person), you must include a disclaimer that this information changes quickly and your knowledge has a cutoff date.
         Now, with all those rules in mind, answer the user's question: "${question}"`;
       }
 
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      // EDITED: Changed the invalid model name to a stable, public model.
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
       const result = await model.generateContent(prompt);
       const aiResponse = await result.response;
       const text = aiResponse.text();
