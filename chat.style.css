@@ -3,6 +3,8 @@
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  /* EDITED: Added font-display to prevent loading delay */
+  font-display: swap;
 }
 
 :root {
@@ -20,6 +22,9 @@ body.light-theme {
   --glow-color: rgba(0, 0, 0, 0.2);
   --user-text-color: #0056b3;
 }
+
+/* ... rest of your chat.style.css file remains the same ... */
+
 
 * {
   margin: 0;
