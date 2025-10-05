@@ -217,13 +217,13 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   max-height: 600px;
 }
 
-/* NEW: Styles for the pixelated hamburger menu */
+/* EDITED: Styles for the smaller pixelated hamburger menu */
 #menu-button {
   position: fixed;
-  top: 28px;
+  top: 25px;      /* EDITED: Adjusted position */
   left: 20px;
-  width: 28px;
-  height: 22px;
+  width: 22px;    /* EDITED: Made smaller */
+  height: 18px;   /* EDITED: Made smaller */
   z-index: 1000;
   opacity: 0;
   transition: opacity 2s ease, transform 0.2s ease;
@@ -235,7 +235,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 
 #menu-button .bar {
   width: 100%;
-  height: 4px; /* Pixelated bar height */
+  height: 3px;    /* EDITED: Made bars thinner */
   background-color: var(--text-color);
   transition: background-color 0.3s ease;
 }
@@ -252,20 +252,22 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   opacity: 0;
 }
 
+/* EDITED: Styles for the smaller logo */
 #logo {
-  top: 20px;
-  left: 60px; /* EDITED: Moved to the right of the new menu button */
-  width: 50px; /* EDITED: Made slightly smaller */
+  top: 22px;      /* EDITED: Adjusted position */
+  left: 55px;     /* EDITED: Adjusted position */
+  width: 40px;    /* EDITED: Made smaller */
   height: auto;
   transition: opacity 2s ease;
-  cursor: default; /* No longer a button */
+  cursor: default;
 }
 
+/* EDITED: Styles for the smaller 'Since' text */
 #since-logo-text {
-  top: 75px; /* EDITED: Repositioned under smaller logo */
-  left: 60px; /* EDITED: Aligned with new logo position */
-  width: 50px;
-  font-size: 10px;
+  top: 67px;      /* EDITED: Repositioned under smaller logo */
+  left: 55px;     /* EDITED: Aligned with new logo position */
+  width: 40px;    /* EDITED: Matched width to logo */
+  font-size: 8px; /* EDITED: Made smaller */
   white-space: nowrap;
   transition: opacity 2s ease;
 }
@@ -557,9 +559,11 @@ body.ai-modal-open #ai-modal {
   #refresh-button { font-size: 24px; margin-left: 15px; }
   #share-button { font-size: 22px; }
   #live-clock { font-size: 16px; }
-  #logo { width: 65px; left: 70px; } /* EDITED: Adjusted for menu button */
-  #since-logo-text { width: 65px; top: 90px; font-size: 12px; left: 70px; } /* EDITED: Adjusted for menu button */
-  #menu-button { top: 32px; }
+  
+  /* EDITED: Adjusted sizes for tablet view */
+  #logo { width: 50px; left: 60px; top: 20px; } 
+  #since-logo-text { width: 50px; top: 78px; font-size: 10px; left: 60px; }
+  #menu-button { top: 28px; }
 }
 
 @media (max-width: 480px) {
@@ -568,10 +572,12 @@ body.ai-modal-open #ai-modal {
   #knowledge-explanation { font-size: 12px; }
   #ai-response-area { font-size: 12px; }
   #live-clock { font-size: 12px; }
-  #logo { width: 50px; left: 60px; } /* EDITED: Adjusted for menu button */
-  #since-logo-text { width: 50px; top: 75px; font-size: 10px; left: 60px; } /* EDITED: Adjusted for menu button */
   #explore-sidebar { width: 80%; }
-  #menu-button { top: 28px; }
+
+  /* EDITED: Adjusted sizes for mobile view to match new smaller desktop size */
+  #logo { width: 40px; left: 55px; top: 22px; }
+  #since-logo-text { width: 40px; top: 67px; font-size: 8px; left: 55px; }
+  #menu-button { top: 25px; }
 }
 
 @media (max-width: 600px) {
