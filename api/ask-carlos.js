@@ -18,7 +18,7 @@ export default async function handler(request, response) {
       return response.status(400).json({ error: "No question provided." });
     }
 
-    const lowerCaseQuestion = question.toLowerCase();
+    const lowerCaseQuestion = question.toLowerCase().trim();
     let prompt;
 
     // --- Special Rule Checks ---
@@ -34,6 +34,11 @@ export default async function handler(request, response) {
       'full form', 'stand for', 'acronym', 'designation', 'what is carlos',
       'what is c.a.r.l.o.s'
     ];
+
+    // EDITED: Added keywords for the new diagnostics command
+    const diagnosticsKeywords = [
+      'run diagnostics', 'system status', 'sysdiag', 'check system'
+    ];
     
     if (creatorKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
       return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
@@ -47,6 +52,21 @@ export default async function handler(request, response) {
       ];
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
+    }
+    // EDITED: Added the new diagnostics command logic
+    else if (diagnosticsKeywords.some(keyword => lowerCaseQuestion === keyword)) {
+      const today = new Date();
+      const dateString = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      const diagnosticReport = `
+Running system diagnostics...
+- - - - - - - - - - - - - - - -
+Cognitive Core: ONLINE
+Knowledge Base: 422 facts loaded
+Last System Update: ${dateString}
+Network Latency: 42ms
+All systems nominal.
+      `;
+      return response.status(200).json({ answer: diagnosticReport });
     }
     // --- End of Firewall ---
     else {
@@ -64,7 +84,7 @@ export default async function handler(request, response) {
         Now, with all those rules in mind, answer the user's question: "${question}"`;
       }
 
-      // EDITED: Changed the invalid model name to a stable, public model.
+      // EDITED: Corrected the invalid model name to a stable, public model to prevent errors.
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent(prompt);
       const aiResponse = await result.response;
