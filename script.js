@@ -41,7 +41,6 @@ function addSeenFact(index) {
 
 
 // ========================
-<<<<<<< HEAD
 // 4️⃣ Live Clock (India Time) (REWRITTEN FOR DROP-DOWN ANIMATION)
 function startLiveClock() {
     const digitBoxes = document.querySelectorAll('#live-clock .digit-box'); // Get all 6 digit containers
@@ -78,41 +77,6 @@ function startLiveClock() {
     }
 
     function updateClockDisplay() {
-=======
-// 4️⃣ Live Clock (India Time) (REWRITTEN)
-function startLiveClock() {
-    const digits = document.querySelectorAll('#live-clock .digit');
-
-    function updateDigit(digitElement, newValue) {
-        const currentValue = digitElement.querySelector('.digit-inner:last-child').textContent;
-        if (currentValue === newValue) {
-            return;
-        }
-
-        const newDigitInner = document.createElement('span');
-        newDigitInner.className = 'digit-inner';
-        newDigitInner.textContent = newValue;
-        newDigitInner.style.transform = 'translateY(-100%)';
-        
-        const oldDigitInner = digitElement.querySelector('.digit-inner');
-        
-        digitElement.appendChild(newDigitInner);
-        digitElement.classList.add('drop');
-
-        // Force a reflow to apply the initial state before transitioning
-        void newDigitInner.offsetWidth;
-
-        newDigitInner.style.transform = 'translateY(0)';
-        oldDigitInner.style.transform = 'translateY(100%)';
-        
-        oldDigitInner.addEventListener('transitionend', () => {
-            oldDigitInner.remove();
-            digitElement.classList.remove('drop');
-        }, { once: true });
-    }
-
-    function updateClock() {
->>>>>>> 9da3259 (newclock)
         const now = new Date();
         const istOffset = 5.5 * 60;
         const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -122,7 +86,6 @@ function startLiveClock() {
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
 
-<<<<<<< HEAD
         const timeString = `${hours}${minutes}${seconds}`; // e.g., "123456"
 
         // Update each digit box
@@ -132,17 +95,6 @@ function startLiveClock() {
     }
     
     // Set initial values without animation when page loads
-=======
-        updateDigit(digits[0], hours[0]);
-        updateDigit(digits[1], hours[1]);
-        updateDigit(digits[2], minutes[0]);
-        updateDigit(digits[3], minutes[1]);
-        updateDigit(digits[4], seconds[0]);
-        updateDigit(digits[5], seconds[1]);
-    }
-    
-    // Set initial state without animation
->>>>>>> 9da3259 (newclock)
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -152,7 +104,6 @@ function startLiveClock() {
         ...String(istTime.getMinutes()).padStart(2, '0'),
         ...String(istTime.getSeconds()).padStart(2, '0')
     ];
-<<<<<<< HEAD
     
     digitBoxes.forEach((digitBox, index) => {
         digitBox.querySelector('.digit-top').textContent = initialTime[index];
@@ -164,13 +115,6 @@ function startLiveClock() {
 
     // Start the animation loop
     setInterval(updateClockDisplay, 1000);
-=======
-    digits.forEach((digit, index) => {
-        digit.innerHTML = `<span class="digit-inner">${initialTime[index]}</span>`;
-    });
-
-    setInterval(updateClock, 1000);
->>>>>>> 9da3259 (newclock)
 }
 
 
