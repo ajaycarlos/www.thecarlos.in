@@ -41,7 +41,7 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time)
+// 4️⃣ Live Clock (India Time) (CORRECTED DROP-DOWN ANIMATION)
 function startLiveClock() {
     const digitBoxes = document.querySelectorAll('#live-clock .digit-box');
 
@@ -53,7 +53,7 @@ function startLiveClock() {
         if (displayedValue === newValue) {
             return;
         }
-
+        
         currentTop.textContent = displayedValue;
         currentBottom.textContent = newValue;
 
@@ -61,10 +61,11 @@ function startLiveClock() {
 
         setTimeout(() => {
             currentTop.textContent = newValue;
+            digitBox.classList.remove('drop');
+            // Reset transforms for the next cycle
             currentTop.style.transform = 'translateY(0)';
             currentBottom.style.transform = 'translateY(100%)';
-            digitBox.classList.remove('drop');
-        }, 400);
+        }, 400); // Must match CSS transition duration
     }
 
     function updateClockDisplay() {
@@ -84,6 +85,7 @@ function startLiveClock() {
         }
     }
     
+    // Set initial values
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -96,9 +98,6 @@ function startLiveClock() {
     
     digitBoxes.forEach((digitBox, index) => {
         digitBox.querySelector('.digit-top').textContent = initialTime[index];
-        digitBox.querySelector('.digit-top').style.transform = 'translateY(0)';
-        digitBox.querySelector('.digit-bottom').textContent = initialTime[index];
-        digitBox.querySelector('.digit-bottom').style.transform = 'translateY(100%)';
     });
 
     setInterval(updateClockDisplay, 1000);
@@ -192,7 +191,6 @@ function startAnimations() {
     const video = document.getElementById("intro-video");
     const tapToEnter = document.getElementById("tap-to-enter");
     
-    // Define the list of elements at the top of the function
     const elementsToFadeIn = [
         document.getElementById("logo"),
         document.getElementById("since-text"),
@@ -201,7 +199,29 @@ function startAnimations() {
         document.getElementById("live-clock")
     ];
 
-    // This function is now defined *inside* startAnimations, so it can see elementsToFadeIn
+    let animationHasRun = false;
+
+    const runExitAnimation = () => {
+        if (animationHasRun) return;
+        animationHasRun = true;
+        sessionStorage.setItem('introPlayed', 'true');
+
+        if (videoContainer) {
+            videoContainer.style.transition = "opacity 2s ease";
+            videoContainer.style.opacity = "0";
+        }
+        
+        elementsToFadeIn.forEach(el => {
+            if (el) el.style.opacity = "1";
+        });
+
+        setTimeout(() => {
+            if (videoContainer) videoContainer.style.display = "none";
+            const mainContent = document.getElementById("main-content-container");
+            if (mainContent) mainContent.style.opacity = "1";
+        }, 2000);
+    };
+
     function skipIntro() {
         if (videoContainer) videoContainer.style.display = "none";
         elementsToFadeIn.forEach(el => {
@@ -211,34 +231,10 @@ function startAnimations() {
         if (mainContent) mainContent.style.opacity = "1";
     }
 
-    // Check if the intro has been played in this session
     if (sessionStorage.getItem('introPlayed') === 'true') {
         skipIntro();
-        return; // Stop the function here
+        return;
     }
-
-    // If intro hasn't been played, run the full animation
-    let animationHasRun = false;
-    const runExitAnimation = () => {
-        if (animationHasRun) return;
-        animationHasRun = true;
-        
-        sessionStorage.setItem('introPlayed', 'true');
-
-        if(videoContainer) {
-            videoContainer.style.transition = "opacity 2s ease";
-            videoContainer.style.opacity = "0";
-        }
-        
-        elementsToFadeIn.forEach(el => {
-            if (el) el.style.opacity = "1";
-        });
-        setTimeout(() => {
-            if (videoContainer) videoContainer.style.display = "none";
-            const mainContent = document.getElementById("main-content-container");
-            if (mainContent) mainContent.style.opacity = "1";
-        }, 2000);
-    };
 
     if (video) {
         video.addEventListener('ended', runExitAnimation);
@@ -246,17 +242,17 @@ function startAnimations() {
         if (playPromise !== undefined) {
             playPromise.catch(error => {
                 console.error("Autoplay was prevented:", error);
-                if(video) video.style.display = 'none';
-                if(tapToEnter) {
+                if (video) video.style.display = 'none';
+                if (tapToEnter) {
                     tapToEnter.style.visibility = 'visible';
                     tapToEnter.style.opacity = '1';
                 }
-                if(videoContainer) videoContainer.addEventListener('click', runExitAnimation);
+                if (videoContainer) videoContainer.addEventListener('click', runExitAnimation);
             });
         }
     }
 
-    setTimeout(runExitAnimation, 7000);
+    setTimeout(runExitAnimation, 7000); // Failsafe timer
 }
 
 
