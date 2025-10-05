@@ -9,9 +9,10 @@
   --star-color: #FFF;
   --sidebar-bg-color: rgba(10, 10, 10, 0.9);
   --sidebar-border-color: #333;
+  --glow-color: rgba(255, 255, 255, 0.7);
 }
 
-body.light-theme {
+html.light-theme {
   --bg-color: #f0f2f5;
   --text-color: #1c1e21;
   --text-secondary-color: #65676b;
@@ -21,6 +22,7 @@ body.light-theme {
   --star-color: #333;
   --sidebar-bg-color: rgba(255, 255, 255, 0.9);
   --sidebar-border-color: #ddd;
+  --glow-color: rgba(0, 0, 0, 0.5);
 }
 
 /* ================= 2. Animated Starfield Background ================= */
@@ -72,6 +74,7 @@ body.light-theme {
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 /* ================= 4. General Body & Layout ================= */
@@ -111,7 +114,7 @@ body {
   padding: 20px;
 }
 
-body.sidebar-open #explore-sidebar {
+html.sidebar-open #explore-sidebar {
   transform: translateX(0);
 }
 
@@ -192,8 +195,8 @@ body.sidebar-open #explore-sidebar {
   box-shadow: 4px -4px 0 0 #f0f0f0;
 }
 
-body.light-theme .icon-moon { opacity: 0; transform: scale(0); }
-body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
+html.light-theme .icon-moon { opacity: 0; transform: scale(0); }
+html:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 
 
 /* ================= 7. Page Elements ================= */
@@ -269,14 +272,21 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   transition: opacity 2s ease;
 }
 
+/* EDITED: Added styles for the C.A.R.L.O.S title button */
 #since-text {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 24px;
   font-weight: bold;
-  transition: opacity 2s ease;
+  transition: opacity 2s ease, text-shadow 0.3s ease;
+  cursor: pointer;
+  text-shadow: 0 0 5px var(--glow-color); /* Subtle glow */
 }
+#since-text:hover {
+  text-shadow: 0 0 15px var(--glow-color); /* Enhanced glow on hover */
+}
+
 
 #main-content-container {
   display: flex;
@@ -368,7 +378,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-body.ai-modal-open #ai-modal {
+html.ai-modal-open #ai-modal {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, -50%) scale(1);
@@ -569,7 +579,6 @@ body.ai-modal-open #ai-modal {
   #ai-response-area { font-size: 12px; }
   #explore-sidebar { width: 80%; }
 
-  /* EDITED: Made clock smaller on mobile */
   #live-clock { font-size: 10px; }
 
   #logo { width: 32px; left: 52px; top: 25px; }
@@ -578,7 +587,57 @@ body.ai-modal-open #ai-modal {
 }
 
 @media (max-width: 600px) {
-  /* EDITED: Increased space between clock and footer */
   #live-clock { bottom: 40px; }
   #footer-text { bottom: 8px; font-size: 10px; }
+}
+
+/* EDITED: Added styles for the new System Failure effect */
+/* ================= 11. System Failure Effect ================= */
+#failure-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease;
+}
+
+#failure-text, #reboot-text {
+  /* EDITED: All messages will now use the Minecraft font */
+  font-family: 'Mojangles', sans-serif; 
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#failure-text {
+  font-size: 5vw;
+  color: #ff0000;
+  text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; /* Enhanced glow */
+}
+
+#reboot-text {
+  font-size: 3vw;
+  color: #fff;
+  transition: opacity 0.5s ease;
+}
+
+.flashing {
+  visibility: visible !important;
+  opacity: 1 !important;
+  animation: flash 0.5s step-end infinite;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
