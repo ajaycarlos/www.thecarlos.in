@@ -6,8 +6,17 @@
     <title>C.A.R.L.O.S. AI Chat</title>
     <link rel="stylesheet" href="chat.style.css">
     <link rel="icon" href="logo.png" type="image/png">
+
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('carlosTheme');
+        if (savedTheme === 'light') {
+          document.documentElement.classList.add('light-theme');
+        }
+      })();
+    </script>
 </head>
-<body>
+<body style="background-color: #000;">
     <a href="index.html" class="back-button">&#8592; Back</a>
     
     <div id="theme-switcher" title="Toggle Theme">
@@ -33,11 +42,9 @@
     <script>
       (function() {
         const timestamp = new Date().getTime();
-        // Target local CSS files
         document.querySelectorAll('link[href^="chat.style.css"]').forEach(link => {
           link.href = `${link.href.split('?')[0]}?t=${timestamp}`;
         });
-        // Target local JS files
         document.querySelectorAll('script[src^="chat.script.js"]').forEach(script => {
           script.src = `${script.src.split('?')[0]}?t=${timestamp}`;
         });
