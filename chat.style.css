@@ -3,6 +3,7 @@
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -33,7 +34,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh; /* EDITED: Changed vh to dvh to fix mobile cropping */
+  /* EDITED: This is the fix for the mobile cropping issue */
+  height: 100dvh; 
   overflow: hidden;
   font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -156,7 +158,6 @@ h1 sup {
 body.light-theme .icon-moon { opacity: 0; transform: scale(0); }
 body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
 
-/* NEW: Media query for phone screens */
 @media (max-width: 480px) {
     h1 {
         font-size: 24px;
