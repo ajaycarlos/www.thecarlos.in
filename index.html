@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="logo.png" type="image/png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ae2ca7df2a347278657c9f7241868c9"}'></script>
   </head>
 <body>
@@ -36,7 +35,8 @@
   </div>
 
   <div id="video-container">
-    <video id="intro-video" autoplay muted>
+    <div id="tap-to-enter">Tap to Enter</div>
+    <video id="intro-video" autoplay muted playsinline>
       <source src="logo.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -66,10 +66,16 @@
     <div id="ai-response-area"></div>
   </div>
 
-  <div id="live-clock"></div>
+  <div id="live-clock">
+    <div class="time-part" id="hours">00</div>
+    <div class="separator">:</div>
+    <div class="time-part" id="minutes">00</div>
+    <div class="separator">:</div>
+    <div class="time-part" id="seconds">00</div>
+  </div>
+  
   <div id="footer-text">Goal Is Far Beyond | carlos is C.A.R.L.O.S</div>
 
   <script src="script.js"></script>
-  
 </body>
 </html>
