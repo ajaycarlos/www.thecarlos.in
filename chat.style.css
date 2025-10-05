@@ -155,3 +155,16 @@ h1 sup {
 .icon-moon { width: 18px; height: 18px; border-radius: 50%; box-shadow: 4px -4px 0 0 #f0f0f0; }
 body.light-theme .icon-moon { opacity: 0; transform: scale(0); }
 body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
+
+/* NEW: Media query for phone screens */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+    #chat-window {
+        font-size: 12px;
+    }
+    #chat-input {
+        font-size: 14px;
+    }
+}
