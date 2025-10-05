@@ -217,13 +217,12 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   max-height: 600px;
 }
 
-/* EDITED: Final adjustments for the menu icon */
 #menu-button {
   position: fixed;
-  top: 38px;      /* EDITED: Adjusted vertical position */
+  top: 38px;
   left: 20px;
-  width: 18px;    /* EDITED: Made lines shorter */
-  height: 6px;    /* EDITED: Reduced height to bring lines together */
+  width: 18px;
+  height: 6px;
   z-index: 1000;
   opacity: 0;
   transition: opacity 2s ease, transform 0.2s ease;
@@ -252,7 +251,6 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   opacity: 0;
 }
 
-/* EDITED: Further size reduction for the logo */
 #logo {
   top: 25px;
   left: 52px;
@@ -262,7 +260,6 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   cursor: default;
 }
 
-/* EDITED: Further size reduction for the 'Since' text */
 #since-logo-text {
   top: 61px;
   left: 52px;
@@ -560,7 +557,6 @@ body.ai-modal-open #ai-modal {
   #share-button { font-size: 22px; }
   #live-clock { font-size: 16px; }
   
-  /* EDITED: Adjusted sizes for tablet view to match new smaller desktop */
   #logo { width: 32px; left: 52px; top: 25px; } 
   #since-logo-text { width: 32px; top: 61px; font-size: 7px; left: 52px; }
   #menu-button { top: 38px; width: 18px; height: 6px; }
@@ -571,16 +567,18 @@ body.ai-modal-open #ai-modal {
   #knowledge-box { font-size: 14px; line-height: 1.2; padding: 10px 15px; }
   #knowledge-explanation { font-size: 12px; }
   #ai-response-area { font-size: 12px; }
-  #live-clock { font-size: 12px; }
   #explore-sidebar { width: 80%; }
 
-  /* EDITED: Adjusted sizes for mobile view to match new smaller desktop size */
+  /* EDITED: Made clock smaller on mobile */
+  #live-clock { font-size: 10px; }
+
   #logo { width: 32px; left: 52px; top: 25px; }
   #since-logo-text { width: 32px; top: 61px; font-size: 7px; left: 52px; }
   #menu-button { top: 38px; width: 18px; height: 6px; }
 }
 
 @media (max-width: 600px) {
-  #live-clock { bottom: 35px; }
-  #footer-text { bottom: 10px; font-size: 10px; }
+  /* EDITED: Increased space between clock and footer */
+  #live-clock { bottom: 40px; }
+  #footer-text { bottom: 8px; font-size: 10px; }
 }
