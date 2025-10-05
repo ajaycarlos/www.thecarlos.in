@@ -195,7 +195,7 @@ function startAnimations() {
         document.getElementById("since-logo-text"),
         document.getElementById("footer-text"),
         document.getElementById("live-clock"),
-        document.getElementById("menu-button") // Add menu button to fade-in list
+        document.getElementById("menu-button")
     ];
 
     let animationHasRun = false;
@@ -305,7 +305,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
     applySavedTheme();
     
-    // EDITED: Sidebar logic moved to the new menu button
     const menuButton = document.getElementById('menu-button');
     if(menuButton) menuButton.addEventListener('click', (event) => {
       event.preventDefault();
@@ -375,17 +374,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            const [apiResponse] = await Promise.all([
-                fetch('/api/ask-carlos', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        question: userInput,
-                        contextFact: currentFact.fact 
-                    }),
+            // EDITED: Removed the Promise.all and the non-existent animation function call.
+            const apiResponse = await fetch('/api/ask-carlos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    question: userInput,
+                    contextFact: currentFact.fact 
                 }),
-                playStarstreamAnimation()
-            ]);
+            });
 
             if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
             
