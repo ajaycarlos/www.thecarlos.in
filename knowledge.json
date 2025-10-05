@@ -958,5 +958,949 @@
   {
     "fact": "A chimera is an organism with cells from two different individuals.",
     "explanation": "This can occur naturally when two embryos fuse in the womb, or be created artificially. The resulting organism has two distinct sets of DNA, which can sometimes manifest as patches of different colored skin or fur."
+  },
+  {
+    "fact": "The Turing Test was proposed to measure a machine's intelligence.",
+    "explanation": "Proposed by Alan Turing in 1950, it tests a machine's ability to exhibit intelligent behavior equivalent to, or indistinguishable from, that of a human."
+  },
+  {
+    "fact": "Convolutional Neural Networks (CNNs) are key to image recognition.",
+    "explanation": "CNNs are designed to process pixel data by applying filters, allowing them to recognize patterns, edges, and shapes, making them ideal for visual tasks."
+  },
+  {
+    "fact": "Recurrent Neural Networks (RNNs) have a form of 'memory'.",
+    "explanation": "Unlike other networks, RNNs have loops that allow information to persist. This makes them effective for sequential data like text or time-series analysis."
+  },
+  {
+    "fact": "The 'attention mechanism' revolutionized AI translation.",
+    "explanation": "This technique allows a model to focus on the most relevant parts of the input sequence when producing an output, dramatically improving the quality of machine translation."
+  },
+  {
+    "fact": "AI is used in agriculture for 'precision farming'.",
+    "explanation": "Drones and AI analyze crop health, soil conditions, and pest infestations, allowing farmers to apply water, fertilizer, and pesticides only where needed, increasing yield and reducing waste."
+  },
+  {
+    "fact": "The first programmer was Ada Lovelace in the 1840s.",
+    "explanation": "She wrote the first algorithm intended to be processed by a machine, Charles Babbage's analytical engine, making her the first computer programmer."
+  },
+  {
+    "fact": "A zero-day exploit is a vulnerability unknown to developers.",
+    "explanation": "It's called 'zero-day' because the software vendor has zero days to fix the problem once it's discovered and exploited by hackers, making it a serious security threat."
+  },
+  {
+    "fact": "DNS is the 'phonebook' of the internet.",
+    "explanation": "The Domain Name System (DNS) translates human-readable domain names (like www.google.com) into machine-readable IP addresses (like 172.217.168.196)."
+  },
+  {
+    "fact": "Moore's Law is an observation, not a physical law.",
+    "explanation": "Gordon Moore observed in 1965 that the number of transistors on a microchip doubled about every two years. This trend has driven the tech industry but is now slowing down due to physical limits."
+  },
+  {
+    "fact": "Jupiter's Great Red Spot is a storm larger than Earth.",
+    "explanation": "This giant anticyclonic storm has been raging for at least 350 years. Winds at its periphery can reach over 400 km/h."
+  },
+  {
+    "fact": "Saturn has a hexagonal storm at its north pole.",
+    "explanation": "This six-sided jet stream is a stable weather pattern wider than two Earths. Its geometric shape is not fully understood but is related to the planet's rapid rotation."
+  },
+  {
+    "fact": "Io, a moon of Jupiter, is the most volcanically active body in the solar system.",
+    "explanation": "The immense gravitational pull from Jupiter and its other large moons constantly flexes and heats Io's interior, causing massive eruptions of sulfur and lava."
+  },
+  {
+    "fact": "Titan, Saturn's largest moon, has rivers and lakes of liquid methane.",
+    "explanation": "With a thick atmosphere and extremely cold temperatures, Titan's surface features a full hydrological cycle, but with liquid hydrocarbons like methane and ethane instead of water."
+  },
+  {
+    "fact": "There are four fundamental forces of nature.",
+    "explanation": "These are gravity, electromagnetism, the strong nuclear force (which holds atomic nuclei together), and the weak nuclear force (which governs radioactive decay)."
+  },
+  {
+    "fact": "Quarks are elementary particles that make up protons and neutrons.",
+    "explanation": "They come in six 'flavors': up, down, charm, strange, top, and bottom. A proton is made of two up quarks and one down quark."
+  },
+  {
+    "fact": "Plasma is the most common state of matter in the universe.",
+    "explanation": "It's a superheated gas where electrons are stripped from their atoms, creating an ionized gas. Stars, lightning, and the aurora borealis are all made of plasma."
+  },
+  {
+    "fact": "The Cambrian Explosion was a period of rapid evolutionary diversification.",
+    "explanation": "About 541 million years ago, most major animal phyla appeared in the fossil record in a relatively short period, a pivotal event in the history of life."
+  },
+  {
+    "fact": "AI can be trained with 'synthetic data'.",
+    "explanation": "When real-world data is scarce or private, developers can train AI models on artificially generated data that mimics the properties of the real data, a crucial technique for fields like healthcare."
+  },
+  {
+    "fact": "A 'digital twin' is a virtual replica of a physical object or system.",
+    "explanation": "Engineers create digital twins of jet engines, factories, or even entire cities to run simulations, predict maintenance needs, and optimize performance without affecting the real-world counterpart."
+  },
+  {
+    "fact": "Adversarial attacks can trick AI into making mistakes.",
+    "explanation": "By making tiny, often invisible changes to an image or audio file, an attacker can cause an AI to misclassify it, for example, making a self-driving car see a stop sign as a speed limit sign."
+  },
+  {
+    "fact": "ENIAC was the first programmable, electronic, general-purpose digital computer.",
+    "explanation": "Completed in 1945, the Electronic Numerical Integrator and Computer weighed 30 tons and filled a large room. It was used for calculating artillery firing tables for the US Army."
+  },
+  {
+    "fact": "TCP/IP is the fundamental communication protocol of the internet.",
+    "explanation": "Transmission Control Protocol / Internet Protocol is a suite of rules that governs how data is broken into packets, addressed, sent, and reassembled, allowing different networks to communicate."
+  },
+  {
+    "fact": "A 'firewall' protects a computer network from unauthorized access.",
+    "explanation": "It acts as a barrier, monitoring and filtering incoming and outgoing network traffic based on an organization's security policies. It's a first line of defense in cybersecurity."
+  },
+  {
+    "fact": "Phishing is a cyberattack that uses deceptive emails and websites.",
+    "explanation": "Attackers disguise themselves as a trustworthy entity to trick victims into revealing sensitive information like passwords, credit card numbers, and login credentials."
+  },
+  {
+    "fact": "Uranus spins on its side.",
+    "explanation": "The ice giant has an axial tilt of about 98 degrees, meaning it essentially orbits the Sun on its side. This is likely the result of a massive collision with an Earth-sized object long ago."
+  },
+  {
+    "fact": "A galactic year is the time it takes our solar system to orbit the Milky Way.",
+    "explanation": "Our solar system travels at about 828,000 km/h, but the galaxy is so vast that one full orbit takes approximately 230 million years."
+  },
+  {
+    "fact": "The dwarf planet Ceres lies in the main asteroid belt.",
+    "explanation": "It is the largest object in the asteroid belt between Mars and Jupiter and is the only dwarf planet located in the inner solar system. It may harbor a subsurface ocean."
+  },
+  {
+    "fact": "Triton, Neptune's largest moon, orbits its planet backwards.",
+    "explanation": "It has a 'retrograde' orbit, meaning it moves in the opposite direction of Neptune's rotation. This suggests Triton was a dwarf planet captured by Neptune's gravity."
+  },
+  {
+    "fact": "The pistol shrimp can snap its claw so fast it boils water.",
+    "explanation": "The snap creates a cavitation bubble that collapses with immense force, producing a shockwave, a loud 'snap', and temperatures of over 4,000 °C, stunning its prey."
+  },
+  {
+    "fact": "Axolotls can regenerate entire limbs and even parts of their brain.",
+    "explanation": "These salamanders have extraordinary regenerative abilities, allowing them to regrow severed limbs, spinal cords, and other body parts without scarring."
+  },
+  {
+    "fact": "Epigenetics is the study of how behaviors and environment can cause changes that affect the way your genes work.",
+    "explanation": "Unlike genetic changes, epigenetic changes are reversible and do not change your DNA sequence, but they can change how your body reads a DNA sequence."
+  },
+  {
+    "fact": "Mitochondria have their own separate DNA.",
+    "explanation": "These 'powerhouses' of the cell contain their own small circular chromosome, which is inherited exclusively from the mother. This supports the theory that they were once independent bacteria."
+  },
+  {
+    "fact": "Federated learning trains AI models without centralizing data.",
+    "explanation": "This technique allows an AI model to be trained across multiple decentralized devices (like phones) holding local data samples, improving privacy by not requiring the data to be sent to a central server."
+  },
+  {
+    "fact": "Computer vision can now perform 'instance segmentation'.",
+    "explanation": "Beyond just identifying objects in an image, instance segmentation can outline the specific pixels belonging to each individual object, allowing for a much more detailed understanding of a scene."
+  },
+  {
+    "fact": "Logic gates are the basic building blocks of any digital system.",
+    "explanation": "These are elementary electronic circuits that perform a basic logical function, such as AND, OR, and NOT. All complex operations in a computer are built up from these simple gates."
+  },
+  {
+    "fact": "Ransomware is a type of malware that encrypts a victim's files.",
+    "explanation": "The attacker then demands a ransom from the victim to restore access to the data upon payment. This is a major threat to individuals and large organizations."
+  },
+  {
+    "fact": "The 'Cache' is a small, fast memory in a computer's CPU.",
+    "explanation": "It stores copies of the data from the most frequently used main memory locations. This allows the processor to access data much faster than retrieving it from RAM."
+  },
+  {
+    "fact": "Mercury is the smallest planet and is shrinking.",
+    "explanation": "As its iron core cools and solidifies, the planet contracts. This process has caused the crust to wrinkle, creating large cliffs called 'lobate scarps' across its surface."
+  },
+  {
+    "fact": "A 'super-Earth' is a type of exoplanet larger than Earth but smaller than Neptune.",
+    "explanation": "These planets are among the most common types found so far. They could be rocky, oceanic, or gaseous, and are a key target in the search for habitable worlds."
+  },
+  {
+    "fact": "The Kuiper Belt is a region of icy bodies beyond Neptune.",
+    "explanation": "This doughnut-shaped ring is home to trillions of icy objects, including dwarf planets like Pluto, and is the source of many short-period comets."
+  },
+  {
+    "fact": "A parsec is a unit of astronomical distance equal to about 3.26 light-years.",
+    "explanation": "It's based on the parallax method of measuring stellar distances. A star is one parsec away if it exhibits a parallax angle of one arcsecond."
+  },
+  {
+    "fact": "The platypus is one of the few mammals that lay eggs.",
+    "explanation": "This semi-aquatic mammal from Australia, along with echidnas, belongs to a group called monotremes. They are also one of the few venomous mammals."
+  },
+  {
+    "fact": "The mantis shrimp has the most complex eyes in the animal kingdom.",
+    "explanation": "It has 12 to 16 types of photoreceptor cells (humans have three) and can see polarized light, allowing it to perceive the world in a way we can't imagine."
+  },
+  {
+    "fact": "The 'cheetah' robot can run on its own without tethers.",
+    "explanation": "Developed by Boston Dynamics, this four-legged robot uses biomimicry to replicate the running gait of a cheetah and can even clear obstacles autonomously."
+  },
+  {
+    "fact": "The first AI-powered autonomous ship has crossed the Atlantic.",
+    "explanation": "The 'Mayflower Autonomous Ship' used AI and automation to navigate the ocean, collecting environmental data without a human crew onboard."
+  },
+  {
+    "fact": "RISC and CISC are two main types of CPU architecture.",
+    "explanation": "Complex Instruction Set Computing (CISC) aims to complete tasks in as few lines of assembly code as possible, while Reduced Instruction Set Computing (RISC) uses a simpler set of instructions that can be executed more quickly."
+  },
+  {
+    "fact": "The '@' symbol was chosen for email addresses in 1971.",
+    "explanation": "Programmer Ray Tomlinson chose it to separate the user's name from their host machine's name. He picked it because it was an uncommon character that meant 'at'."
+  },
+  {
+    "fact": "A 'solar flare' is a massive eruption on the Sun's surface.",
+    "explanation": "These are intense bursts of radiation arising from the release of magnetic energy. A large flare can disrupt radio communications and power grids on Earth."
+  },
+  {
+    "fact": "Redshift and blueshift describe how light changes when objects in space move closer or farther away.",
+    "explanation": "If an object is moving away, its light is stretched to longer, redder wavelengths (redshift). If it's moving closer, its light is compressed to shorter, bluer wavelengths (blueshift)."
+  },
+  {
+    "fact": "The 'habitable zone' is the region around a star where liquid water could exist.",
+    "explanation": "Also called the 'Goldilocks zone', it's the orbital range where a planet's surface temperature is not too hot and not too cold, allowing for liquid water, a key ingredient for life as we know it."
+  },
+  {
+    "fact": "Convergent evolution is when unrelated species independently evolve similar traits.",
+    "explanation": "For example, sharks (fish) and dolphins (mammals) both developed streamlined bodies and fins because they adapted to similar environments and lifestyles."
+  },
+  {
+    "fact": "Vestigial structures are remnants of features that served a function in an organism's ancestors.",
+    "explanation": "Examples include the human appendix, the pelvic bones of a snake, and the wings of flightless birds. They provide evidence of evolution."
+  },
+  {
+    "fact": "The Turing completeness of a system means it can solve any computational problem.",
+    "explanation": "If a system can simulate a universal Turing machine, given enough time and memory, it is considered Turing complete. Most modern programming languages are Turing complete."
+  },
+  {
+    "fact": "AI can be used for 'procedural content generation' in video games.",
+    "explanation": "This uses algorithms to create game content like levels, maps, and items on the fly, rather than manually creating them. It allows for massive, unique game worlds."
+  },
+  {
+    "fact": "HTTP is the protocol used to transfer data over the web.",
+    "explanation": "Hypertext Transfer Protocol defines how messages are formatted and transmitted, and what actions web servers and browsers should take in response to various commands."
+  },
+  {
+    "fact": "There is a 'Great Wall' of galaxies stretching over 500 million light-years.",
+    "explanation": "The Sloan Great Wall is a massive cosmic structure, a filament of galaxies bound together by gravity. It's one of the largest known structures in the universe."
+  },
+  {
+    "fact": "Enceladus, a moon of Saturn, has geysers that shoot water into space.",
+    "explanation": "These plumes erupt from cracks in the moon's icy surface, indicating a large, liquid water ocean beneath. The plumes contain organic compounds, making Enceladus a prime target for astrobiology."
+  },
+  {
+    "fact": "Bose-Einstein condensate is a fifth state of matter.",
+    "explanation": "It occurs when a gas of bosons is cooled to temperatures very near absolute zero. At this point, the atoms begin to clump together and behave as a single quantum entity."
+  },
+  {
+    "fact": "The four main types of chemical bonds are ionic, covalent, metallic, and hydrogen bonds.",
+    "explanation": "These forces hold atoms together to form molecules and compounds, each varying in strength and the way they share or transfer electrons."
+  },
+  {
+    "fact": "The 'wood wide web' is a real network between trees.",
+    "explanation": "Trees are interconnected by underground fungal networks (mycorrhizal networks) through which they can share nutrients, water, and even send warning signals about pests or diseases."
+  },
+  {
+    "fact": "Some robots are now 'self-healing'.",
+    "explanation": "Researchers are developing robots made from special polymers that can automatically repair damage like cuts or scratches, extending their lifespan and resilience."
+  },
+  {
+    "fact": "The first chatbot, ELIZA, was created in 1966.",
+    "explanation": "Developed at MIT, ELIZA simulated a psychotherapist by using a script to respond to user inputs. It demonstrated how easily humans could be tricked into thinking they were talking to another person."
+  },
+  {
+    "fact": "A 'botnet' is a network of hijacked computers used for cyberattacks.",
+    "explanation": "Hackers infect thousands of computers with malware, allowing them to control the machines remotely without the owners' knowledge to perform large-scale attacks like sending spam or overwhelming websites."
+  },
+  {
+    "fact": "The cosmic 'latte' is the average color of the universe.",
+    "explanation": "By averaging the light from over 200,000 galaxies, astronomers determined the universe's average color is a beige-like white, which they named 'cosmic latte'."
+  },
+  {
+    "fact": "A 'blue moon' is the second full moon in a single calendar month.",
+    "explanation": "The term has nothing to do with the moon's color. Since the lunar cycle is about 29.5 days, it's rare for two full moons to occur in the same month, hence the phrase 'once in a blue moon'."
+  },
+  {
+    "fact": "Radioactivity is the process by which an unstable atomic nucleus loses energy by radiation.",
+    "explanation": "This decay process, measured in 'half-lives', transforms the atom into a different element or a lower energy state, releasing particles or energy like alpha, beta, and gamma radiation."
+  },
+  {
+    "fact": "The naked mole-rat is resistant to cancer and can survive in extremely low oxygen.",
+    "explanation": "These bizarre-looking rodents have unique cellular mechanisms that prevent tumors from forming and have a metabolism that can switch to function like a plant's in low-oxygen environments."
+  },
+  {
+    "fact": "Transfer learning significantly speeds up AI training.",
+    "explanation": "Instead of training a neural network from scratch, developers can take a pre-trained model that has already learned to perform a similar task and fine-tune it on their specific dataset, saving immense time and resources."
+  },
+  {
+    "fact": "The 'Internet of Bodies' (IoB) is a network of internet-connected human bodies.",
+    "explanation": "This involves devices that can be ingested, implanted, or worn, which collect physiological data. It has applications in healthcare but raises significant privacy and ethical concerns."
+  },
+  {
+    "fact": "A 'cookie' is a small piece of data stored on your computer by a website.",
+    "explanation": "Websites use cookies to remember information about you, such as your login status, site preferences, and items in a shopping cart, to personalize your browsing experience."
+  },
+  {
+    "fact": "Auroras are caused by charged particles from the sun interacting with Earth's atmosphere.",
+    "explanation": "The solar wind sends energetic particles towards Earth. Guided by our planet's magnetic field to the poles, they collide with atmospheric gases, causing them to glow in vibrant colors."
+  },
+  {
+    "fact": "There are different types of supernovae explosions.",
+    "explanation": "A Type Ia supernova occurs when a white dwarf star in a binary system gains too much mass, while a Type II supernova is the result of a massive star's core collapsing at the end of its life."
+  },
+  {
+    "fact": "The rock cycle describes the transformations between the three main rock types: igneous, sedimentary, and metamorphic.",
+    "explanation": "Processes like melting, cooling, erosion, and pressure continually transform rocks from one type to another over geological time, shaping the Earth's crust."
+  },
+  {
+    "fact": "The human brain has a 'default mode network'.",
+    "explanation": "This is a network of interacting brain regions that is most active when a person is not focused on the outside world, such as during daydreaming, mind-wandering, or thinking about the future."
+  },
+  {
+    "fact": "Some robots navigate using 'SLAM' technology.",
+    "explanation": "Simultaneous Localization and Mapping (SLAM) is an algorithm that allows a robot or drone to build a map of an unknown environment while simultaneously keeping track of its own location within it."
+  },
+  {
+    "fact": "The 'Byzantine Generals' Problem' is a key challenge in computer science.",
+    "explanation": "It describes the difficulty of getting reliable, distributed computer systems to agree on a single truth, especially when some components may be faulty or malicious. Blockchain technology is a famous solution to this problem."
+  },
+  {
+    "fact": "A 'rogue wave' is a large, unexpected ocean wave that is far larger than others.",
+    "explanation": "Once thought to be mythical, these waves are now known to be real, though rare. They are not tsunamis but are thought to form when smaller waves merge under specific conditions."
+  },
+  {
+    "fact": "There are different types of black holes.",
+    "explanation": "Stellar-mass black holes form from the collapse of a single star. Supermassive black holes, millions of times more massive, are found at the center of most galaxies, including our own."
+  },
+  {
+    "fact": "A 'catalyst' is a substance that speeds up a chemical reaction without being consumed by it.",
+    "explanation": "Catalysts work by providing an alternative reaction pathway with a lower activation energy. Enzymes in our bodies are biological catalysts that speed up metabolic processes."
+  },
+  {
+    "fact": "The human nose can detect over 1 trillion different scents.",
+    "explanation": "While once thought to be much lower, recent research suggests that the human olfactory system is incredibly sensitive and can distinguish between a vast number of different smells."
+  },
+  {
+    "fact": "DeepMind's AlphaGo AI defeated the world's best Go player.",
+    "explanation": "In 2016, AlphaGo beat Lee Sedol by using deep neural networks and reinforcement learning. It made creative, strategic moves that were previously unknown to human players, revolutionizing the game."
+  },
+  {
+    "fact": "Open-source software is code that is freely available to the public.",
+    "explanation": "Anyone can see, modify, and distribute the code for their own purposes. Major projects like the Linux operating system and the Firefox web browser are open-source."
+  },
+  {
+    "fact": "The James Webb Space Telescope has a mirror made of 18 gold-plated segments.",
+    "explanation": "The large, segmented mirror allows it to collect more light, and the gold coating is highly reflective of infrared light, which is crucial for observing distant, early galaxies."
+  },
+  {
+    "fact": "Hydrothermal vents on the ocean floor support unique ecosystems.",
+    "explanation": "These fissures spew superheated, mineral-rich water from beneath the Earth's crust. In the absence of sunlight, life here is based on chemosynthesis, with microbes using chemicals for energy."
+  },
+  {
+    "fact": "You have more bacterial cells in your body than human cells.",
+    "explanation": "The human microbiome, consisting of trillions of bacteria, fungi, and other microbes, lives on our skin and in our gut. They are essential for digestion, immune function, and overall health."
+  },
+  {
+    "fact": "The 'uncanny valley' describes our unease with human-like robots.",
+    "explanation": "This is a hypothesis in robotics and aesthetics that suggests when a robot looks almost, but not exactly, like a human, it causes a feeling of revulsion or strangeness in observers."
+  },
+  {
+    "fact": "The 'halting problem' is a famous unsolvable problem in computer science.",
+    "explanation": "Alan Turing proved that it's impossible to create a general algorithm that can determine, for all possible inputs, whether a computer program will finish running or continue to run forever."
+  },
+  {
+    "fact": "The dwarf planet Pluto has a 'heart' on its surface.",
+    "explanation": "This heart-shaped feature, named Tombaugh Regio, is a vast glacier made of frozen nitrogen, methane, and carbon monoxide. It is one of the most prominent features of Pluto's landscape."
+  },
+  {
+    "fact": "The 'Great Unconformity' is a missing billion years of geological history.",
+    "explanation": "In many places around the world, there is a sharp boundary between very old rock layers and much younger ones, with up to 1.2 billion years of rock missing. The cause of this massive erosion event is still a geological mystery."
+  },
+  {
+    "fact": "The brain has a dedicated 'face recognition' area.",
+    "explanation": "The fusiform face area (FFA) is a region in the visual cortex that becomes highly active when we look at faces, suggesting a specialized neural mechanism for this crucial social task."
+  },
+  {
+    "fact": "AI can now design new microchips faster than humans.",
+    "explanation": "Companies like Google are using reinforcement learning to design the floorplans for computer chips. The AI can explore billions of possibilities to find layouts that are more efficient and compact than human designs."
+  },
+  {
+    "fact": "VPNs create a secure, encrypted connection over a public network.",
+    "explanation": "A Virtual Private Network (VPN) masks your IP address and encrypts your internet traffic, creating a private 'tunnel' that enhances security and privacy, especially on public Wi-Fi."
+  },
+  {
+    "fact": "The Sun is a main-sequence star.",
+    "explanation": "This means it is in the stable, middle phase of its life, fusing hydrogen atoms to form helium in its core. About 90% of stars in the universe are main-sequence stars."
+  },
+  {
+    "fact": "Earth's atmosphere has distinct layers.",
+    "explanation": "From the ground up, they are the troposphere (where weather occurs), stratosphere (contains the ozone layer), mesosphere, thermosphere, and the exosphere, which merges into space."
+  },
+  {
+    "fact": "Some animals use Earth's magnetic field for navigation.",
+    "explanation": "This ability, called magnetoreception, is found in birds, sea turtles, and some fish. They have a biological compass that allows them to sense the magnetic field for long-distance migration."
+  },
+  {
+    "fact": "AI 'hallucination' is when a model generates false or nonsensical information.",
+    "explanation": "Because large language models are designed to predict the next most probable word, they can sometimes confidently state incorrect facts or create fictional details that sound plausible but are not based in reality."
+  },
+  {
+    "fact": "The term 'spam' for junk email comes from a Monty Python sketch.",
+    "explanation": "In the 1970 sketch, the word 'Spam' is repeated over and over, drowning out all other conversation, much like junk email drowns out legitimate messages."
+  },
+  {
+    "fact": "A 'globular cluster' is a dense, spherical collection of very old stars.",
+    "explanation": "These clusters can contain hundreds of thousands of stars, all tightly bound by gravity. They orbit in the halo of galaxies and are among the oldest objects in the universe."
+  },
+  {
+    "fact": "The Permian-Triassic extinction event killed 96% of marine species.",
+    "explanation": "Occurring about 252 million years ago, the 'Great Dying' was the most severe extinction event in Earth's history, likely caused by massive volcanic eruptions that led to catastrophic climate change."
+  },
+  {
+    "fact": "The human eye can see a candle flame from 30 miles away on a clear, dark night.",
+    "explanation": "This demonstrates the incredible sensitivity of the photoreceptor cells (rods and cones) in our retina, which can detect just a few photons of light."
+  },
+  {
+    "fact": "The word 'robot' comes from a Czech play.",
+    "explanation": "It was introduced in Karel Čapek's 1920 play 'R.U.R.' (Rossum's Universal Robots). The word 'robota' means 'forced labor' or 'drudgery' in Czech."
+  },
+  {
+    "fact": "A 'brown dwarf' is an object between a planet and a star.",
+    "explanation": "These 'failed stars' are more massive than Jupiter but not massive enough to sustain nuclear fusion of hydrogen in their cores. They glow faintly from the heat of their formation."
+  },
+  {
+    "fact": "Photosynthesis converts sunlight into chemical energy.",
+    "explanation": "Plants, algae, and some bacteria use chlorophyll to capture light energy and turn carbon dioxide and water into glucose (sugar) and oxygen, forming the basis of most food chains on Earth."
+  },
+  {
+    "fact": "The 'Doppler effect' is the change in frequency of a wave in relation to an observer.",
+    "explanation": "This is why an ambulance siren sounds higher in pitch as it approaches you and lower as it moves away. Astronomers use the Doppler effect on light (redshift/blueshift) to measure the speed of stars and galaxies."
+  },
+  {
+    "fact": "Some deep-learning models have billions of parameters.",
+    "explanation": "Parameters are the internal variables that a model learns from training data. The vast number of parameters in models like GPT-4 is what allows them to understand and generate complex human language."
+  },
+  {
+    "fact": "The 'Internet of Things' (IoT) connects everyday objects to the internet.",
+    "explanation": "This vast network includes devices like smart thermostats, fitness trackers, and industrial sensors, which collect and share data to enable automation and remote monitoring."
+  },
+  {
+    "fact": "There is a 'cosmic web' of dark matter that connects galaxies.",
+    "explanation": "Cosmological simulations show that dark matter forms a vast, filamentary structure throughout the universe. Galaxies and galaxy clusters are thought to form and reside within the densest nodes of this web."
+  },
+  {
+    "fact": "The human genome contains 'jumping genes'.",
+    "explanation": "Also known as transposons, these are DNA sequences that can change their position within a genome. They make up a large fraction of our DNA and can cause mutations or alter gene expression."
+  },
+  {
+    "fact": "A 'glitch' in computing originally referred to a spike in electrical voltage.",
+    "explanation": "In the early days of electronics, a 'glitch' was a sudden, brief fluctuation in voltage that could cause a system to malfunction. The term is now used for any minor, temporary fault."
+  },
+  {
+    "fact": "The 'garbage collection' process in programming automatically manages memory.",
+    "explanation": "In many modern programming languages, garbage collection is a form of automatic memory management that reclaims memory occupied by objects that are no longer in use by the program, preventing memory leaks."
+  },
+  {
+    "fact": "The planet Jupiter has faint rings.",
+    "explanation": "Unlike Saturn's bright, icy rings, Jupiter's rings are composed of small, dark dust particles. They are very difficult to see and were only discovered by the Voyager 1 spacecraft."
+  },
+  {
+    "fact": "The bombardier beetle can shoot a boiling, corrosive chemical spray.",
+    "explanation": "As a defense mechanism, the beetle mixes two chemicals in a special chamber in its abdomen, causing a violent exothermic reaction that propels a noxious spray at its attacker."
+  },
+  {
+    "fact": "Your brain generates enough electricity to power a small light bulb.",
+    "explanation": "The billions of neurons in your brain communicate via tiny electrical signals. Collectively, these signals produce about 20 watts of electrical power."
+  },
+  {
+    "fact": "The concept of 'neural style transfer' allows AI to repaint images.",
+    "explanation": "This technique takes the 'content' of one image and the 'style' of another (like a famous painting) and combines them, effectively 'painting' the photo in the style of the artist."
+  },
+  {
+    "fact": "Firmware is a type of software that is embedded in a piece of hardware.",
+    "explanation": "Unlike application software, firmware is not intended to be changed by the end-user. It provides the low-level control for a device's specific hardware, like in a TV remote or a digital camera."
+  },
+  {
+    "fact": "The asteroid that killed the dinosaurs created a worldwide 'nuclear winter'.",
+    "explanation": "The impact threw so much dust and debris into the atmosphere that it blocked sunlight for years, causing global temperatures to plummet and plants to die off, leading to the collapse of the food chain."
+  },
+  {
+    "fact": "The 'placebo effect' has a counterpart: the 'nocebo effect'.",
+    "explanation": "The nocebo effect occurs when a patient's negative expectations about a treatment cause the treatment to have more negative side effects. It demonstrates the powerful influence of the mind on physical health."
+  },
+  {
+    "fact": "The oldest living things on Earth are trees.",
+    "explanation": "Bristlecone pines found in the western United States are thousands of years old, with one individual named Methuselah estimated to be over 4,850 years old."
+  },
+  {
+    "fact": "Quantum tunneling allows particles to pass through solid barriers.",
+    "explanation": "According to quantum mechanics, there is a small probability that a particle can 'tunnel' through an energy barrier it shouldn't be able to overcome. This effect is crucial for nuclear fusion in the Sun."
+  },
+  {
+    "fact": "A 'DDoS attack' overwhelms a website with traffic.",
+    "explanation": "A Distributed Denial of Service (DDoS) attack uses a botnet of thousands of compromised computers to flood a target server with connection requests, making it unavailable to legitimate users."
+  },
+  {
+    "fact": "There are more possible iterations of a game of chess than there are atoms in the observable universe.",
+    "explanation": "The number of possible unique chess games, known as the Shannon number, is estimated to be around 10^120, a number far greater than the estimated 10^80 atoms in the universe."
+  },
+  {
+    "fact": "The Earth's core is as hot as the surface of the Sun.",
+    "explanation": "The inner core, a solid ball of iron and nickel, has a temperature of about 5,500 °C. The immense pressure at the center of the Earth keeps it from melting."
+  },
+  {
+    "fact": "The blobfish looks like a gelatinous blob only when out of water.",
+    "explanation": "In its natural deep-sea habitat, where the pressure is immense, the blobfish's body is supported, and it looks like a more typical fish. It's the rapid depressurization that causes its 'blobby' appearance."
+  },
+  {
+    "fact": "The first computer animation was created in 1963.",
+    "explanation": "Edward E. Zajac at Bell Labs created a simulation showing a satellite orbiting the Earth. The short film, 'Simulation of a two-giro gravity attitude control system,' was a major step in computer graphics."
+  },
+  {
+    "fact": "The 'Event Horizon' of a black hole is the point of no return.",
+    "explanation": "It's not a physical surface, but a boundary in spacetime. Once an object crosses the event horizon, the gravitational pull is so strong that nothing, not even light, can escape."
+  },
+  {
+    "fact": "A 'red giant' is a star in the final stages of its life.",
+    "explanation": "After a sun-like star exhausts the hydrogen in its core, it begins to fuse hydrogen in a shell around the core. This causes the star's outer layers to expand, cool, and glow red, engulfing nearby planets."
+  },
+  {
+    "fact": "The human stomach lining completely replaces itself every few days.",
+    "explanation": "To protect itself from the highly acidic gastric juices it produces, the stomach constantly sheds and regrows its lining. If it didn't, it would digest itself."
+  },
+  {
+    "fact": "AI can be used for 'generative design'.",
+    "explanation": "Engineers provide an AI with a set of goals and constraints (e.g., material, weight, strength). The AI then explores thousands of design permutations to create the most optimal structure, often resulting in complex, organic-looking shapes."
+  },
+  {
+    "fact": "The concept of 'dark silicon' refers to unused transistors on a chip.",
+    "explanation": "As chips get denser, it's no longer possible to power all the transistors at once without overheating. 'Dark silicon' is the portion of a chip that must be kept powered down at any given time."
+  },
+  {
+    "fact": "Some galaxies have 'active galactic nuclei' (AGN).",
+    "explanation": "An AGN is an extremely bright, compact region at the center of a galaxy, powered by a supermassive black hole actively accreting matter. Quasars are the most luminous type of AGN."
+  },
+  {
+    "fact": "Bioluminescence is the production of light by a living organism.",
+    "explanation": "This 'cold light' is created through a chemical reaction. It's common in deep-sea creatures, fungi, and insects like fireflies, and is used for communication, camouflage, and attracting prey."
+  },
+  {
+    "fact": "The bones in the human hand evolved from the fins of ancient fish.",
+    "explanation": "The basic bone structure of a human hand (one large bone, two smaller bones, followed by many little bones) is homologous to the structure found in the fins of lobe-finned fish, our distant ancestors."
+  },
+  {
+    "fact": "The 'AI effect' is the phenomenon of dismissing AI advancements once they become commonplace.",
+    "explanation": "Once a difficult problem is solved by AI, it's often no longer considered 'true intelligence'. As AI expert Larry Tesler said, 'Intelligence is whatever machines haven't done yet'."
+  },
+  {
+    "fact": "The first commercial video game, 'Computer Space', was a failure.",
+    "explanation": "Released in 1971, the arcade game was too complex for the general public to understand. Its creator, Nolan Bushnell, went on to found Atari and created the much simpler and wildly successful game 'Pong'."
+  },
+  {
+    "fact": "A 'white hole' is the theoretical opposite of a black hole.",
+    "explanation": "According to general relativity, a white hole would be a region of spacetime from which nothing can enter, but matter and light can escape. They are purely hypothetical and have never been observed."
+  },
+  {
+    "fact": "The 'Great Oxidation Event' changed Earth's atmosphere forever.",
+    "explanation": "About 2.4 billion years ago, early cyanobacteria started producing oxygen through photosynthesis. This new, reactive gas was toxic to much of the anaerobic life at the time but paved the way for complex, oxygen-breathing organisms."
+  },
+  {
+    "fact": "A sneeze can travel at over 160 km/h (100 mph).",
+    "explanation": "A sneeze is a powerful, involuntary expulsion of air from the lungs. This high velocity helps to clear the nasal passages of irritants and can project droplets several meters."
+  },
+  {
+    "fact": "The Boston Dynamics 'Spot' is a commercially available robot dog.",
+    "explanation": "Spot is an agile mobile robot that can navigate complex terrain, carry payloads, and perform automated inspections in industrial settings, showcasing the advancement of dynamic robotics."
+  },
+  {
+    "fact": "The C++ programming language was originally named 'C with Classes'.",
+    "explanation": "Created by Bjarne Stroustrup in 1979 as an enhancement to the C language, it was renamed in 1983. The '++' is the increment operator in C, signifying an improvement over the original."
+  },
+  {
+    "fact": "The Andromeda Galaxy is on a collision course with the Milky Way.",
+    "explanation": "The two largest galaxies in our Local Group are hurtling towards each other and are expected to merge in about 4.5 billion years, forming a new, larger galaxy nicknamed 'Milkomeda'."
+  },
+  {
+    "fact": "The 'sixth mass extinction' is happening now, driven by human activity.",
+    "explanation": "Scientists argue that the current rate of species extinction is tens to hundreds of times higher than the natural background rate, primarily due to habitat loss, climate change, and pollution."
+  },
+  {
+    "fact": "Octopuses have three hearts and blue blood.",
+    "explanation": "Two hearts pump blood through the gills, while a third circulates it to the rest of the body. Their blood is blue because it uses a copper-based protein called hemocyanin to transport oxygen, instead of the iron-based hemoglobin found in humans."
+  },
+  {
+    "fact": "Large language models are trained on a massive amount of text data.",
+    "explanation": "Models like GPT-4 are trained on datasets containing hundreds of billions of words from books, articles, and websites. This vast exposure allows them to learn grammar, facts, and reasoning abilities."
+  },
+  {
+    "fact": "A 'Trojan horse' is malware disguised as legitimate software.",
+    "explanation": "Named after the Greek story, a Trojan tricks a user into installing it. Once inside the system, it can perform malicious actions like stealing data or giving an attacker remote access."
+  },
+  {
+    "fact": "The dwarf planet Haumea is shaped like an egg.",
+    "explanation": "Located in the Kuiper Belt, Haumea's rapid rotation (a day lasts only 4 hours) has spun it into a distinct, elongated ellipsoid shape. It also has its own ring system."
+  },
+  {
+    "fact": "A 'supernova remnant' is the structure left after a star explodes.",
+    "explanation": "The remnant consists of the material ejected by the explosion, which forms an expanding cloud of gas and dust. Famous examples include the Crab Nebula and the Veil Nebula."
+  },
+  {
+    "fact": "The sound of a cracking whip is a mini sonic boom.",
+    "explanation": "When a whip is cracked correctly, the tip moves faster than the speed of sound, creating a small sonic boom. It was the first man-made object to break the sound barrier."
+  },
+  {
+    "fact": "'One-shot learning' allows an AI to learn from a single example.",
+    "explanation": "Unlike traditional machine learning which requires thousands of examples, one-shot learning models are designed to recognize a new object or category after seeing it just once, much like humans do."
+  },
+  {
+    "fact": "The world's data is projected to reach 175 zettabytes by 2025.",
+    "explanation": "A zettabyte is one trillion gigabytes. The exponential growth of data is driven by IoT devices, social media, video streaming, and scientific research, creating immense storage and processing challenges."
+  },
+  {
+    "fact": "The 'Pioneer anomaly' was a mysterious deviation in the trajectory of two spacecraft.",
+    "explanation": "For decades, the Pioneer 10 and 11 spacecraft were slowing down slightly more than expected as they left the solar system. The mystery was eventually solved: it was caused by the subtle force of thermal radiation being emitted unevenly from the spacecraft."
+  },
+  {
+    "fact": "Chlorophyll, the molecule for photosynthesis, is chemically similar to hemoglobin in blood.",
+    "explanation": "Both molecules are 'porphyrin rings', but chlorophyll has a magnesium atom at its center, which makes plants green, while hemoglobin has an iron atom, which makes blood red."
+  },
+  {
+    "fact": "The human body contains about 0.2 milligrams of gold.",
+    "explanation": "This tiny amount of gold is mostly dissolved in our bloodstream and is thought to play a role in joint health and the transmission of electrical signals."
+  },
+  {
+    "fact": "AI can be used for 'explainable AI' (XAI).",
+    "explanation": "Many complex AI models are 'black boxes', meaning even their creators don't know exactly how they reach a decision. XAI is a field of research focused on building models that can explain their reasoning in human-understandable terms."
+  },
+  {
+    "fact": "A 'quantum dot' is a tiny semiconductor crystal whose properties depend on its size.",
+    "explanation": "Because of quantum mechanical effects, changing the size of a quantum dot changes the color of light it emits. This technology is used to create vibrant and color-accurate QLED TV displays."
+  },
+  {
+    "fact": "The 'Fermi Paradox' questions the lack of evidence for extraterrestrial life.",
+    "explanation": "Given the high probability of Earth-like planets in our vast universe, the paradox, posed by physicist Enrico Fermi, asks: 'Where is everybody?' It highlights the contradiction between the high likelihood of alien civilizations and the absence of contact."
+  },
+  {
+    "fact": "The 'Laki eruption' in 1783 in Iceland caused a global climate catastrophe.",
+    "explanation": "This massive volcanic eruption released huge amounts of sulfur dioxide into the atmosphere, causing a volcanic haze that cooled the Northern Hemisphere, leading to crop failures and famine across Europe."
+  },
+  {
+    "fact": "A 'thought experiment' in science explores the consequences of a hypothesis without actually performing an experiment.",
+    "explanation": "Famous examples include 'Schrödinger's cat' to illustrate quantum superposition and 'Einstein's elevator' to explain the equivalence of gravity and acceleration."
+  },
+  {
+    "fact": "A 'neural rendering' AI can create 3D scenes from 2D images.",
+    "explanation": "Techniques like Neural Radiance Fields (NeRFs) can take a handful of photos of an object or scene and generate a complete, photorealistic 3D model that can be viewed from any angle."
+  },
+  {
+    "fact": "The first video ever uploaded to YouTube was 'Me at the zoo'.",
+    "explanation": "Uploaded on April 23, 2005, the 18-second video features YouTube co-founder Jawed Karim standing in front of the elephant enclosure at the San Diego Zoo."
+  },
+  {
+    "fact": "A 'blazar' is a quasar with a relativistic jet pointed directly at Earth.",
+    "explanation": "Blazars are incredibly powerful active galactic nuclei. Because their jet of high-energy particles is aimed towards us, they appear extremely bright and can vary in brightness dramatically and rapidly."
+  },
+  {
+    "fact": "The 'Cambrian explosion' may have been triggered by the evolution of vision.",
+    "explanation": "One theory suggests that the development of the first true eyes created an evolutionary arms race between predators and prey, driving the rapid diversification of animal body plans."
+  },
+  {
+    "fact": "The 'cocktail party effect' is the brain's ability to focus on one voice in a noisy room.",
+    "explanation": "This demonstrates selective attention, allowing you to tune out other conversations and background noise to listen to a single speaker. Your brain can also recognize your name being spoken across the room."
+  },
+  {
+    "fact": "Robotic Process Automation (RPA) uses software 'bots' to automate repetitive digital tasks.",
+    "explanation": "Unlike AI, RPA bots follow predefined rules to perform tasks like filling out forms, copying and pasting data, or processing transactions, freeing up human workers for more complex work."
+  },
+  {
+    "fact": "Solid-state batteries could revolutionize electric vehicles.",
+    "explanation": "Unlike current lithium-ion batteries that use a liquid electrolyte, solid-state batteries use a solid one. This could make them safer, more energy-dense (longer range), and faster to charge."
+  },
+  {
+    "fact": "The largest structure in the universe is the Hercules-Corona Borealis Great Wall.",
+    "explanation": "This is a colossal galactic filament measuring an astonishing 10 billion light-years across. Its sheer size challenges our current models of how the universe formed and evolved."
+  },
+  {
+    "fact": "The 'Baader-Meinhof phenomenon' is when something you just learned about suddenly seems to appear everywhere.",
+    "explanation": "Also known as frequency illusion, it's a cognitive bias where your brain, now aware of a new piece of information, starts selectively noticing it in places where it would have previously been ignored."
+  },
+  {
+    "fact": "If you uncoiled all the DNA in your body, it would stretch to the Sun and back several times.",
+    "explanation": "Each of the trillions of cells in your body contains about 2 meters of tightly coiled DNA. Stretched end-to-end, the total length would be billions of kilometers."
+  },
+  {
+    "fact": "The first industrial robot was named Unimate.",
+    "explanation": "Installed in a General Motors factory in 1961, Unimate was a robotic arm that transported die castings and welded them onto auto bodies, marking the dawn of industrial automation."
+  },
+  {
+    "fact": "AI safety research focuses on the 'alignment problem'.",
+    "explanation": "This is the challenge of ensuring that advanced AI systems pursue goals that are aligned with human values, preventing them from taking harmful actions to achieve a poorly specified objective."
+  },
+  {
+    "fact": "Natural Language Understanding (NLU) is about reading, while NLG is about writing.",
+    "explanation": "NLU is the subfield of AI focused on enabling machines to comprehend and interpret human language. Natural Language Generation (NLG) focuses on producing human-like text from data."
+  },
+  {
+    "fact": "Wearable exoskeletons can help paralyzed individuals to walk.",
+    "explanation": "These robotic suits are worn by a user and can be controlled by their thoughts or small movements, providing powered assistance to the limbs for rehabilitation and mobility."
+  },
+  {
+    "fact": "ARPANET was the precursor to the modern internet.",
+    "explanation": "Developed by the U.S. Department of Defense in the 1960s, the Advanced Research Projects Agency Network was the first network to use the TCP/IP protocol, forming the foundation for today's internet."
+  },
+  {
+    "fact": "A 'man-in-the-middle' attack secretly intercepts communications.",
+    "explanation": "An attacker positions themselves between two communicating parties, such as a user and a website, to eavesdrop on or alter the conversation without either party's knowledge."
+  },
+  {
+    "fact": "Virtual machines allow one computer to run multiple operating systems.",
+    "explanation": "A VM is a software-based emulation of a physical computer. It allows you to run, for example, a Linux operating system inside a window on your Windows PC, completely isolated from the main system."
+  },
+  {
+    "fact": "Containers are a lightweight alternative to virtual machines.",
+    "explanation": "Technologies like Docker use containers to package an application and its dependencies. Unlike VMs, they share the host system's operating system kernel, making them much faster and more efficient."
+  },
+  {
+    "fact": "The ASCII standard allows computers to represent text.",
+    "explanation": "The American Standard Code for Information Interchange is a character encoding standard that assigns a unique number to each letter, digit, and punctuation mark, allowing computers to store and exchange text-based information."
+  },
+  {
+    "fact": "Wi-Fi 6 offers faster speeds and better performance in crowded areas.",
+    "explanation": "Also known as 802.11ax, this Wi-Fi standard uses technologies like OFDMA to divide a wireless channel into smaller sub-channels, allowing it to communicate with more devices simultaneously and efficiently."
+  },
+  {
+    "fact": "The first floppy disk, introduced in 1971, was 8 inches wide.",
+    "explanation": "These early disks were read-only and could hold about 80 kilobytes of data, a tiny fraction of the capacity of even a single modern digital photo."
+  },
+  {
+    "fact": "'Technical debt' is a concept in software development.",
+    "explanation": "It refers to the implied cost of rework caused by choosing an easy, limited solution now instead of using a better approach that would take longer. This 'debt' must eventually be 'repaid' by refactoring the code."
+  },
+  {
+    "fact": "Metcalfe's Law states that a network's value is proportional to the square of its users.",
+    "explanation": "This means that as more users join a network like the internet or a social media platform, its usefulness and value grow exponentially for everyone."
+  },
+  {
+    "fact": "Saturn's moon Mimas is nicknamed the 'Death Star'.",
+    "explanation": "It has a massive impact crater, Herschel Crater, that is 130 kilometers wide, giving it a striking resemblance to the fictional space station from Star Wars."
+  },
+  {
+    "fact": "Iapetus, another of Saturn's moons, is a two-toned world.",
+    "explanation": "One hemisphere of Iapetus is as bright as snow, while the other is as dark as coal. This is because its leading hemisphere has been coated by dark, reddish dust swept up from another moon, Phoebe."
+  },
+  {
+    "fact": "Wolf-Rayet stars are massive, extremely hot stars nearing the end of their lives.",
+    "explanation": "They have powerful stellar winds that blow their outer hydrogen layers into space, exposing their intensely hot helium cores. They are destined to explode as spectacular supernovae."
+  },
+  {
+    "fact": "The Horsehead Nebula is a dark cloud of dust silhouetted against a bright background.",
+    "explanation": "Located in the constellation Orion, this iconic nebula is a dense, interstellar cloud of dust and gas where new stars are forming. Its distinctive shape is sculpted by radiation from a nearby hot star."
+  },
+  {
+    "fact": "The Roche limit is the distance within which a celestial body will be torn apart by tidal forces.",
+    "explanation": "If a moon gets closer to its parent body than the Roche limit, the tidal forces of the larger body will overcome the moon's own gravitational cohesion, disintegrating it, often to form a ring."
+  },
+  {
+    "fact": "Albedo is a measure of how much light a surface reflects.",
+    "explanation": "A surface with high albedo, like fresh snow, reflects most of the light that hits it. A low albedo surface, like asphalt, absorbs most of the light. It's a critical factor in planetary climate science."
+  },
+  {
+    "fact": "The Kármán line, at 100 km altitude, is the internationally accepted edge of space.",
+    "explanation": "This altitude is where the Earth's atmosphere becomes too thin for traditional aircraft to generate aerodynamic lift, requiring a spacecraft to use propulsion to stay aloft."
+  },
+  {
+    "fact": "The Van Allen Belts are zones of charged particles trapped by Earth's magnetic field.",
+    "explanation": "These two doughnut-shaped belts of high-energy particles, sourced from the solar wind and cosmic rays, protect life on Earth from harmful radiation but pose a hazard to satellites and astronauts."
+  },
+  {
+    "fact": "Most moons in the solar system are 'tidally locked'.",
+    "explanation": "Tidal locking is when a body's orbital period matches its rotational period. This is why we always see the same face of our Moon; it completes one rotation on its axis in the same amount of time it takes to orbit Earth."
+  },
+  {
+    "fact": "Symbiosis describes a close and long-term interaction between two different biological species.",
+    "explanation": "This can be mutualistic (both benefit), commensal (one benefits, the other is unaffected), or parasitic (one benefits at the expense of the other)."
+  },
+  {
+    "fact": "Telomeres are protective caps at the ends of our chromosomes.",
+    "explanation": "Often compared to the plastic tips on shoelaces, telomeres protect our DNA from fraying during cell division. They shorten with each division, and their length is linked to aging and disease."
+  },
+  {
+    "fact": "ATP is the 'energy currency' of all life on Earth.",
+    "explanation": "Adenosine triphosphate (ATP) is a molecule that stores and transports chemical energy within cells. It powers nearly all cellular processes, from muscle contraction to DNA replication."
+  },
+  {
+    "fact": "Diamond and graphite are both made of pure carbon.",
+    "explanation": "They are 'allotropes' of carbon, meaning their atoms are arranged differently. In diamond, atoms form a strong tetrahedral lattice, making it hard. In graphite, they form weak, flat sheets, making it soft."
+  },
+  {
+    "fact": "The pH scale measures acidity or alkalinity.",
+    "explanation": "It's a logarithmic scale from 0 to 14. A pH of 7 is neutral (like pure water), below 7 is acidic, and above 7 is alkaline (or basic). Each whole number represents a tenfold change in acidity."
+  },
+  {
+    "fact": "Isotopes are variants of a particular chemical element.",
+    "explanation": "While all isotopes of an element have the same number of protons, they have different numbers of neutrons. Unstable isotopes, like Carbon-14, are radioactive and are used for 'radiometric dating'."
+  },
+  {
+    "fact": "Cherenkov radiation is the blue glow seen in nuclear reactors.",
+    "explanation": "This light is emitted when a charged particle (like an electron) travels through a dielectric medium (like water) faster than the speed of light in that medium. It's a type of optical 'sonic boom'."
+  },
+  {
+    "fact": "The Richter scale for measuring earthquakes is logarithmic.",
+    "explanation": "This means that a magnitude 6 earthquake is ten times more powerful than a magnitude 5, and one hundred times more powerful than a magnitude 4."
+  },
+  {
+    "fact": "The three main types of clouds are cumulus, stratus, and cirrus.",
+    "explanation": "Cumulus clouds are the puffy, cotton-like clouds. Stratus clouds are flat, horizontal layers. Cirrus clouds are thin, wispy clouds found at high altitudes and are made of ice crystals."
+  },
+  {
+    "fact": "Ball lightning is an unexplained atmospheric electrical phenomenon.",
+    "explanation": "It is a rare phenomenon reported as a luminous, spherical object that can range from pea-sized to several meters in diameter. Its cause is still a subject of scientific debate."
+  },
+  {
+    "fact": "The Leidenfrost effect allows water droplets to 'skitter' across a hot pan.",
+    "explanation": "When a liquid comes into contact with a surface significantly hotter than its boiling point, it produces an insulating vapor layer that keeps the droplet from boiling away rapidly, allowing it to float."
+  },
+  {
+    "fact": "A superfluid is a state of matter that can flow without any friction.",
+    "explanation": "When cooled to near absolute zero, some liquids, like helium-4, can flow up the sides of a container and through microscopic cracks, seemingly defying gravity and viscosity."
+  },
+  {
+    "fact": "Decision trees are a type of machine learning algorithm.",
+    "explanation": "They work by splitting data into smaller and smaller subsets based on a series of 'if-then' questions, creating a tree-like model of decisions that can be used for classification or regression tasks."
+  },
+  {
+    "fact": "AI is improving weather forecasting models.",
+    "explanation": "By analyzing vast historical weather data, AI can identify complex patterns that traditional physics-based models might miss, leading to more accurate short-term and long-term forecasts."
+  },
+  {
+    "fact": "The first video game with a 'high score' was Space Invaders.",
+    "explanation": "Released in 1978, it was the first game to save a player's score, creating a competitive element that became a staple of arcade and video games."
+  },
+  {
+    "fact": "SQL injection is a common web security vulnerability.",
+    "explanation": "An attacker can 'inject' malicious SQL (Structured Query Language) code into a website's input fields (like a search bar) to manipulate the backend database and steal sensitive information."
+  },
+  {
+    "fact": "Object-oriented programming (OOP) organizes code around 'objects'.",
+    "explanation": "This programming paradigm bundles data and the methods that operate on that data into objects. It's based on concepts like inheritance and polymorphism to create modular and reusable code."
+  },
+  {
+    "fact": "Functional programming treats computation as the evaluation of mathematical functions.",
+    "explanation": "This paradigm avoids changing state and mutable data. It emphasizes writing pure, deterministic functions, which can make code easier to reason about and test."
+  },
+  {
+    "fact": "The operating system manages all the hardware and software on a computer.",
+    "explanation": "The OS (like Windows, macOS, or Linux) acts as an intermediary between the user and the computer hardware, handling tasks like memory management, process scheduling, and file storage."
+  },
+  {
+    "fact": "The Chandra X-ray Observatory is a space telescope that detects X-ray sources.",
+    "explanation": "Launched by NASA in 1999, Chandra observes extremely hot regions of the universe such as exploding stars, clusters of galaxies, and matter around black holes, in a wavelength invisible from Earth."
+  },
+  {
+    "fact": "A 'light echo' is light from an explosion reflecting off interstellar dust.",
+    "explanation": "When a star explodes as a supernova, the initial flash of light can reflect off clouds of dust far from the star. This reflected light reaches us later, creating a beautiful expanding 'echo' of the event."
+  },
+  {
+    "fact": "Horizontal gene transfer allows bacteria to share genetic material.",
+    "explanation": "Unlike vertical transfer from parent to offspring, bacteria can pass genes directly to one another, even across species. This is a primary mechanism for the rapid spread of antibiotic resistance."
+  },
+  {
+    "fact": "A polymer is a large molecule made of many repeating smaller units.",
+    "explanation": "Plastics are synthetic polymers, but many natural substances are also polymers, including DNA (made of nucleotides), proteins (made of amino acids), and starch (made of glucose)."
+  },
+  {
+    "fact": "Newton's first law of motion is the law of inertia.",
+    "explanation": "It states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force. This is why you feel pushed back in your seat when a car accelerates."
+  },
+  {
+    "fact": "The process of fossilization is extremely rare.",
+    "explanation": "For an organism to become a fossil, it must be buried quickly in sediment to protect it from decay and scavengers. Only a tiny fraction of all life that has ever existed has been preserved as fossils."
+  },
+  {
+    "fact": "A tokamak is a device designed to harness the energy of nuclear fusion.",
+    "explanation": "It uses a powerful magnetic field to confine a hot plasma in the shape of a torus (a doughnut). The goal is to heat the plasma to the extreme temperatures required for fusion to occur."
+  },
+  {
+    "fact": "The 'AI winter' refers to periods of reduced funding and interest in AI research.",
+    "explanation": "These periods, primarily in the 1970s and late 1980s, were caused by overly optimistic promises, followed by disappointment when the technology failed to deliver, leading to funding cuts."
+  },
+  {
+    "fact": "The GIF image format was introduced in 1987.",
+    "explanation": "Developed by CompuServe, the Graphics Interchange Format was created to provide a color image format for their file downloading areas. Its support for simple animations led to its modern resurgence in internet culture."
+  },
+  {
+    "fact": "A 'Singleton' is a software design pattern.",
+    "explanation": "It restricts the instantiation of a class to a single object. This is useful when exactly one object is needed to coordinate actions across a system, such as a database connection or a logger."
+  },
+  {
+    "fact": "The 'Great Filter' is a hypothetical barrier to the evolution of intelligent life.",
+    "explanation": "In the context of the Fermi Paradox, the Great Filter is a proposed step in the development of life that is extremely difficult or impossible to overcome, which could explain why we haven't found any other intelligent civilizations."
+  },
+  {
+    "fact": "Ocean gyres are large systems of rotating ocean currents.",
+    "explanation": "Driven by winds and the Coriolis effect, these massive whirlpools play a crucial role in circulating water and heat around the globe. They are also where large garbage patches, like the Great Pacific Garbage Patch, accumulate."
+  },
+  {
+    "fact": "The Casimir effect is a physical force arising from a quantized field.",
+    "explanation": "It predicts that two uncharged, parallel plates in a vacuum will experience an attractive force. This is because fewer virtual particles can exist between the plates than outside them, creating a pressure difference."
+  },
+  {
+    "fact": "Some AI can predict aftershocks better than traditional models.",
+    "explanation": "By analyzing the stress changes in the Earth's crust after a main earthquake, deep learning models can predict the location and magnitude of subsequent aftershocks with greater accuracy."
+  },
+  {
+    "fact": "A 'compiler' translates source code from a high-level language to a lower-level language.",
+    "explanation": "It takes human-readable code (like C++ or Java) and converts it into machine code that the computer's processor can directly execute."
+  },
+  {
+    "fact": "The first exoplanets were discovered orbiting a pulsar.",
+    "explanation": "In 1992, astronomers found planets orbiting the neutron star PSR B1257+12. This was a surprise, as it was thought that planets could not survive the supernova explosion that creates a pulsar."
+  },
+  {
+    "fact": "The Coriolis effect deflects moving objects on a rotating body.",
+    "explanation": "On Earth, this effect causes storms to spin counter-clockwise in the Northern Hemisphere and clockwise in the Southern Hemisphere. It also affects ocean currents and long-range projectile trajectories."
+  },
+  {
+    "fact": "Cryogenics is the study of producing and behaving of materials at very low temperatures.",
+    "explanation": "It involves temperatures below -150 °C (-238 °F). Applications include cryosurgery, creating superconductors, and preserving biological samples."
+  },
+  {
+    "fact": "Natural language processing is a key component of 'computational linguistics'.",
+    "explanation": "This interdisciplinary field uses computer science and AI to model and understand human language, combining the formal rules of linguistics with the statistical power of machine learning."
+  },
+  {
+    "fact": "A 'proxy server' acts as an intermediary for requests from clients.",
+    "explanation": "When you use a proxy, your internet traffic goes through the proxy server first. This can be used to hide your IP address, bypass geo-restrictions, or enforce security policies on a network."
+  },
+  {
+    "fact": "The Sun's corona is much hotter than its surface.",
+    "explanation": "The corona, the outermost part of the Sun's atmosphere, can reach over a million degrees Celsius, while the surface (photosphere) is only about 5,500 °C. The mechanism that heats the corona is still an area of active research."
+  },
+  {
+    "fact": "The 'Goldilocks principle' applies to more than just astrobiology.",
+    "explanation": "The idea of something being 'just right'—not too hot, not too cold—is used in psychology, economics, and developmental biology to describe a desirable middle ground between two extremes."
+  },
+  {
+    "fact": "Some animals are 'piebald', having patches of unpigmented skin or fur.",
+    "explanation": "This pattern is caused by a genetic condition called leucism, which results in a partial loss of pigmentation. It's different from albinism, which is a total lack of pigment."
+  },
+  {
+    "fact": "Generative Adversarial Networks (GANs) involve two competing neural networks.",
+    "explanation": "A 'generator' network creates fake data (like images), while a 'discriminator' network tries to distinguish the fake data from real data. They train each other, leading to the creation of highly realistic synthetic content."
+  },
+  {
+    "fact": "The term 'algorithm' is derived from the name of a Persian mathematician.",
+    "explanation": "It comes from the name of Al-Khwarizmi, a 9th-century scholar whose work introduced Hindu-Arabic numerals and algebra to European mathematics."
+  },
+  {
+    "fact": "A 'planetary nebula' has nothing to do with planets.",
+    "explanation": "It is an expanding, glowing shell of ionized gas ejected from a dying red giant star. Early astronomers with small telescopes thought their round shapes resembled planets, hence the name."
+  },
+  {
+    "fact": "The 'double-slit experiment' is a cornerstone of quantum mechanics.",
+    "explanation": "It demonstrates that particles like electrons can exhibit both wave-like and particle-like properties. When not observed, they act like waves and pass through both slits at once, but when observed, they act like particles and pass through only one."
+  },
+  {
+    "fact": "The appendix may not be useless after all.",
+    "explanation": "While long considered a vestigial organ, recent evidence suggests the appendix may act as a 'safe house' for beneficial gut bacteria, helping to repopulate the gut after an illness."
   }
 ]
