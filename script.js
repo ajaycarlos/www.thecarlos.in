@@ -117,7 +117,7 @@ function typeWriter() {
 }
 
 // ========================
-// 7️⃣ AI Typewriter (REMOVED Starstream)
+// 7️⃣ Starstream Animation & AI Typewriter
 function typewriterForAi(text, responseArea, onComplete) {
     let i = 0;
     const speed = 30;
@@ -137,10 +137,62 @@ function typewriterForAi(text, responseArea, onComplete) {
     type();
 }
 
+function playStarstreamAnimation() {
+    return new Promise(resolve => {
+        const responseArea = document.getElementById('ai-response-area');
+        const rect = responseArea.getBoundingClientRect();
+        const destinationX = rect.left + rect.width / 2;
+        const destinationY = rect.top + rect.height / 2;
+        const duration = 1500;
+
+        const particles = [];
+        for (let i = 0; i < 500; i++) {
+            const star = document.createElement('div');
+            star.className = 'flying-star';
+            const size = anime.random(1, 3) + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            
+            const startPos = {};
+            if (Math.random() < 0.5) {
+                startPos.x = Math.random() < 0.5 ? 0 : window.innerWidth;
+                startPos.y = Math.random() * window.innerHeight;
+            } else {
+                startPos.x = Math.random() * window.innerWidth;
+                startPos.y = Math.random() < 0.5 ? 0 : window.innerHeight;
+            }
+            star.style.left = startPos.x + 'px';
+            star.style.top = startPos.y + 'px';
+            
+            document.body.appendChild(star);
+            particles.push(star);
+        }
+        
+        anime({
+            targets: particles,
+            left: destinationX,
+            top: destinationY,
+            scale: 0,
+            opacity: [1, 0],
+            easing: 'easeInExpo',
+            duration: duration,
+            delay: anime.stagger(3),
+            complete: () => {
+                particles.forEach(p => p.remove());
+                resolve();
+            }
+        });
+    });
+}
+
 
 // ========================
-// 8️⃣ Video Animation + Logo Fade-in
+// 8️⃣ Video Animation + Logo Fade-in (REWRITTEN FOR RELIABILITY)
 function startAnimations() {
+    const videoContainer = document.getElementById("video-container");
+    const video = document.getElementById("intro-video");
+    const tapToEnter = document.getElementById("tap-to-enter");
+    
     const elementsToFadeIn = [
         document.getElementById("logo"),
         document.getElementById("since-text"),
@@ -149,8 +201,31 @@ function startAnimations() {
         document.getElementById("live-clock")
     ];
 
+    let animationHasRun = false;
+
+    // This is the main function that hides the video and shows the site
+    const runExitAnimation = () => {
+        if (animationHasRun) return;
+        animationHasRun = true;
+        sessionStorage.setItem('introPlayed', 'true');
+
+        videoContainer.style.transition = "opacity 2s ease";
+        videoContainer.style.opacity = "0";
+        
+        elementsToFadeIn.forEach(el => {
+            if (el) el.style.opacity = "1";
+        });
+
+        setTimeout(() => {
+            videoContainer.style.display = "none";
+            const mainContent = document.getElementById("main-content-container");
+            if (mainContent) mainContent.style.opacity = "1";
+        }, 2000); // Match transition duration
+    };
+
+    // This function skips the intro entirely if already played
     function skipIntro() {
-        document.getElementById("video-container").style.display = "none";
+        videoContainer.style.display = "none";
         elementsToFadeIn.forEach(el => {
             if (el) el.style.opacity = "1";
         });
@@ -158,38 +233,33 @@ function startAnimations() {
         if (mainContent) mainContent.style.opacity = "1";
     }
 
+    // Main logic starts here
     if (sessionStorage.getItem('introPlayed') === 'true') {
         skipIntro();
         return;
     }
 
-    const video = document.getElementById("intro-video");
-    let animationHasRun = false;
-    const runExitAnimation = () => {
-        if (animationHasRun) return;
-        animationHasRun = true;
-        
-        sessionStorage.setItem('introPlayed', 'true');
-
-        video.style.transition = "all 2s ease";
-        video.style.transform = "scale(0.1)";
-        video.style.opacity = "0";
-        elementsToFadeIn.forEach(el => {
-            if (el) el.style.opacity = "1";
-        });
-        setTimeout(() => {
-            document.getElementById("video-container").style.display = "none";
-            const mainContent = document.getElementById("main-content-container");
-            if (mainContent) mainContent.style.opacity = "1";
-        }, 2000);
-    };
-
+    // Listen for when the video ends naturally
     video.addEventListener('ended', runExitAnimation);
-    video.play().catch(error => {
-        console.error("Autoplay was prevented. Starting animation immediately.", error);
-        runExitAnimation();
-    });
-    setTimeout(runExitAnimation, 7000);
+
+    // Try to play the video
+    const playPromise = video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.error("Autoplay was prevented:", error);
+            // If autoplay fails, hide the video and show the "Tap to Enter" message
+            video.style.display = 'none';
+            tapToEnter.style.visibility = 'visible';
+            tapToEnter.style.opacity = '1';
+            
+            // Now, clicking anywhere on the container will start the exit animation
+            videoContainer.addEventListener('click', runExitAnimation);
+        });
+    }
+
+    // Failsafe timer: if nothing happens after 4 seconds, trigger the animation
+    setTimeout(runExitAnimation, 4000);
 }
 
 
@@ -290,7 +360,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.classList.remove('ai-modal-open');
     });
 
-    // EDITED: Simplified submit handler
     document.getElementById('ai-chat-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
@@ -305,21 +374,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            // Simplified: No more Promise.all, just a direct fetch
-            const response = await fetch('/api/ask-carlos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: userInput,
-                    contextFact: currentFact.fact 
+            const [apiResponse] = await Promise.all([
+                fetch('/api/ask-carlos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: userInput,
+                        contextFact: currentFact.fact 
+                    }),
                 }),
-            });
+                playStarstreamAnimation()
+            ]);
 
-            if (!response.ok) { throw new Error('Network response was not ok'); }
+            if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
             
-            const data = await response.json();
+            const data = await apiResponse.json();
             
-            // Go straight to the typewriter
             typewriterForAi(data.answer, responseArea, () => {
                 isAiResponding = false;
             });
