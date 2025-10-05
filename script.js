@@ -41,10 +41,7 @@ function addSeenFact(index) {
 
 
 // ========================
-// ... (all previous code is the same) ... //
-
-// ========================
-// 4️⃣ Live Clock (India Time) (REWRITTEN)
+// 4️⃣ Live Clock (India Time) (CORRECTED ANIMATION LOGIC)
 function startLiveClock() {
     const clock = document.getElementById("live-clock");
     const digits = clock.querySelectorAll('.digit');
@@ -91,19 +88,19 @@ function startLiveClock() {
     const initialMinutes = String(istTime.getMinutes()).padStart(2, '0');
     const initialSeconds = String(istTime.getSeconds()).padStart(2, '0');
     
-    digits[0].setAttribute('data-current', initialHours[0]);
-    digits[1].setAttribute('data-current', initialHours[1]);
-    digits[2].setAttribute('data-current', initialMinutes[0]);
-    digits[3].setAttribute('data-current', initialMinutes[1]);
-    digits[4].setAttribute('data-current', initialSeconds[0]);
-    digits[5].setAttribute('data-current', initialSeconds[1]);
+    digits.forEach((digit, index) => {
+        let value;
+        if (index < 2) value = initialHours[index];
+        else if (index < 4) value = initialMinutes[index - 2];
+        else value = initialSeconds[index - 4];
+        digit.setAttribute('data-current', value);
+        digit.textContent = value; // Set initial text content as a fallback
+    });
 
     // Start the animation loop
     setInterval(updateClock, 1000);
 }
 
-
-// ... (the rest of your script.js file is the same) ... //
 
 // ========================
 // 5️⃣ Random Knowledge Bit
@@ -234,7 +231,7 @@ function playStarstreamAnimation() {
 
 
 // ========================
-// 8️⃣ Video Animation + Logo Fade-in (REWRITTEN FOR RELIABILITY)
+// 8️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
     const videoContainer = document.getElementById("video-container");
     const video = document.getElementById("intro-video");
@@ -250,7 +247,6 @@ function startAnimations() {
 
     let animationHasRun = false;
 
-    // This is the main function that hides the video and shows the site
     const runExitAnimation = () => {
         if (animationHasRun) return;
         animationHasRun = true;
@@ -267,10 +263,9 @@ function startAnimations() {
             videoContainer.style.display = "none";
             const mainContent = document.getElementById("main-content-container");
             if (mainContent) mainContent.style.opacity = "1";
-        }, 2000); // Match transition duration
+        }, 2000);
     };
 
-    // This function skips the intro entirely if already played
     function skipIntro() {
         videoContainer.style.display = "none";
         elementsToFadeIn.forEach(el => {
@@ -280,32 +275,24 @@ function startAnimations() {
         if (mainContent) mainContent.style.opacity = "1";
     }
 
-    // Main logic starts here
     if (sessionStorage.getItem('introPlayed') === 'true') {
         skipIntro();
         return;
     }
 
-    // Listen for when the video ends naturally
     video.addEventListener('ended', runExitAnimation);
 
-    // Try to play the video
     const playPromise = video.play();
-
     if (playPromise !== undefined) {
         playPromise.catch(error => {
             console.error("Autoplay was prevented:", error);
-            // If autoplay fails, hide the video and show the "Tap to Enter" message
             video.style.display = 'none';
             tapToEnter.style.visibility = 'visible';
             tapToEnter.style.opacity = '1';
-            
-            // Now, clicking anywhere on the container will start the exit animation
             videoContainer.addEventListener('click', runExitAnimation);
         });
     }
 
-    // Failsafe timer: if nothing happens after 4 seconds, trigger the animation
     setTimeout(runExitAnimation, 4000);
 }
 
