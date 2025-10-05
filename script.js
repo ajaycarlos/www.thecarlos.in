@@ -118,7 +118,7 @@ function showKnowledgeBit() {
 
     document.getElementById('ask-carlos-trigger').style.visibility = 'hidden';
     document.getElementById('ask-carlos-trigger').style.opacity = '0';
-    document.body.classList.remove('ai-modal-open');
+    document.documentElement.classList.remove('ai-modal-open');
 
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
@@ -286,20 +286,74 @@ async function shareFact() {
     }
 }
 
+// EDITED: Added new function for the System Failure effect
+// ========================
+// 11️⃣ System Failure Animation
+// ========================
+function initializeSystemFailure() {
+    const triggerButton = document.getElementById('system-failure-button');
+    const overlay = document.getElementById('failure-overlay');
+    const failureText = document.getElementById('failure-text');
+    const rebootText = document.getElementById('reboot-text');
+
+    if (!triggerButton) return; // Exit if the button isn't on the page
+
+    // Helper function for delays
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    // The main animation sequence
+    const runFailureSequence = async () => {
+        // 1. Glitch the text
+        const textElements = document.querySelectorAll('#knowledge-bit-text, #knowledge-explanation, #live-clock, #footer-text');
+        textElements.forEach(el => el.classList.add('text-glitch'));
+
+        await delay(600); // Glitch duration
+
+        // 2. Fade to black
+        textElements.forEach(el => el.classList.remove('text-glitch'));
+        overlay.style.visibility = 'visible';
+        overlay.style.opacity = '1';
+
+        await delay(500); // Wait for fade to black
+
+        // 3. Flash "SYSTEM FAILURE"
+        failureText.classList.add('flashing');
+        
+        await delay(3000); // Duration of failure message
+
+        // 4. Show "System Rebooted"
+        failureText.classList.remove('flashing');
+        rebootText.style.visibility = 'visible';
+        rebootText.style.opacity = '1';
+
+        await delay(2000); // Duration of reboot message
+
+        // 5. Fade back to normal
+        rebootText.style.opacity = '0';
+        rebootText.style.visibility = 'hidden';
+        overlay.style.opacity = '0';
+
+        await delay(500); // Wait for fade out
+        
+        // Reset for next time
+        overlay.style.visibility = 'hidden';
+    };
+
+    triggerButton.addEventListener('click', runFailureSequence);
+}
+
 
 // ========================
 // 10️⃣ Start everything when DOM content loaded
+// ========================
 document.addEventListener("DOMContentLoaded", async () => {
-    // EDITED: Changed all instances of document.documentElement back to document.body
     const body = document.body;
 
     const themeSwitcher = document.getElementById('theme-switcher');
     
-    // NOTE: The initial theme application is handled by a script in the <head> of the HTML file.
-    // This listener is only for toggling the theme on click.
     const toggleTheme = () => {
-        body.classList.toggle('light-theme');
-        localStorage.setItem('carlosTheme', body.classList.contains('light-theme') ? 'light' : 'dark');
+        const isLightTheme = document.documentElement.classList.toggle('light-theme');
+        localStorage.setItem('carlosTheme', isLightTheme ? 'light' : 'dark');
     };
 
     if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
@@ -307,18 +361,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const menuButton = document.getElementById('menu-button');
     if(menuButton) menuButton.addEventListener('click', (event) => {
       event.preventDefault();
-      body.classList.toggle('sidebar-open');
+      document.documentElement.classList.toggle('sidebar-open');
     });
     
     const closeButton = document.getElementById('sidebar-close-button');
     if(closeButton) closeButton.addEventListener('click', () => {
-        body.classList.remove('sidebar-open');
+        document.documentElement.classList.remove('sidebar-open');
     });
     
     await loadKnowledgeBits(); 
     showKnowledgeBit();
     startLiveClock();
     startAnimations();
+    initializeSystemFailure(); // EDITED: Added call to initialize the new animation
     
     const knowledgeBox = document.getElementById("knowledge-box");
     if(knowledgeBox) knowledgeBox.addEventListener("click", () => {
@@ -350,12 +405,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const askTrigger = document.getElementById('ask-carlos-trigger');
     if(askTrigger) askTrigger.addEventListener('click', (event) => {
         event.stopPropagation();
-        body.classList.add('ai-modal-open');
+        document.documentElement.classList.add('ai-modal-open');
     });
     
     const modalCloseButton = document.getElementById('ai-modal-close-button');
     if(modalCloseButton) modalCloseButton.addEventListener('click', () => {
-        body.classList.remove('ai-modal-open');
+        document.documentElement.classList.remove('ai-modal-open');
     });
 
     const aiForm = document.getElementById('ai-chat-form');
