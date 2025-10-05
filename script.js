@@ -41,39 +41,42 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time) (REWRITTEN)
+// 4️⃣ Live Clock (India Time) (REWRITTEN FOR DROP-DOWN ANIMATION)
 function startLiveClock() {
-    const digits = document.querySelectorAll('#live-clock .digit');
+    const digitBoxes = document.querySelectorAll('#live-clock .digit-box'); // Get all 6 digit containers
 
-    function updateDigit(digitElement, newValue) {
-        const currentValue = digitElement.querySelector('.digit-inner:last-child').textContent;
-        if (currentValue === newValue) {
+    function updateDigit(digitBox, newValue) {
+        // Get the current top and bottom spans
+        const currentTop = digitBox.querySelector('.digit-top');
+        const currentBottom = digitBox.querySelector('.digit-bottom');
+        
+        // Get the value currently displayed at the top
+        const displayedValue = currentTop.textContent;
+
+        // Only animate if the value has actually changed
+        if (displayedValue === newValue) {
             return;
         }
 
-        const newDigitInner = document.createElement('span');
-        newDigitInner.className = 'digit-inner';
-        newDigitInner.textContent = newValue;
-        newDigitInner.style.transform = 'translateY(-100%)';
-        
-        const oldDigitInner = digitElement.querySelector('.digit-inner');
-        
-        digitElement.appendChild(newDigitInner);
-        digitElement.classList.add('drop');
+        // Set the current value to the top span
+        currentTop.textContent = displayedValue;
+        // Set the new value to the bottom span
+        currentBottom.textContent = newValue;
 
-        // Force a reflow to apply the initial state before transitioning
-        void newDigitInner.offsetWidth;
+        // Trigger the animation by adding the 'drop' class
+        digitBox.classList.add('drop');
 
-        newDigitInner.style.transform = 'translateY(0)';
-        oldDigitInner.style.transform = 'translateY(100%)';
-        
-        oldDigitInner.addEventListener('transitionend', () => {
-            oldDigitInner.remove();
-            digitElement.classList.remove('drop');
-        }, { once: true });
+        // After the animation (must match CSS transition duration), reset for next flip
+        setTimeout(() => {
+            currentTop.textContent = newValue; // New value becomes the "current" top
+            currentTop.style.transform = 'translateY(0)'; // Reset top span transform
+            currentBottom.style.transform = 'translateY(100%)'; // Reset bottom span transform
+
+            digitBox.classList.remove('drop'); // Remove class to reset animation state
+        }, 400); // Must match CSS transition duration (0.4s)
     }
 
-    function updateClock() {
+    function updateClockDisplay() {
         const now = new Date();
         const istOffset = 5.5 * 60;
         const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -83,15 +86,15 @@ function startLiveClock() {
         const minutes = String(istTime.getMinutes()).padStart(2, '0');
         const seconds = String(istTime.getSeconds()).padStart(2, '0');
 
-        updateDigit(digits[0], hours[0]);
-        updateDigit(digits[1], hours[1]);
-        updateDigit(digits[2], minutes[0]);
-        updateDigit(digits[3], minutes[1]);
-        updateDigit(digits[4], seconds[0]);
-        updateDigit(digits[5], seconds[1]);
+        const timeString = `${hours}${minutes}${seconds}`; // e.g., "123456"
+
+        // Update each digit box
+        for (let i = 0; i < 6; i++) {
+            updateDigit(digitBoxes[i], timeString[i]);
+        }
     }
     
-    // Set initial state without animation
+    // Set initial values without animation when page loads
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -101,11 +104,17 @@ function startLiveClock() {
         ...String(istTime.getMinutes()).padStart(2, '0'),
         ...String(istTime.getSeconds()).padStart(2, '0')
     ];
-    digits.forEach((digit, index) => {
-        digit.innerHTML = `<span class="digit-inner">${initialTime[index]}</span>`;
+    
+    digitBoxes.forEach((digitBox, index) => {
+        digitBox.querySelector('.digit-top').textContent = initialTime[index];
+        digitBox.querySelector('.digit-top').style.transform = 'translateY(0)'; // Ensure initial position
+        digitBox.querySelector('.digit-bottom').textContent = initialTime[index];
+        digitBox.querySelector('.digit-bottom').style.transform = 'translateY(100%)'; // Ensure initial position
     });
 
-    setInterval(updateClock, 1000);
+
+    // Start the animation loop
+    setInterval(updateClockDisplay, 1000);
 }
 
 
@@ -317,7 +326,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     await loadKnowledgeBits(); 
     showKnowledgeBit();
-    startLiveClock();
+    startLiveClock(); // Initialize and start the new clock
     startAnimations();
     
     document.getElementById("knowledge-box").addEventListener("click", () => {
