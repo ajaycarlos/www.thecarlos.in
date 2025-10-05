@@ -290,15 +290,16 @@ async function shareFact() {
 // ========================
 // 10️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
+    // EDITED: Changed all instances of document.documentElement back to document.body
     const body = document.body;
 
     const themeSwitcher = document.getElementById('theme-switcher');
     
-    // NOTE: The initial theme application is now handled by a script in the <head> of the HTML file
-    // to prevent the flash of unstyled content. This listener is only for toggling.
+    // NOTE: The initial theme application is handled by a script in the <head> of the HTML file.
+    // This listener is only for toggling the theme on click.
     const toggleTheme = () => {
-        const isLightTheme = document.documentElement.classList.toggle('light-theme');
-        localStorage.setItem('carlosTheme', isLightTheme ? 'light' : 'dark');
+        body.classList.toggle('light-theme');
+        localStorage.setItem('carlosTheme', body.classList.contains('light-theme') ? 'light' : 'dark');
     };
 
     if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
@@ -306,12 +307,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const menuButton = document.getElementById('menu-button');
     if(menuButton) menuButton.addEventListener('click', (event) => {
       event.preventDefault();
-      document.documentElement.classList.toggle('sidebar-open');
+      body.classList.toggle('sidebar-open');
     });
     
     const closeButton = document.getElementById('sidebar-close-button');
     if(closeButton) closeButton.addEventListener('click', () => {
-        document.documentElement.classList.remove('sidebar-open');
+        body.classList.remove('sidebar-open');
     });
     
     await loadKnowledgeBits(); 
@@ -349,12 +350,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const askTrigger = document.getElementById('ask-carlos-trigger');
     if(askTrigger) askTrigger.addEventListener('click', (event) => {
         event.stopPropagation();
-        document.documentElement.classList.add('ai-modal-open');
+        body.classList.add('ai-modal-open');
     });
     
     const modalCloseButton = document.getElementById('ai-modal-close-button');
     if(modalCloseButton) modalCloseButton.addEventListener('click', () => {
-        document.documentElement.classList.remove('ai-modal-open');
+        body.classList.remove('ai-modal-open');
     });
 
     const aiForm = document.getElementById('ai-chat-form');
@@ -372,7 +373,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            // This is the corrected block. It no longer calls the non-existent animation function.
             const apiResponse = await fetch('/api/ask-carlos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
