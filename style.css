@@ -451,7 +451,10 @@ body.ai-modal-open #ai-modal {
   opacity: 0;
   transition: opacity 2s ease;
   font-size: 18px;
+<<<<<<< HEAD
   color: var(--text-color);
+=======
+>>>>>>> 9da3259 (newclock)
 }
 
 .time-group {
@@ -460,6 +463,7 @@ body.ai-modal-open #ai-modal {
 
 .separator {
   margin: 0 5px;
+<<<<<<< HEAD
   line-height: 1.2em;
 }
 
@@ -500,6 +504,32 @@ body.ai-modal-open #ai-modal {
 }
 
 
+=======
+}
+
+.digit {
+  position: relative;
+  display: inline-block;
+  width: 0.8em;
+  height: 1.2em; /* Give the container height */
+  line-height: 1.2em;
+  text-align: center;
+  overflow: hidden; /* Hide the sliding numbers */
+}
+
+.digit-inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Animation class */
+.digit.drop .digit-inner {
+  transform: translateY(-100%);
+}
+
+>>>>>>> 9da3259 (newclock)
 #footer-text {
   position: fixed;
   bottom: 5px;
