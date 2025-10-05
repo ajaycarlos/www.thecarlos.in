@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatWindow = document.getElementById('chat-window');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
+    let thinkingInterval = null; // To hold the interval for the thinking animation
     
     // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
@@ -23,14 +24,36 @@ document.addEventListener("DOMContentLoaded", () => {
     themeSwitcher.addEventListener('click', toggleTheme);
     // --- End theme logic ---
 
-    // EDITED: Corrected the addMessage function
+    // --- NEW: "Living AI" Thinking Animation ---
+    function startThinkingAnimation(divElement) {
+        // Stop any previous animation
+        if (thinkingInterval) clearInterval(thinkingInterval);
+        
+        const characters = ['▓', '▒', '░'];
+        let count = 0;
+        
+        thinkingInterval = setInterval(() => {
+            let dots = '';
+            for (let i = 0; i < 3; i++) {
+                dots += characters[(count + i) % characters.length];
+            }
+            divElement.textContent = `Processing${dots}`;
+            count++;
+        }, 150); // Update speed
+    }
+
+    function stopThinkingAnimation() {
+        if (thinkingInterval) {
+            clearInterval(thinkingInterval);
+            thinkingInterval = null;
+        }
+    }
+
+    // Function to add a message to the chat window
     function addMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
-        
-        // This part was missing for the AI, now it's fixed
         messageDiv.textContent = message;
-        
         chatWindow.appendChild(messageDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
         return messageDiv;
@@ -55,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         type();
     }
 
-    // Handle form submission
+    // Handle form submission (UPDATED)
     chatForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const userInput = chatInput.value.trim();
@@ -65,8 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
         chatInput.value = '';
 
         // Show thinking indicator
-        const thinkingMessage = addMessage("...", 'ai');
-        thinkingMessage.classList.add('typing');
+        const thinkingMessage = addMessage("", 'ai');
+        startThinkingAnimation(thinkingMessage); // Start the new animation
 
         try {
             const response = await fetch('/api/ask-carlos', {
@@ -77,18 +100,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 }),
             });
             
+            stopThinkingAnimation(); // Stop the animation once response is received
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             
             const data = await response.json();
             
-            // Remove typing indicator and start typewriter for the real answer
-            thinkingMessage.classList.remove('typing');
             typewriterForAi(data.answer, thinkingMessage);
 
         } catch (error) {
-            thinkingMessage.classList.remove('typing');
+            stopThinkingAnimation(); // Also stop the animation on error
             thinkingMessage.textContent = "Sorry, an error occurred. Please try again.";
             console.error('Error:', error);
         }
@@ -98,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const welcomeMessage = document.querySelector('.ai-message');
     if (welcomeMessage) {
         const welcomeText = welcomeMessage.textContent;
-        // The div already exists, so we pass it to the typewriter
         typewriterForAi(welcomeText, welcomeMessage);
     }
 });
