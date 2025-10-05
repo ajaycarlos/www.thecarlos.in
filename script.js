@@ -41,7 +41,7 @@ function addSeenFact(index) {
 
 
 // ========================
-// 4️⃣ Live Clock (India Time) (CORRECTED DROP-DOWN ANIMATION)
+// 4️⃣ Live Clock (India Time)
 function startLiveClock() {
     const digitBoxes = document.querySelectorAll('#live-clock .digit-box');
 
@@ -62,10 +62,9 @@ function startLiveClock() {
         setTimeout(() => {
             currentTop.textContent = newValue;
             digitBox.classList.remove('drop');
-            // Reset transforms for the next cycle
             currentTop.style.transform = 'translateY(0)';
             currentBottom.style.transform = 'translateY(100%)';
-        }, 400); // Must match CSS transition duration
+        }, 400);
     }
 
     function updateClockDisplay() {
@@ -85,7 +84,6 @@ function startLiveClock() {
         }
     }
     
-    // Set initial values
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -185,7 +183,7 @@ function typewriterForAi(text, responseArea, onComplete) {
 
 
 // ========================
-// 8️⃣ Video Animation + Logo Fade-in (CORRECTED)
+// 8️⃣ Video Animation + Logo Fade-in
 function startAnimations() {
     const videoContainer = document.getElementById("video-container");
     const video = document.getElementById("intro-video");
@@ -196,7 +194,8 @@ function startAnimations() {
         document.getElementById("since-text"),
         document.getElementById("since-logo-text"),
         document.getElementById("footer-text"),
-        document.getElementById("live-clock")
+        document.getElementById("live-clock"),
+        document.getElementById("menu-button") // Add menu button to fade-in list
     ];
 
     let animationHasRun = false;
@@ -252,7 +251,7 @@ function startAnimations() {
         }
     }
 
-    setTimeout(runExitAnimation, 7000); // Failsafe timer
+    setTimeout(runExitAnimation, 7000);
 }
 
 
@@ -306,8 +305,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
     applySavedTheme();
     
-    const logo = document.getElementById('logo');
-    if(logo) logo.addEventListener('click', (event) => {
+    // EDITED: Sidebar logic moved to the new menu button
+    const menuButton = document.getElementById('menu-button');
+    if(menuButton) menuButton.addEventListener('click', (event) => {
       event.preventDefault();
       body.classList.toggle('sidebar-open');
     });
@@ -375,18 +375,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         isAiResponding = true;
 
         try {
-            const response = await fetch('/api/ask-carlos', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: userInput,
-                    contextFact: currentFact.fact 
+            const [apiResponse] = await Promise.all([
+                fetch('/api/ask-carlos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: userInput,
+                        contextFact: currentFact.fact 
+                    }),
                 }),
-            });
+                playStarstreamAnimation()
+            ]);
 
-            if (!response.ok) { throw new Error('Network response was not ok'); }
+            if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
             
-            const data = await response.json();
+            const data = await apiResponse.json();
             
             typewriterForAi(data.answer, responseArea, () => {
                 isAiResponding = false;
