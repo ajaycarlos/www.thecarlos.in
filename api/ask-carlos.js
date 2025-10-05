@@ -61,7 +61,7 @@ export default async function handler(request, response) {
 Running system diagnostics...
 - - - - - - - - - - - - - - - -
 Cognitive Core: ONLINE
-Knowledge Base: 422 facts loaded
+Knowledge Base: 972 facts loaded
 Last System Update: ${dateString}
 Network Latency: 42ms
 All systems nominal.
