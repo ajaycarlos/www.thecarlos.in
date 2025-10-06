@@ -71,6 +71,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
     let isAiResponding = false;
+    
+    // EDITED: Added the theme switcher logic
+    const themeSwitcher = document.getElementById('theme-switcher');
+    if(themeSwitcher) {
+        themeSwitcher.addEventListener('click', () => {
+            const isLightTheme = document.documentElement.classList.toggle('light-theme');
+            localStorage.setItem('carlosTheme', isLightTheme ? 'light' : 'dark');
+        });
+    }
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
