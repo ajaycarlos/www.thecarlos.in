@@ -24,13 +24,11 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100dvh; 
   overflow: hidden;
-  /* EDITED: Explicitly sets a readable system font for all regular text */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* EDITED: Added padding to create 'free space' around the container */
+  padding: 3vh 5vw;
 }
 
 #calm-background {
@@ -44,11 +42,10 @@ body {
 }
 
 .chat-container {
-  width: 90%;
+  /* EDITED: Changed height to fill the padded body, making it responsive */
+  width: 100%;
+  height: 100%;
   max-width: 800px;
-  /* EDITED: Changed height to be flexible and prevent being cut off */
-  height: 85dvh;
-  max-height: 700px; /* Added max-height for very tall screens */
   display: flex;
   flex-direction: column;
   background-color: var(--container-bg-color);
@@ -59,7 +56,6 @@ body {
 }
 
 h1 {
-  /* This ensures the special font is ONLY used for the title */
   font-family: 'Mojangles', sans-serif;
   text-align: center;
   margin-bottom: 20px;
@@ -83,6 +79,8 @@ h1 sup {
 
 .message {
   margin-bottom: 20px;
+  /* EDITED: Added this rule to force the correct, readable font on all chat messages */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 .user-message {
