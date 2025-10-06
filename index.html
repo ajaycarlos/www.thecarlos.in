@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The C.A.R.L.O.S. Project | A Hub for Science & Tech Facts</title>
   <meta name="description" content="Explore a curated collection of 400+ fascinating facts about AI, technology, and the universe with C.A.R.L.O.S., a futuristic AI interface.">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.0">
   <link rel="icon" href="logo.png" type="image/png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
@@ -101,18 +101,7 @@
 
   <div id="footer-text">Goal Is Far Beyond | carlos is C.A.R.L.O.S</div>
   
-  <script src="script.js"></script>
+  <script src="script.js?v=1.0"></script>
   
-  <script>
-    (function() {
-      const timestamp = new Date().getTime();
-      document.querySelectorAll('link[href^="style.css"]').forEach(link => {
-        link.href = `${link.href.split('?')[0]}?t=${timestamp}`;
-      });
-      document.querySelectorAll('script[src^="script.js"]').forEach(script => {
-        script.src = `${script.src.split('?')[0]}?t=${timestamp}`;
-      });
-    })();
-  </script>
-</body>
+  </body>
 </html>
