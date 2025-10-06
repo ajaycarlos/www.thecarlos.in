@@ -9,8 +9,18 @@
   <link rel="icon" href="logo.png" type="image/png">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('carlosTheme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+      }
+    })();
+  </script>
+
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ae2ca7df2a347278657c9f7241868c9"}'></script>
 </head>
-<body>
+<body style="background-color: #000;">
 
   <div id="starfield">
     <div class="stars" id="stars1"></div>
@@ -30,6 +40,7 @@
     </div>
     <nav>
       <a href="index.html" class="nav-link">KnowledgeBit</a>
+      <a href="sanctuary.html" class="nav-link">Sanctuary<sup>ai</sup></a>
       <a href="chat.html" class="nav-link" id="nav-carlos-chat">C.A.R.L.O.S<sup>ai</sup></a>
     </nav>
   </div>
@@ -89,8 +100,19 @@
   </div>
 
   <div id="footer-text">Goal Is Far Beyond | carlos is C.A.R.L.O.S</div>
-
-  <script src="script.js?v=1.02"></script>
   
+  <script src="script.js"></script>
+  
+  <script>
+    (function() {
+      const timestamp = new Date().getTime();
+      document.querySelectorAll('link[href^="style.css"]').forEach(link => {
+        link.href = `${link.href.split('?')[0]}?t=${timestamp}`;
+      });
+      document.querySelectorAll('script[src^="script.js"]').forEach(script => {
+        script.src = `${script.src.split('?')[0]}?t=${timestamp}`;
+      });
+    })();
+  </script>
 </body>
 </html>
