@@ -11,16 +11,11 @@ let isAiResponding = false;
 async function loadKnowledgeBits() {
     try {
         const response = await fetch('knowledge.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         knowledgeBits = await response.json();
     } catch (error) {
         console.error("Could not load knowledge bits:", error);
-        knowledgeBits = [{
-            fact: "Error: Could not load facts.",
-            explanation: "The knowledge.json file could not be loaded."
-        }];
+        knowledgeBits = [{ fact: "Error: Could not load facts.", explanation: "The knowledge.json file could not be loaded." }];
     }
 }
 
@@ -44,21 +39,14 @@ function addSeenFact(index) {
 // 4️⃣ Live Clock (India Time)
 function startLiveClock() {
     const digitBoxes = document.querySelectorAll('#live-clock .digit-box');
-
     function updateDigit(digitBox, newValue) {
         const currentTop = digitBox.querySelector('.digit-top');
         const currentBottom = digitBox.querySelector('.digit-bottom');
         const displayedValue = currentTop.textContent;
-
-        if (displayedValue === newValue) {
-            return;
-        }
-        
+        if (displayedValue === newValue) return;
         currentTop.textContent = displayedValue;
         currentBottom.textContent = newValue;
-
         digitBox.classList.add('drop');
-
         setTimeout(() => {
             currentTop.textContent = newValue;
             digitBox.classList.remove('drop');
@@ -66,38 +54,20 @@ function startLiveClock() {
             currentBottom.style.transform = 'translateY(100%)';
         }, 400);
     }
-
     function updateClockDisplay() {
         const now = new Date();
         const istOffset = 5.5 * 60;
         const utc = now.getTime() + now.getTimezoneOffset() * 60000;
         const istTime = new Date(utc + istOffset * 60000);
-        
-        const hours = String(istTime.getHours()).padStart(2, '0');
-        const minutes = String(istTime.getMinutes()).padStart(2, '0');
-        const seconds = String(istTime.getSeconds()).padStart(2, '0');
-
-        const timeString = `${hours}${minutes}${seconds}`;
-
-        for (let i = 0; i < 6; i++) {
-            updateDigit(digitBoxes[i], timeString[i]);
-        }
+        const timeString = `${String(istTime.getHours()).padStart(2, '0')}${String(istTime.getMinutes()).padStart(2, '0')}${String(istTime.getSeconds()).padStart(2, '0')}`;
+        for (let i = 0; i < 6; i++) { updateDigit(digitBoxes[i], timeString[i]); }
     }
-    
     const now = new Date();
     const istOffset = 5.5 * 60;
     const utc = now.getTime() + now.getTimezoneOffset() * 60000;
     const istTime = new Date(utc + istOffset * 60000);
-    const initialTime = [
-        ...String(istTime.getHours()).padStart(2, '0'),
-        ...String(istTime.getMinutes()).padStart(2, '0'),
-        ...String(istTime.getSeconds()).padStart(2, '0')
-    ];
-    
-    digitBoxes.forEach((digitBox, index) => {
-        digitBox.querySelector('.digit-top').textContent = initialTime[index];
-    });
-
+    const initialTime = `${String(istTime.getHours()).padStart(2, '0')}${String(istTime.getMinutes()).padStart(2, '0')}${String(istTime.getSeconds()).padStart(2, '0')}`;
+    digitBoxes.forEach((digitBox, index) => { digitBox.querySelector('.digit-top').textContent = initialTime[index]; });
     setInterval(updateClockDisplay, 1000);
 }
 
@@ -115,11 +85,9 @@ function showKnowledgeBit() {
     const randomAvailableIndex = Math.floor(Math.random() * availableIndices.length);
     const newFactIndex = availableIndices[randomAvailableIndex];
     currentFact = knowledgeBits[newFactIndex];
-
     document.getElementById('ask-carlos-trigger').style.visibility = 'hidden';
     document.getElementById('ask-carlos-trigger').style.opacity = '0';
-    document.body.classList.remove('ai-modal-open');
-
+    document.documentElement.classList.remove('ai-modal-open');
     const factTextElement = document.getElementById("knowledge-bit-text");
     const explanationElement = document.getElementById("knowledge-explanation");
     explanationElement.innerHTML = '';
@@ -136,7 +104,6 @@ function showKnowledgeBit() {
 function typeWriter() {
     const explanation = currentFact.explanation || '';
     if (isTyping || !explanation) return;
-
     const explanationElement = document.getElementById("knowledge-explanation");
     const askTrigger = document.getElementById('ask-carlos-trigger');
     explanationElement.innerHTML = '';
@@ -152,7 +119,6 @@ function typeWriter() {
         } else {
             explanationElement.classList.remove('typing');
             isTyping = false;
-            
             askTrigger.style.visibility = 'visible';
             askTrigger.style.opacity = '1';
         }
@@ -167,7 +133,6 @@ function typewriterForAi(text, responseArea, onComplete) {
     const speed = 30;
     responseArea.innerHTML = '';
     responseArea.classList.add('typing');
-
     function type() {
         if (i < text.length) {
             responseArea.innerHTML += text.charAt(i);
@@ -188,53 +153,33 @@ function startAnimations() {
     const videoContainer = document.getElementById("video-container");
     const video = document.getElementById("intro-video");
     const tapToEnter = document.getElementById("tap-to-enter");
-    
-    const elementsToFadeIn = [
-        document.getElementById("logo"),
-        document.getElementById("since-text"),
-        document.getElementById("since-logo-text"),
-        document.getElementById("footer-text"),
-        document.getElementById("live-clock"),
-        document.getElementById("menu-button")
-    ];
-
+    const elementsToFadeIn = [ document.getElementById("logo"), document.getElementById("since-text"), document.getElementById("since-logo-text"), document.getElementById("footer-text"), document.getElementById("live-clock"), document.getElementById("menu-button") ];
     let animationHasRun = false;
-
     const runExitAnimation = () => {
         if (animationHasRun) return;
         animationHasRun = true;
         sessionStorage.setItem('introPlayed', 'true');
-
         if (videoContainer) {
             videoContainer.style.transition = "opacity 2s ease";
             videoContainer.style.opacity = "0";
         }
-        
-        elementsToFadeIn.forEach(el => {
-            if (el) el.style.opacity = "1";
-        });
-
+        elementsToFadeIn.forEach(el => { if (el) el.style.opacity = "1"; });
         setTimeout(() => {
             if (videoContainer) videoContainer.style.display = "none";
             const mainContent = document.getElementById("main-content-container");
             if (mainContent) mainContent.style.opacity = "1";
         }, 2000);
     };
-
     function skipIntro() {
         if (videoContainer) videoContainer.style.display = "none";
-        elementsToFadeIn.forEach(el => {
-            if (el) el.style.opacity = "1";
-        });
+        elementsToFadeIn.forEach(el => { if (el) el.style.opacity = "1"; });
         const mainContent = document.getElementById("main-content-container");
         if (mainContent) mainContent.style.opacity = "1";
     }
-
     if (sessionStorage.getItem('introPlayed') === 'true') {
         skipIntro();
         return;
     }
-
     if (video) {
         video.addEventListener('ended', runExitAnimation);
         const playPromise = video.play();
@@ -242,15 +187,11 @@ function startAnimations() {
             playPromise.catch(error => {
                 console.error("Autoplay was prevented:", error);
                 if (video) video.style.display = 'none';
-                if (tapToEnter) {
-                    tapToEnter.style.visibility = 'visible';
-                    tapToEnter.style.opacity = '1';
-                }
+                if (tapToEnter) { tapToEnter.style.visibility = 'visible'; tapToEnter.style.opacity = '1'; }
                 if (videoContainer) videoContainer.addEventListener('click', runExitAnimation);
             });
         }
     }
-
     setTimeout(runExitAnimation, 7000);
 }
 
@@ -260,29 +201,17 @@ function startAnimations() {
 async function shareFact() {
     const factTextElement = document.getElementById("knowledge-bit-text");
     const shareText = `Check out this fact from The C.A.R.L.O.S Project:\n\n"${factTextElement.innerText}"\n\nwww.thecarlos.in`;
-    const shareData = {
-        title: 'A Fact from The C.A.R.L.O.S Project',
-        text: `"${factTextElement.innerText}"`,
-        url: 'https://www.thecarlos.in'
-    };
+    const shareData = { title: 'A Fact from The C.A.R.L.O.S Project', text: `"${factTextElement.innerText}"`, url: 'https://www.thecarlos.in' };
     if (navigator.share) {
-        try {
-            await navigator.share(shareData);
-        } catch (err) {
-            console.error('Share failed:', err);
-        }
+        try { await navigator.share(shareData); } catch (err) { console.error('Share failed:', err); }
     } else {
         try {
             await navigator.clipboard.writeText(shareText);
             const shareButton = document.getElementById('share-button');
             const originalIcon = shareButton.innerHTML;
             shareButton.innerHTML = 'Copied!';
-            setTimeout(() => {
-                shareButton.innerHTML = originalIcon;
-            }, 1500);
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
+            setTimeout(() => { shareButton.innerHTML = originalIcon; }, 1500);
+        } catch (err) { console.error('Failed to copy text: ', err); }
     }
 }
 
@@ -290,29 +219,17 @@ async function shareFact() {
 // ========================
 // 10️⃣ Start everything when DOM content loaded
 document.addEventListener("DOMContentLoaded", async () => {
-    // EDITED: Changed all instances of document.documentElement back to document.body
-    const body = document.body;
-
-    const themeSwitcher = document.getElementById('theme-switcher');
-    
-    // NOTE: The initial theme application is handled by a script in the <head> of the HTML file.
-    // This listener is only for toggling the theme on click.
-    const toggleTheme = () => {
-        body.classList.toggle('light-theme');
-        localStorage.setItem('carlosTheme', body.classList.contains('light-theme') ? 'light' : 'dark');
-    };
-
-    if(themeSwitcher) themeSwitcher.addEventListener('click', toggleTheme);
+    const rootElement = document.documentElement;
     
     const menuButton = document.getElementById('menu-button');
     if(menuButton) menuButton.addEventListener('click', (event) => {
       event.preventDefault();
-      body.classList.toggle('sidebar-open');
+      rootElement.classList.toggle('sidebar-open');
     });
     
     const closeButton = document.getElementById('sidebar-close-button');
     if(closeButton) closeButton.addEventListener('click', () => {
-        body.classList.remove('sidebar-open');
+        rootElement.classList.remove('sidebar-open');
     });
     
     await loadKnowledgeBits(); 
@@ -324,7 +241,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(knowledgeBox) knowledgeBox.addEventListener("click", () => {
         const explanationElement = document.getElementById("knowledge-explanation");
         const askTrigger = document.getElementById('ask-carlos-trigger');
-
         if (explanationElement.innerHTML !== '' && !isTyping) {
             explanationElement.innerHTML = '';
             askTrigger.style.opacity = '0';
@@ -336,60 +252,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const refreshButton = document.getElementById("refresh-button");
-    if(refreshButton) refreshButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        showKnowledgeBit();
-    });
+    if(refreshButton) refreshButton.addEventListener("click", (event) => { event.stopPropagation(); showKnowledgeBit(); });
     
     const shareButton = document.getElementById("share-button");
-    if(shareButton) shareButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        shareFact();
-    });
+    if(shareButton) shareButton.addEventListener("click", (event) => { event.stopPropagation(); shareFact(); });
 
     const askTrigger = document.getElementById('ask-carlos-trigger');
-    if(askTrigger) askTrigger.addEventListener('click', (event) => {
-        event.stopPropagation();
-        body.classList.add('ai-modal-open');
-    });
+    if(askTrigger) askTrigger.addEventListener('click', (event) => { event.stopPropagation(); rootElement.classList.add('ai-modal-open'); });
     
     const modalCloseButton = document.getElementById('ai-modal-close-button');
-    if(modalCloseButton) modalCloseButton.addEventListener('click', () => {
-        body.classList.remove('ai-modal-open');
-    });
+    if(modalCloseButton) modalCloseButton.addEventListener('click', () => { rootElement.classList.remove('ai-modal-open'); });
 
     const aiForm = document.getElementById('ai-chat-form');
     if(aiForm) aiForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isAiResponding) return;
-
         const input = document.getElementById('ai-chat-input');
         const userInput = input.value.trim();
         if (userInput === '') return;
-        
         const responseArea = document.getElementById('ai-response-area');
         responseArea.innerHTML = 'C.A.R.L.O.S. is thinking...';
         input.value = '';
         isAiResponding = true;
-
         try {
             const apiResponse = await fetch('/api/ask-carlos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: userInput,
-                    contextFact: currentFact.fact 
-                }),
+                body: JSON.stringify({ question: userInput, contextFact: currentFact.fact }),
             });
-
             if (!apiResponse.ok) { throw new Error('Network response was not ok'); }
-            
             const data = await apiResponse.json();
-            
-            typewriterForAi(data.answer, responseArea, () => {
-                isAiResponding = false;
-            });
-
+            typewriterForAi(data.answer, responseArea, () => { isAiResponding = false; });
         } catch (error) {
             console.error('Error fetching AI response:', error);
             responseArea.innerText = 'Sorry, an error occurred. Please try again.';

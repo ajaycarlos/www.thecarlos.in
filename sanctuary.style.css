@@ -15,7 +15,6 @@
   --border-color: #333333;
 }
 
-/* EDITED: Added light theme variables */
 html.light-theme {
   --bg-color: #f0f2f5;
   --text-color: #1c1e21;
@@ -25,11 +24,7 @@ html.light-theme {
   --border-color: #ddd;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background-color: var(--bg-color);
@@ -41,99 +36,24 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#calm-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  opacity: 0.5;
-}
-
-.chat-container {
-  width: 100%;
-  height: 100%;
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--container-bg-color);
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--border-color);
-  border-radius: 15px;
-  padding: 25px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-h1 {
-  font-family: 'Mojangles', sans-serif;
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 28px;
-  text-transform: uppercase;
-  color: var(--text-secondary-color);
-  transition: color 0.3s ease;
-}
-
-h1 sup {
-  font-size: 14px;
-  text-transform: lowercase;
-}
-
-#chat-window {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding-right: 10px;
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.message {
-  margin-bottom: 20px;
-  /* EDITED: This rule forces the correct, readable font on all chat messages */
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-}
-
-.user-message {
-  color: var(--user-text-color);
-  text-align: right;
-  font-style: italic;
-}
-
-.ai-message span {
-  opacity: 0;
-  animation: fadeIn 0.8s forwards;
-  display: inline-block;
-}
-
+#calm-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5; }
+.chat-container { width: 100%; height: 100%; max-width: 800px; display: flex; flex-direction: column; background-color: var(--container-bg-color); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 15px; padding: 25px; transition: background-color 0.3s ease, border-color 0.3s ease; }
+h1 { font-family: 'Mojangles', sans-serif; text-align: center; margin-bottom: 20px; font-size: 28px; text-transform: uppercase; color: var(--text-secondary-color); transition: color 0.3s ease; }
+h1 sup { font-size: 14px; text-transform: lowercase; }
+#chat-window { flex-grow: 1; overflow-y: auto; padding-right: 10px; font-size: 16px; line-height: 1.7; }
+.message { margin-bottom: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important; word-wrap: break-word; }
+.user-message { color: var(--user-text-color); text-align: right; font-style: italic; }
+.ai-message span { opacity: 0; animation: fadeIn 0.8s forwards; display: inline-block; }
 @keyframes fadeIn { to { opacity: 1; } }
-
 #chat-form { display: flex; margin-top: 20px; }
-
-#chat-input {
-  flex-grow: 1;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--text-secondary-color);
-  color: var(--text-color);
-  font-size: 16px;
-  font-family: inherit;
-  padding: 10px;
-  outline: none;
-}
-
+#chat-input { flex-grow: 1; background: transparent; border: none; border-bottom: 1px solid var(--text-secondary-color); color: var(--text-color); font-size: 16px; font-family: inherit; padding: 10px; outline: none; }
 #chat-input::placeholder { color: var(--text-secondary-color); font-style: italic; }
-
 #chat-form button { background: none; border: none; color: var(--text-secondary-color); font-size: 24px; cursor: pointer; margin-left: 15px; transition: color 0.3s ease; }
 #chat-form button:hover { color: var(--text-color); }
-
 .back-button { position: fixed; top: 25px; left: 25px; font-size: 16px; color: var(--text-secondary-color); text-decoration: none; z-index: 1000; }
-
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
-
-/* EDITED: Added theme switcher styles */
 #theme-switcher { position: fixed; top: 25px; right: 25px; width: 24px; height: 24px; cursor: pointer; z-index: 1001; }
 .icon-sun, .icon-moon { width: 100%; height: 100%; position: absolute; transition: opacity 0.3s ease, transform 0.3s ease; }
 .icon-sun { background-color: #FFD700; border-radius: 50%; }
