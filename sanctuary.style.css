@@ -11,7 +11,7 @@
   --text-color: #EAEAEA;
   --text-secondary-color: #888888;
   --user-text-color: #CCCCCC;
-  --container-bg-color: rgba(17, 17, 17, 0.75);
+  --container-bg-color: rgba(17, 17, 17, 0.7);
   --border-color: #333333;
 }
 
@@ -32,16 +32,17 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-#bg-video {
+/* EDITED: Added styles for the new canvas background */
+#calm-background {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%; 
-  min-height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: -1;
-  opacity: 0.2;
-  object-fit: cover;
+  opacity: 0.5;
 }
+
 
 .chat-container {
   width: 90%;
@@ -50,7 +51,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--container-bg-color);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border-color);
   border-radius: 15px;
   padding: 25px;

@@ -1,4 +1,74 @@
+// EDITED: Added new function for the calm canvas background
+function startCalmBackground() {
+    const canvas = document.getElementById('calm-background');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const particleCount = 100;
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.radius = Math.random() * 1.5 + 0.5;
+            this.speed = Math.random() * 0.3 + 0.1;
+            this.opacity = Math.random() * 0.5 + 0.2;
+            this.fadeSpeed = Math.random() * 0.005 + 0.002;
+            this.angle = Math.random() * Math.PI * 2;
+        }
+
+        update() {
+            this.y -= this.speed;
+            this.angle += this.fadeSpeed;
+            this.opacity = Math.abs(Math.sin(this.angle));
+
+            if (this.y < -this.radius) {
+                this.y = height + this.radius;
+                this.x = Math.random() * width;
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(234, 234, 234, ${this.opacity})`;
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    // EDITED: Call the new background animation function
+    startCalmBackground();
+
     const chatWindow = document.getElementById('chat-window');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
