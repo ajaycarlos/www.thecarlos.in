@@ -35,7 +35,7 @@ export default async function handler(request, response) {
         "Describe a place, real or imagined, where you feel completely at ease.",
         "What is a piece of advice you would give to a friend in your exact situation?",
         "Write about a personal strength you are proud of, no matter how small it seems.",
-        "What is something you can choose to let go of, just for today?"
+        "What is something you can let go of, just for today?"
       ];
       const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
       return response.status(200).json({ answer: randomPrompt });
@@ -58,7 +58,7 @@ export default async function handler(request, response) {
       Now, respond to the user's message: "${question}"
     `;
     
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
     const aiResponse = await result.response;
     const text = aiResponse.text();
