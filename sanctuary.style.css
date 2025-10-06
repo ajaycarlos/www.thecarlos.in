@@ -11,7 +11,7 @@
   --text-color: #EAEAEA;
   --text-secondary-color: #888888;
   --user-text-color: #CCCCCC;
-  --container-bg-color: rgba(17, 17, 17, 0.7);
+  --container-bg-color: rgba(17, 17, 17, 0.75);
   --border-color: #333333;
 }
 
@@ -29,7 +29,7 @@ body {
   align-items: center;
   height: 100dvh; 
   overflow: hidden;
-  /* This uses a standard, readable font for the chat */
+  /* EDITED: Explicitly sets a readable system font for all regular text */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -46,18 +46,20 @@ body {
 .chat-container {
   width: 90%;
   max-width: 800px;
-  height: 90%;
+  /* EDITED: Changed height to be flexible and prevent being cut off */
+  height: 85dvh;
+  max-height: 700px; /* Added max-height for very tall screens */
   display: flex;
   flex-direction: column;
   background-color: var(--container-bg-color);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   border: 1px solid var(--border-color);
   border-radius: 15px;
   padding: 25px;
 }
 
 h1 {
-  /* This uses the special font ONLY for the title */
+  /* This ensures the special font is ONLY used for the title */
   font-family: 'Mojangles', sans-serif;
   text-align: center;
   margin-bottom: 20px;
