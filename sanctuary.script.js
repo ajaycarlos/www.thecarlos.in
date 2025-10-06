@@ -1,4 +1,3 @@
-// EDITED: Added new function for the calm canvas background
 function startCalmBackground() {
     const canvas = document.getElementById('calm-background');
     if (!canvas) return;
@@ -66,7 +65,6 @@ function startCalmBackground() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    // EDITED: Call the new background animation function
     startCalmBackground();
 
     const chatWindow = document.getElementById('chat-window');
@@ -87,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         setTimeout(() => {
             if (onComplete) onComplete();
-        }, words.length * 100 + 500); // Wait for animation to finish
+        }, words.length * 100 + 500);
     }
 
     function addMessage(message, sender, isThinking = false) {
