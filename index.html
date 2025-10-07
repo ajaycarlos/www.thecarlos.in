@@ -3,15 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Carlos</title>
-  <meta name="description" content="The C.A.R.L.O.S Project - An interactive collection of fascinating facts about science, technology, and the universe.">
-  <link rel="stylesheet" href="style.css?v=1.0">
-  <link rel="icon" href="logo.png" type="image/png">
+  <title>The C.A.R.L.O.S. Project | A Hub for Science & Tech Facts</title>
+  <meta name="description" content="Explore a curated collection of fascinating facts about AI, technology, and the universe with C.A.R.L.O.S., a futuristic AI interface.">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('carlosTheme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-theme');
+      }
+    })();
+  </script>
+
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ae2ca7df2a347278657c9f7241868c9"}'></script>
-  </head>
-<body>
+</head>
+<body style="background-color: #000;">
 
   <div id="starfield">
     <div class="stars" id="stars1"></div>
@@ -31,7 +45,9 @@
     </div>
     <nav>
       <a href="index.html" class="nav-link">KnowledgeBit</a>
+      <a href="sanctuary.html" class="nav-link">Sanctuary<sup>ai</sup></a>
       <a href="chat.html" class="nav-link" id="nav-carlos-chat">C.A.R.L.O.S<sup>ai</sup></a>
+      <a href="portfolio.html" class="nav-link">Portfolio</a>
     </nav>
   </div>
 
@@ -90,8 +106,9 @@
   </div>
 
   <div id="footer-text">Goal Is Far Beyond | carlos is C.A.R.L.O.S</div>
-
-  <script src="script.js?v=1.2"></script>
+  
+  <script src="script.js"></script>
+  <script src="global.js"></script>
   
 </body>
 </html>
