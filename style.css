@@ -341,6 +341,7 @@ body:not(.light-theme) .icon-sun { opacity: 0; transform: scale(0); }
   visibility: hidden;
 }
 
+/* EDITED: Added this rule to apply the Mojangles font to the 'CARLOSai' text */
 .carlos-ai-font {
   font-family: 'Mojangles', sans-serif;
   text-transform: uppercase;
@@ -568,17 +569,13 @@ body.ai-modal-open #ai-modal {
   #knowledge-explanation { font-size: 12px; }
   #ai-response-area { font-size: 12px; }
   #explore-sidebar { width: 80%; }
-
-  /* EDITED: Made clock smaller on mobile */
   #live-clock { font-size: 10px; }
-
   #logo { width: 32px; left: 52px; top: 25px; }
   #since-logo-text { width: 32px; top: 61px; font-size: 7px; left: 52px; }
   #menu-button { top: 38px; width: 18px; height: 6px; }
 }
 
 @media (max-width: 600px) {
-  /* EDITED: Increased space between clock and footer */
   #live-clock { bottom: 40px; }
   #footer-text { bottom: 8px; font-size: 10px; }
 }
