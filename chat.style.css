@@ -34,7 +34,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* EDITED: This is the fix for the mobile cropping issue */
   height: 100dvh; 
   overflow: hidden;
   font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
@@ -54,6 +53,7 @@ body {
 }
 
 h1 {
+  /* EDITED: Added this line to apply the Mojangles font */
   font-family: 'Mojangles', sans-serif;
   text-align: center;
   margin-bottom: 20px;
