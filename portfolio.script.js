@@ -1,43 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- Scroll Fade-In Animation ---
-    const sections = document.querySelectorAll('.section');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-    sections.forEach(section => {
-        observer.observe(section);
-    });
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pageSections = document.querySelectorAll('.page-section');
 
-    // --- Tabbed Projects Section ---
-    const tabList = document.querySelector('.project-tab-list');
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabPanes = document.querySelectorAll('.tab-pane');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
 
-    if (tabList) {
-        tabList.addEventListener('click', (e) => {
-            const clickedTab = e.target.closest('button');
-            if (!clickedTab) return;
+            const targetId = link.dataset.target;
 
-            tabButtons.forEach(button => button.classList.remove('active'));
-            clickedTab.classList.add('active');
-
-            const tabId = clickedTab.dataset.tab;
-
-            tabPanes.forEach(pane => {
-                if (pane.id === tabId) {
-                    pane.classList.add('active');
+            // Update page sections
+            pageSections.forEach(section => {
+                if (section.id === targetId) {
+                    section.classList.add('active');
                 } else {
-                    pane.classList.remove('active');
+                    section.classList.remove('active');
+                }
+            });
+
+            // Update active link
+            navLinks.forEach(navLink => {
+                if (navLink.dataset.target === targetId) {
+                    navLink.classList.add('active');
+                } else {
+                    navLink.classList.remove('active');
                 }
             });
         });
-    }
-
+    });
 });
