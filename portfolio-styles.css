@@ -114,21 +114,41 @@ section:last-of-type { border-bottom: none; }
 /* ====================================================== */
 
 /* 1. Define the panning animation */
-@keyframes pan-grid {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 50px 50px;
-  }
+/* ====================================================== */
+/* ======== FINAL ENHANCEMENT: BREATHING DOT GRID ======= */
+/* ====================================================== */
+
+/* 1. Define the new "breathing" (fade in/out) animation */
+@keyframes breathe {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
 }
 
-/* 2. Update the portfolio wrapper to use the new background */
+/* 2. Remove the old background from the main wrapper */
 #portfolio-wrapper {
-    /* New Animated Grid Background */
-    background-image:
-        linear-gradient(var(--border-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: pan-grid 30s linear infinite;
+    background-image: none; /* Remove the grid from here */
+    animation: none; /* Remove the old animation */
+}
+
+/* 3. Create a new pseudo-element to hold and animate the grid */
+#portfolio-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* The dot grid is now here */
+    background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+    background-size: 30px 30px;
+    /* Apply the new breathing animation */
+    animation: breathe 10s ease-in-out infinite;
+    z-index: 0;
+}
+
+/* Ensure all content sits on top of the new background */
+section, footer {
+    position: relative;
+    z-index: 1;
 }
