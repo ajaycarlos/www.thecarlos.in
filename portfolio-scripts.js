@@ -70,3 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// ====================================================== //
+// ============ VISUAL ENHANCEMENT: SPOTLIGHT CURSOR ==== //
+// ====================================================== //
+const portfolioWrapper = document.getElementById('portfolio-wrapper');
+if (portfolioWrapper) {
+    portfolioWrapper.addEventListener('mousemove', e => {
+        // Get the x and y position of the mouse relative to the wrapper
+        const rect = portfolioWrapper.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Set the CSS custom properties
+        portfolioWrapper.style.setProperty('--x', `${x}px`);
+        portfolioWrapper.style.setProperty('--y', `${y}px`);
+    });
+}

@@ -227,3 +227,108 @@ section:last-of-type {
         padding: 0 1rem;
     }
 }
+/* ====================================================== */
+/* ===== FIX: "View Live" Button Not Clickable ========== */
+/* ====================================================== */
+/* This makes the vanilla-tilt.js glare layer invisible 
+   to mouse clicks, allowing the button underneath to be clicked. */
+.js-tilt-glare {
+    pointer-events: none;
+}
+/* ====================================================== */
+/* ================= VISUAL ENHANCEMENTS ================ */
+/* ====================================================== */
+
+/* 1. Spotlight Cursor Effect
+/* This creates a radial gradient that follows the mouse using
+/* the --x and --y variables set by the JavaScript.
+/* ====================================================== */
+#portfolio-wrapper {
+    position: relative; /* Required for the spotlight and starfield */
+    background-color: #050505; /* A slightly softer black */
+}
+
+#portfolio-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(
+        circle 400px at var(--x, 50%) var(--y, 50%),
+        rgba(0, 255, 255, 0.05), /* Drastically reduced color intensity */
+        transparent 80%
+    );
+    opacity: 0.5; /* Reduced overall opacity */
+}
+
+/* 2. Animated Starfield Background
+/* This uses box-shadows on pseudo-elements to create stars
+/* and CSS animations to make them twinkle and drift.
+/* ====================================================== */
+@keyframes move-stars {
+    from { transform: translateY(0px); }
+    to   { transform: translateY(-2000px); }
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 150px 100px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 120px 140px, #ddd, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: move-stars 200s linear infinite;
+    opacity: 0.3;
+    z-index: -1; /* Place it behind content */
+}
+
+
+/* 3. Glowing Gradient Borders for Project Cards
+/* We use a pseudo-element as the border, which allows us
+/* to apply a gradient and animate it on hover.
+/* ====================================================== */
+.project-card {
+    position: relative; /* Required for the new border */
+    border: 1px solid var(--border-color); /* Fallback border */
+    z-index: 1;
+}
+
+/* The pseudo-element that will become our new border */
+.project-card::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border-radius: 12px;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        #00ffff 0deg, 
+        #048989 120deg,
+        #00ffff 360deg
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    z-index: -1;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+/* On hover, we make the original border transparent so we can see the gradient */
+.project-card:hover {
+    border-color: transparent;
+}
