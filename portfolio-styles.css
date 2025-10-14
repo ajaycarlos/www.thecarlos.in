@@ -7,10 +7,10 @@
     --bg-color: #0a0a0a;
     --primary-text-color: #e0e0e0;
     --secondary-text-color: #a0a0a0;
-    --accent-color: #00ffff;
+    --accent-color: #00ffff; /* Original Accent - still used for buttons */
     --card-bg-color: #1a1a1a;
     --border-color: #2a2a2a;
-    --glow-color: rgba(0, 255, 255, 0.4);
+    --glow-color: rgba(255, 255, 255, 0.25); /* CORRECTED: White Glow */
     --font-family: 'Inter', sans-serif;
 }
 
@@ -145,7 +145,7 @@ section:last-of-type {
     background-color: var(--accent-color);
     color: var(--bg-color);
     transform: scale(1.05);
-    box-shadow: 0 0 15px var(--glow-color);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
 /* --- Motto/About Section --- */
@@ -307,6 +307,12 @@ section:last-of-type {
     z-index: 1;
 }
 
+.project-card:hover {
+    /* CORRECTED: The box-shadow now uses the white --glow-color variable */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-color);
+    border-color: transparent;
+}
+
 .project-card::before {
     content: "";
     position: absolute;
@@ -315,11 +321,12 @@ section:last-of-type {
     width: calc(100% + 2px);
     height: calc(100% + 2px);
     border-radius: 12px;
+    /* CORRECTED: The gradient is now a clean white/gray mix */
     background: conic-gradient(
         from 180deg at 50% 50%,
-        #00ffff 0deg, 
-        #048989 120deg,
-        #00ffff 360deg
+        #ffffff 0deg, 
+        #a0a0a0 180deg,
+        #ffffff 360deg
     );
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
@@ -328,8 +335,4 @@ section:last-of-type {
 
 .project-card:hover::before {
     opacity: 1;
-}
-
-.project-card:hover {
-    border-color: transparent;
 }
