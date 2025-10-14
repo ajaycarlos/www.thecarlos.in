@@ -152,3 +152,15 @@ section, footer {
     position: relative;
     z-index: 1;
 }
+/* --- 8. Final Responsive Polish for Small Mobiles --- */
+@media (max-width: 480px) {
+    #portfolio-hero {
+        min-height: 70vh; /* Reduces top section height */
+    }
+    .section-title {
+        font-size: 2rem; /* Makes "Featured Projects" title smaller */
+    }
+    .motto {
+        font-size: 1.5rem; /* Makes motto text smaller */
+    }
+}
