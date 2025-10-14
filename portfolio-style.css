@@ -1,0 +1,229 @@
+/* ====================================================== */
+/* ============== PORTFOLIO STYLESHEET ================== */
+/* ====================================================== */
+
+/* --- Universal Settings & Variables --- */
+:root {
+    --bg-color: #0a0a0a; /* A very dark gray, almost black */
+    --primary-text-color: #e0e0e0;
+    --secondary-text-color: #a0a0a0;
+    --accent-color: #00ffff; /* A vibrant teal/cyan */
+    --card-bg-color: #1a1a1a;
+    --border-color: #2a2a2a;
+    --glow-color: rgba(0, 255, 255, 0.4);
+    --font-family: 'Inter', sans-serif;
+}
+
+/* Ensure this wrapper takes up the necessary space */
+#portfolio-wrapper {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+    color: var(--primary-text-color);
+    width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scroll from animations */
+}
+
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- Section Styling --- */
+section {
+    padding: 8rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+section:last-of-type {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4rem;
+    color: #fff;
+    /* Animate this title */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* --- Hero Section --- */
+#portfolio-hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 8vw, 5rem); /* Responsive font size */
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: -2px;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--secondary-text-color);
+    margin: 1rem 0 2rem 0;
+    font-weight: 300;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    color: var(--secondary-text-color);
+    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+.social-icon:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+    text-shadow: 0 0 15px var(--glow-color);
+}
+
+/* --- Projects Section --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.project-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d; /* Required for vanilla-tilt.js */
+    will-change: transform; /* Performance optimization */
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(50px) scale(0.95);
+}
+
+.project-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-color);
+    border-color: var(--accent-color);
+}
+
+.project-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    color: #fff;
+}
+
+.project-description-short {
+    color: var(--primary-text-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.project-description-enhanced {
+    color: var(--secondary-text-color);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    min-height: 90px; /* Ensures cards have similar height */
+}
+
+.project-button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-button:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--glow-color);
+}
+
+/* --- Motto/About Section --- */
+#portfolio-about {
+    text-align: center;
+}
+
+.motto {
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--primary-text-color);
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+/* --- Footer Section --- */
+#portfolio-footer {
+    padding: 4rem 0;
+    text-align: center;
+    background-color: #050505;
+}
+
+.footer-email {
+    font-size: 1.1rem;
+    color: var(--primary-text-color);
+    text-decoration: none;
+    margin-bottom: 1rem;
+    display: inline-block;
+    position: relative;
+    transition: color 0.3s ease;
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+.footer-email:hover {
+    color: var(--accent-color);
+}
+
+.copyright {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    opacity: 0; /* Initial state for animation */
+    transform: translateY(30px);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 6rem 0;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    .portfolio-container {
+        padding: 0 1rem;
+    }
+}
