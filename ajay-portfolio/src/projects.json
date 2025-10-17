@@ -1,0 +1,32 @@
+[
+  {
+    "id": "p1-sm",
+    "title": "P1 — smooth micro-interactions",
+    "url": "https://p1-sm.vercel.app/",
+    "repo": "",
+    "blurb": "Front-end build with crisp motion and lightweight deployment. Role: UI polish, deployment.",
+    "tech": ["React", "Vite", "Tailwind", "Vercel"],
+    "image": "/assets/p1.jpg",
+    "lqip": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHxgMOb7pILwAAAABJRU5ErkJggg=="
+  },
+  {
+    "id": "chick-buckvga",
+    "title": "Chick BuckVGA",
+    "url": "https://chick-buckvga.vercel.app/",
+    "repo": "",
+    "blurb": "Fun UI prototype exploring microcopy and playful navigation. Role: front-end dev, interactions.",
+    "tech": ["React", "Vite", "Tailwind", "Framer Motion"],
+    "image": "/assets/chick.jpg",
+    "lqip": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHxgMOb7pILwAAAABJRU5ErkJggg=="
+  },
+  {
+    "id": "thecarlos-in",
+    "title": "thecarlos.in",
+    "url": "https://thecarlos.in",
+    "repo": "",
+    "blurb": "Live site case — integrated Explore page routing and portfolio embedding.",
+    "tech": ["Next.js", "Edge", "SEO"],
+    "image": "/assets/carlos.jpg",
+    "lqip": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHxgMOb7pILwAAAABJRU5ErkJggg=="
+  }
+]
