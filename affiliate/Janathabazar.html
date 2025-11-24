@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Janatha Bazar — Register & Win</title>
+  <link rel="stylesheet" href="./Janathabazar.css">
+</head>
+<body>
+  <main class="wrap">
+    <aside class="sidebar">
+      <img src="./Janathabazar-logo.png" alt="Janatha Bazar" class="logo" />
+      <h2 class="store">Janatha Bazar — Kottakkal</h2>
+      <p class="muted">Register below to get your QR by email. Show QR at the branch to print your ticket.</p>
+      <ol class="how">
+        <li>Fill the form and submit</li>
+        <li>Open email and save QR</li>
+        <li>Show QR at branch; staff will scan and print your ticket</li>
+      </ol>
+    </aside>
+
+    <section class="formcard">
+      <h1>Register & Win — Janatha Bazar</h1>
+      <p class="lead">Fill your details to get a chance to win. One entry per person.</p>
+
+      <form id="regForm" class="form">
+        <label>
+          Full name
+          <input id="name" name="name" required />
+        </label>
+        <label>
+          Place
+          <input id="place" name="place" />
+        </label>
+        <label>
+          Phone
+          <input id="phone" name="phone" inputmode="tel" required />
+        </label>
+        <label>
+          Email
+          <input id="email" name="email" type="email" required />
+        </label>
+
+        <div class="actions">
+          <button id="submitBtn" type="submit">Register & Get QR</button>
+          <button id="resetBtn" type="button" class="alt">Reset</button>
+        </div>
+
+        <p id="message" class="message" role="status"></p>
+      </form>
+
+      <footer class="foot">Powered by TheCarlos.in</footer>
+    </section>
+  </main>
+
+  <script src="./Janathabazar.js"></script>
+</body>
+</html>
