@@ -1,3 +1,0 @@
-name = "register"
-lang = "ts"
-verify_jwt = false
