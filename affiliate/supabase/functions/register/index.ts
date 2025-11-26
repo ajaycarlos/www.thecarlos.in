@@ -6,7 +6,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const PROJECT_URL = Deno.env.get("PROJECT_URL")!;
 const SERVICE_ROLE_KEY = Deno.env.get("SERVICE_ROLE_KEY")!;
 const SENDGRID_API_KEY = Deno.env.get("SENDGRID_API_KEY")!;
-const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "ajaypulikkal@zohomail.in";
+const FROM_EMAIL = Deno.env.get("FROM_EMAIL") || "ajaypulikkal940@gmail.com";
 const APP_BASE_URL = Deno.env.get("APP_BASE_URL") || "https://thecarlos.in";
 
 // Secrets & Limits
