@@ -1,23 +1,166 @@
-<main class="container" style="text-align: center; padding-top: 50px;">
-    <h1>Affiliate Programs</h1>
-    <p>Select a program to view details:</p>
-
-    <div class="affiliate-list" style="margin-top: 30px; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliates | C.A.R.L.O.S</title>
+    <style>
+        /* --- PREMIUM DARK THEME SETUP --- */
         
-        <a href="Janathabazar.html" class="btn" style="
-            text-decoration: none;
-            color: inherit;
-            border: 2px solid currentColor;
-            padding: 15px 30px;
-            font-family: inherit; /* Inherits Minecraft font */
-            font-size: 1.2rem;
-            display: inline-block;
-            min-width: 300px;
-            transition: all 0.3s ease;
-            opacity: 0.8; 
-        ">
-            JanathaBazar LuckyDraw <span style="font-size: 0.8em; color: #ff6b6b;">(Ended)</span>
-        </a>
+        /* Load your Minecraft Font */
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('../Minecraft.ttf') format('truetype');
+        }
 
-        </div>
-</main>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #ffffff;
+            --danger-color: #ff5555; /* Soft red for "Ended" */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Minecraft', 'Courier New', monospace; /* Fallback to monospace */
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Background Stars Effect (Optional, matches your main vibe) */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* --- TYPOGRAPHY & LAYOUT --- */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        p.subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .affiliate-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        /* --- PREMIUM CARD BUTTON --- */
+        .affiliate-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px 30px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover Glow Effect */
+        .affiliate-card:hover {
+            border-color: var(--text-color);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* The arrow icon */
+        .arrow {
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .affiliate-card:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Status Badge Styling */
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            margin-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- FOOTER / BACK BUTTON --- */
+        .back-link {
+            margin-top: 60px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--text-color);
+            border-bottom-color: var(--text-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <main>
+        <h1>Affiliate Programs</h1>
+        <p class="subtitle">Select a program to proceed</p>
+
+        <div class="affiliate-list">
+            
+            <a href="Janathabazar.html" class="affiliate-card">
+                <div class="card-content">
+                    JanathaBazar LuckyDraw
+                    <span class="status-badge">Ended</span>
+                </div>
+                <div class="arrow">></div>
+            </a>
+
+            </div>
+
+        <a href="../index.html" class="back-link">Return to Home</a>
+    </main>
+
+</body>
+</html>
