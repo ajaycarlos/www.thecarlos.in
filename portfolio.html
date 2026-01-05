@@ -10,11 +10,9 @@
 <body>
 
     <div id="portfolio-wrapper">
-        
         <div id="hero-placeholder"></div>
         <div id="projects-placeholder"></div>
         <div id="footer-placeholder"></div>
-
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -26,17 +24,25 @@
         async function loadPart(id, file) {
             try {
                 const res = await fetch(file);
-                if (res.ok) document.getElementById(id).innerHTML = await res.text();
+                if (res.ok) {
+                    document.getElementById(id).innerHTML = await res.text();
+                } else {
+                    console.error(`Failed to load ${file}`);
+                }
             } catch (e) { console.error('Loading error:', e); }
         }
-        // Load the components
+
+        // Load all parts, THEN start the animations
         Promise.all([
             loadPart('hero-placeholder', 'portfolio-hero.html'),
             loadPart('projects-placeholder', 'portfolio-projects.html'),
             loadPart('footer-placeholder', 'portfolio-footer.html')
         ]).then(() => {
-            // Re-trigger GSAP after content is loaded
-            if(window.ScrollTrigger) ScrollTrigger.refresh();
+            // This runs only after all HTML is injected
+            console.log("All parts loaded. Starting animations...");
+            if (typeof initPortfolio === 'function') {
+                initPortfolio();
+            }
         });
     </script>
 </body>

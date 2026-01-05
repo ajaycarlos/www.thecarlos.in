@@ -2,7 +2,8 @@
 // ============ PORTFOLIO ANIMATION SCRIPT ============== //
 // ====================================================== //
 
-document.addEventListener('DOMContentLoaded', () => {
+// We wrap everything in a function so we can call it AFTER loading HTML
+function initPortfolio() {
 
     // --- Register GSAP Plugins ---
     gsap.registerPlugin(ScrollTrigger);
@@ -15,21 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    heroTimeline
-        .to('.hero-title', {
-            opacity: 1,
-            y: 0
-        })
-        .to('.hero-subtitle', {
-            opacity: 1,
-            y: 0
-        }, "-=0.8")
-        .to('.social-icon', {
-            opacity: 1,
-            y: 0,
-            stagger: 0.15
-        }, "-=0.7");
-
+    // Check if elements exist before animating to avoid errors
+    if (document.querySelector('.hero-title')) {
+        heroTimeline
+            .to('.hero-title', {
+                opacity: 1,
+                y: 0
+            })
+            .to('.hero-subtitle', {
+                opacity: 1,
+                y: 0
+            }, "-=0.8")
+            .to('.social-icon', {
+                opacity: 1,
+                y: 0,
+                stagger: 0.15
+            }, "-=0.7");
+    }
 
     // --- Scroll-Triggered Animations for Sections ---
     const sectionsToAnimate = [
@@ -43,19 +46,21 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionsToAnimate.forEach(selector => {
         const elements = document.querySelectorAll(selector);
 
-        gsap.to(elements, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: 'power2.out',
-            stagger: 0.2,
-            scrollTrigger: {
-                trigger: elements[0].closest('section') || elements[0].closest('footer'),
-                start: 'top 80%',
-                toggleActions: 'play none none none',
-            },
-        });
+        if (elements.length > 0) {
+            gsap.to(elements, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: 'power2.out',
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: elements[0].closest('section') || elements[0].closest('footer'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none none',
+                },
+            });
+        }
     });
 
     // --- Spotlight Cursor Effect ---
@@ -69,4 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             portfolioWrapper.style.setProperty('--y', `${y}px`);
         });
     }
-});
+    
+    // Force GSAP to recalculate positions now that content is there
+    ScrollTrigger.refresh();
+}
