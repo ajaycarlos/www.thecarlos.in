@@ -1,166 +1,120 @@
-/* ====================================================== */
-/* ========= PORTFOLIO STYLESHEET (RENOVATION) ========== */
-/* ====================================================== */
-
-/* --- 1. New Color Palette & Variables --- */
 :root {
-    --bg-color: #121212; /* Off-black for a softer feel */
-    --card-bg-color: #1E1E1E; /* Lighter gray for cards */
-    --primary-text-color: #F5F5F5; /* Bright white for high contrast */
-    --secondary-text-color: #AAAAAA; /* Lighter gray for secondary text */
-    --border-color: #333333; /* Subtle border color */
-    --accent-color: #F5F5F5; 
-    --font-family: 'Inter', sans-serif;
+    --bg-color: #050505;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-main: #ffffff;
+    --text-muted: #a1a1a1;
+    --font-main: 'Inter', sans-serif;
 }
 
-/* --- 2. New Background: Dot Grid & Spotlight --- */
-#portfolio-wrapper {
-    position: relative;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
     background-color: var(--bg-color);
-    /* The dot grid background */
-    background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-    background-size: 30px 30px;
-    font-family: var(--font-family);
-    color: var(--primary-text-color);
-    width: 100%;
+    color: var(--text-main);
+    font-family: var(--font-main);
     overflow-x: hidden;
 }
 
-/* The subtle white spotlight remains */
-#portfolio-wrapper::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* --- SPOTLIGHT WRAPPER --- */
+#portfolio-wrapper {
+    position: relative;
     width: 100%;
-    height: 100%;
-    pointer-events: none;
+    min-height: 100vh;
+    /* This creates the glow following your mouse using the JS variables */
     background: radial-gradient(
-        circle 500px at var(--x, 50%) var(--y, 50%),
-        rgba(255, 255, 255, 0.06),
-        transparent 80%
+        600px circle at var(--x, 50%) var(--y, 50%), 
+        rgba(255, 255, 255, 0.06), 
+        transparent 40%
     );
 }
 
-/* --- 3. General Layout (Unchanged) --- */
-.portfolio-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-section { padding: 8rem 0; border-bottom: 1px solid var(--border-color); }
-section:last-of-type { border-bottom: none; }
-.section-title { font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 4rem; color: #fff; opacity: 0; transform: translateY(30px); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* --- 4. Renovated Hero Section --- */
-#portfolio-hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-.hero-title { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 700; color: #fff; margin: 0; letter-spacing: -2px; opacity: 0; transform: translateY(30px); }
-.hero-subtitle { font-size: clamp(1rem, 3vw, 1.25rem); color: var(--secondary-text-color); margin: 1rem 0 2rem 0; font-weight: 300; opacity: 0; transform: translateY(30px); }
-.social-icons { display: flex; gap: 1.5rem; }
-.social-icon { font-size: 1.5rem; color: var(--secondary-text-color); opacity: 0; transform: translateY(30px); transition: color 0.3s ease, transform 0.3s ease; }
-.social-icon:hover { color: var(--accent-color); transform: scale(1.1); }
+/* --- HERO --- */
+.hero-section {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
-/* --- 5. Renovated Project Cards --- */
-.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+/* Initial states for GSAP animation */
+.hero-title, .hero-subtitle, .social-icon { 
+    opacity: 0; 
+    transform: translateY(20px); 
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: linear-gradient(to bottom right, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.social-links { display: flex; gap: 25px; margin-top: 20px; }
+.social-icon { font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
+.social-icon:hover { color: var(--text-main); }
+
+/* --- PROJECTS --- */
+.projects-header { margin: 100px 0 60px; border-left: 2px solid #fff; padding-left: 20px; }
+
+.section-title { 
+    font-size: 2rem; 
+    opacity: 0; /* JS will reveal this */
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 100px;
+}
 
 .project-card {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 40px 30px;
     border-radius: 12px;
-    padding: 2rem;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0; /* JS will reveal this */
+    transform: translateY(30px);
 }
 
-/* New "lift" effect on hover */
 .project-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-5px) !important; /* Override GSAP slightly on hover */
 }
 
-.project-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--primary-text-color); }
-.project-description-short { color: var(--primary-text-color); font-size: 1rem; line-height: 1.6; margin-bottom: 1rem; }
-.project-description-enhanced { color: var(--secondary-text-color); font-size: 0.9rem; line-height: 1.5; margin-bottom: 2rem; min-height: 90px; }
+.card-content h3 { font-size: 1.5rem; margin-bottom: 10px; }
+.card-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
 
-/* Renovated Button */
-.project-button {
-    display: inline-block;
-    text-decoration: none;
-    background-color: transparent;
-    color: var(--accent-color);
-    border: 1px solid var(--accent-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.tech-tags { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.tag { font-size: 0.75rem; border: 1px solid #333; padding: 5px 10px; border-radius: 50px; color: #888; }
+
+.btn-view {
+    padding: 10px 20px; border: 1px solid #fff; display: inline-block;
+    font-size: 0.9rem; margin-top: auto;
 }
+.btn-view:hover { background: #fff; color: #000; }
 
-.project-button:hover {
-    background-color: var(--accent-color);
-    color: #000; /* Black text for high contrast on gold */
-}
-
-/* --- 6. Footer & Motto (Unchanged) --- */
-#portfolio-about { text-align: center; }
-.motto { font-size: 2rem; font-weight: 400; color: var(--primary-text-color); font-style: italic; opacity: 0; transform: translateY(30px); }
-#portfolio-footer { padding: 4rem 0; text-align: center; background-color: transparent; }
-.footer-email { font-size: 1.1rem; color: var(--primary-text-color); text-decoration: none; margin-bottom: 1rem; display: inline-block; transition: color 0.3s ease; opacity: 0; transform: translateY(30px); }
-.footer-email:hover { color: var(--accent-color); }
-.copyright { font-size: 0.9rem; color: var(--secondary-text-color); opacity: 0; transform: translateY(30px); }
-
-/* --- 7. Responsive Design (Unchanged) --- */
-@media (max-width: 992px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px) { section { padding: 6rem 0; } .projects-grid { grid-template-columns: 1fr; } .portfolio-container { padding: 0 1rem; } }
-/* ====================================================== */
-/* =========== FINAL ENHANCEMENT: ANIMATED GRID ========= */
-/* ====================================================== */
-
-/* 1. Define the panning animation */
-/* ====================================================== */
-/* ======== FINAL ENHANCEMENT: BREATHING DOT GRID ======= */
-/* ====================================================== */
-
-/* 1. Define the new "breathing" (fade in/out) animation */
-@keyframes breathe {
-  0% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.4; }
-}
-
-/* 2. Remove the old background from the main wrapper */
-#portfolio-wrapper {
-    background-image: none; /* Remove the grid from here */
-    animation: none; /* Remove the old animation */
-}
-
-/* 3. Create a new pseudo-element to hold and animate the grid */
-#portfolio-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* The dot grid is now here */
-    background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-    background-size: 30px 30px;
-    /* Apply the new breathing animation */
-    animation: breathe 10s ease-in-out infinite;
-    z-index: 0;
-}
-
-/* Ensure all content sits on top of the new background */
-section, footer {
-    position: relative;
-    z-index: 1;
-}
-/* --- 8. Final Responsive Polish for Small Mobiles --- */
-@media (max-width: 480px) {
-    #portfolio-hero {
-        min-height: 70vh; /* Reduces top section height */
-    }
-    .section-title {
-        font-size: 2rem; /* Makes "Featured Projects" title smaller */
-    }
-    .motto {
-        font-size: 1.5rem; /* Makes motto text smaller */
-    }
-}
+/* --- FOOTER --- */
+footer { text-align: center; padding: 80px 0; border-top: 1px solid #222; }
+.motto { font-size: 1.5rem; font-style: italic; color: #666; margin-bottom: 20px; opacity: 0; }
+.footer-email { color: #fff; display: block; margin-bottom: 10px; opacity: 0; }
+.copyright { color: #444; font-size: 0.8rem; opacity: 0; }
