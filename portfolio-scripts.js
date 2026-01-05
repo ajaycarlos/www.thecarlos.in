@@ -1,8 +1,8 @@
 // ====================================================== //
-// ============ PORTFOLIO ANIMATION SCRIPT ============== //
+// ============ PREMIUM BLACK ANIMATION ENGINE ========== //
 // ====================================================== //
 
-// We wrap everything in a function so we can call it AFTER loading HTML
+// We wrap the logic in a function so we can call it AFTER the HTML loads
 function initPortfolio() {
 
     // --- Register GSAP Plugins ---
@@ -10,31 +10,19 @@ function initPortfolio() {
 
     // --- Hero Section Animations ---
     const heroTimeline = gsap.timeline({
-        defaults: {
-            duration: 1,
-            ease: 'power3.out'
-        }
+        defaults: { duration: 1, ease: 'power3.out' }
     });
 
-    // Check if elements exist before animating to avoid errors
+    // Animate Hero Elements if they exist
     if (document.querySelector('.hero-title')) {
         heroTimeline
-            .to('.hero-title', {
-                opacity: 1,
-                y: 0
-            })
-            .to('.hero-subtitle', {
-                opacity: 1,
-                y: 0
-            }, "-=0.8")
-            .to('.social-icon', {
-                opacity: 1,
-                y: 0,
-                stagger: 0.15
-            }, "-=0.7");
+            .to('.hero-title', { opacity: 1, y: 0 })
+            .to('.hero-subtitle', { opacity: 1, y: 0 }, "-=0.8")
+            .to('.social-icon', { opacity: 1, y: 0, stagger: 0.15 }, "-=0.7");
     }
 
-    // --- Scroll-Triggered Animations for Sections ---
+    // --- Scroll-Triggered Animations ---
+    // These classes match the new HTML structure
     const sectionsToAnimate = [
         '.section-title',
         '.project-card',
@@ -45,7 +33,6 @@ function initPortfolio() {
 
     sectionsToAnimate.forEach(selector => {
         const elements = document.querySelectorAll(selector);
-
         if (elements.length > 0) {
             gsap.to(elements, {
                 opacity: 1,
@@ -56,7 +43,7 @@ function initPortfolio() {
                 stagger: 0.2,
                 scrollTrigger: {
                     trigger: elements[0].closest('section') || elements[0].closest('footer'),
-                    start: 'top 80%',
+                    start: 'top 85%',
                     toggleActions: 'play none none none',
                 },
             });
@@ -64,6 +51,7 @@ function initPortfolio() {
     });
 
     // --- Spotlight Cursor Effect ---
+    // This matches the ID in your portfolio.html
     const portfolioWrapper = document.getElementById('portfolio-wrapper');
     if (portfolioWrapper) {
         portfolioWrapper.addEventListener('mousemove', e => {
@@ -74,7 +62,7 @@ function initPortfolio() {
             portfolioWrapper.style.setProperty('--y', `${y}px`);
         });
     }
-    
-    // Force GSAP to recalculate positions now that content is there
+
+    // Recalculate positions now that content is loaded
     ScrollTrigger.refresh();
 }

@@ -24,22 +24,17 @@
         async function loadPart(id, file) {
             try {
                 const res = await fetch(file);
-                if (res.ok) {
-                    document.getElementById(id).innerHTML = await res.text();
-                } else {
-                    console.error(`Failed to load ${file}`);
-                }
-            } catch (e) { console.error('Loading error:', e); }
+                if (res.ok) document.getElementById(id).innerHTML = await res.text();
+            } catch (e) { console.error('Error loading:', file, e); }
         }
 
-        // Load all parts, THEN start the animations
+        // 1. Load the parts
         Promise.all([
             loadPart('hero-placeholder', 'portfolio-hero.html'),
             loadPart('projects-placeholder', 'portfolio-projects.html'),
             loadPart('footer-placeholder', 'portfolio-footer.html')
         ]).then(() => {
-            // This runs only after all HTML is injected
-            console.log("All parts loaded. Starting animations...");
+            // 2. Start the animations ONLY after loading is done
             if (typeof initPortfolio === 'function') {
                 initPortfolio();
             }

@@ -1,19 +1,24 @@
+/* --- PREMIUM BLACK THEME VARIABLES --- */
 :root {
     --bg-color: #050505;
     --card-bg: rgba(255, 255, 255, 0.03);
     --card-border: rgba(255, 255, 255, 0.1);
+    --card-hover-border: rgba(255, 255, 255, 0.3);
     --text-main: #ffffff;
     --text-muted: #a1a1a1;
-    --font-main: 'Inter', sans-serif;
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+/* --- GLOBAL RESET --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
     font-family: var(--font-main);
+    line-height: 1.6;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 a { text-decoration: none; color: inherit; transition: 0.3s; }
@@ -23,7 +28,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     position: relative;
     width: 100%;
     min-height: 100vh;
-    /* This creates the glow following your mouse using the JS variables */
+    /* The glowing spotlight following the cursor */
     background: radial-gradient(
         600px circle at var(--x, 50%) var(--y, 50%), 
         rgba(255, 255, 255, 0.06), 
@@ -33,7 +38,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* --- HERO --- */
+/* --- HERO SECTION --- */
 .hero-section {
     height: 80vh;
     display: flex;
@@ -43,7 +48,7 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     text-align: center;
 }
 
-/* Initial states for GSAP animation */
+/* Hidden initially for GSAP */
 .hero-title, .hero-subtitle, .social-icon { 
     opacity: 0; 
     transform: translateY(20px); 
@@ -61,19 +66,22 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 .hero-subtitle {
     font-size: 1.2rem;
     color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 1px;
     margin-bottom: 30px;
 }
 
 .social-links { display: flex; gap: 25px; margin-top: 20px; }
 .social-icon { font-size: 1.5rem; color: var(--text-muted); cursor: pointer; }
-.social-icon:hover { color: var(--text-main); }
+.social-icon:hover { color: var(--text-main); transform: translateY(-3px); }
 
-/* --- PROJECTS --- */
+/* --- PROJECTS SECTION --- */
 .projects-header { margin: 100px 0 60px; border-left: 2px solid #fff; padding-left: 20px; }
 
 .section-title { 
     font-size: 2rem; 
-    opacity: 0; /* JS will reveal this */
+    font-weight: 500;
+    opacity: 0; /* Hidden for GSAP */
 }
 
 .project-grid {
@@ -88,33 +96,44 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
     border: 1px solid var(--card-border);
     padding: 40px 30px;
     border-radius: 12px;
+    transition: all 0.4s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    opacity: 0; /* JS will reveal this */
+    min-height: 350px;
+    opacity: 0; /* Hidden for GSAP */
     transform: translateY(30px);
 }
 
 .project-card:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.3);
-    transform: translateY(-5px) !important; /* Override GSAP slightly on hover */
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--card-hover-border);
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
 }
 
-.card-content h3 { font-size: 1.5rem; margin-bottom: 10px; }
-.card-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
+.card-content h3 { font-size: 1.5rem; margin-bottom: 15px; font-weight: 600; }
+.card-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; font-weight: 300; }
 
-.tech-tags { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-.tag { font-size: 0.75rem; border: 1px solid #333; padding: 5px 10px; border-radius: 50px; color: #888; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+.tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border: 1px solid var(--card-border); padding: 5px 10px; border-radius: 50px; }
 
 .btn-view {
-    padding: 10px 20px; border: 1px solid #fff; display: inline-block;
-    font-size: 0.9rem; margin-top: auto;
+    display: inline-block; width: fit-content; padding: 12px 24px;
+    background: transparent; border: 1px solid var(--text-main);
+    color: var(--text-main); font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; transition: 0.3s;
 }
-.btn-view:hover { background: #fff; color: #000; }
+.btn-view:hover { background: var(--text-main); color: var(--bg-color); }
 
 /* --- FOOTER --- */
-footer { text-align: center; padding: 80px 0; border-top: 1px solid #222; }
-.motto { font-size: 1.5rem; font-style: italic; color: #666; margin-bottom: 20px; opacity: 0; }
-.footer-email { color: #fff; display: block; margin-bottom: 10px; opacity: 0; }
-.copyright { color: #444; font-size: 0.8rem; opacity: 0; }
+footer { text-align: center; padding: 80px 0; border-top: 1px solid var(--card-border); margin-top: 50px; }
+.motto { font-size: 1.5rem; font-style: italic; color: var(--text-muted); margin-bottom: 20px; opacity: 0; }
+.footer-email { font-size: 1rem; color: var(--text-main); opacity: 0; margin-bottom: 10px; display: block; }
+.copyright { font-size: 0.8rem; color: #555; opacity: 0; }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.5rem; }
+    .hero-section { height: 60vh; }
+}
