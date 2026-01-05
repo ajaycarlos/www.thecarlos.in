@@ -3,345 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | ARCHITECT</title>
+    <title>Carlos | Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,600&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. LUXURY STYLING --- */
+        /* --- 1. PREMIUM VARIABLES --- */
         :root {
-            --bg: #0b0b0b;
-            --card-bg: #141414;
-            --text-main: #e0e0e0;
-            --text-muted: #666;
-            --accent: #d4af37; /* Champagne Gold */
-            --font-display: 'Cormorant Garamond', serif;
-            --font-ui: 'Manrope', sans-serif;
-            --perspective: 1000px;
+            --bg: #0e0e0e;
+            --surface: #161616;
+            --text-main: #ffffff;
+            --text-sec: #888888;
+            --accent: #ffffff; /* Stark white accent */
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', sans-serif;
+            --font-serif: 'Playfair Display', serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* --- 2. RESET & BASE --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html { scroll-behavior: smooth; }
+        
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-family: var(--font-ui);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* --- 3. LAYOUT GRID (The Professional Split) --- */
+        .layout {
+            display: grid;
+            grid-template-columns: 400px 1fr; /* Fixed Left, Fluid Right */
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* --- 4. LEFT SIDE (Sticky Header) --- */
+        .sidebar {
+            position: sticky;
+            top: 0;
             height: 100vh;
-            overflow: hidden; /* We control the scroll manually */
-            perspective: var(--perspective);
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid var(--border);
         }
 
-        /* Ambient Grain Texture */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
-            pointer-events: none; z-index: 9999;
-        }
-
-        /* Fixed HUD */
-        .nav-bar {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 40px;
-            display: flex; justify-content: space-between;
-            z-index: 100;
-            pointer-events: none;
-        }
-        .brand {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-style: italic;
-            letter-spacing: 1px;
-            color: var(--text-main);
-            pointer-events: auto;
-            text-decoration: none;
-        }
-        .status {
-            font-family: var(--font-ui);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-        }
-        .status span { color: var(--accent); }
-
-        .progress-line {
-            position: fixed; left: 40px; bottom: 40px;
-            width: 1px; height: 100px;
-            background: rgba(255,255,255,0.1);
-            z-index: 100;
-        }
-        .progress-fill {
-            width: 100%; height: 0%;
-            background: var(--accent);
-            transition: height 0.1s;
-        }
-
-        /* --- 2. THE 3D PLANE --- */
-        #world {
-            position: absolute;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            /* The Isometric Tilt */
-            transform: rotateX(60deg) rotateZ(-10deg) translateX(10%) scale(0.8);
-            transition: transform 0.1s ease-out;
-        }
-
-        .scroll-container {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            /* Infinite height handled by JS positioning */
-            transform-style: preserve-3d;
-        }
-
-        /* --- 3. CARDS --- */
-        .card {
-            position: absolute; /* Positioned by JS */
-            width: 100%;
-            height: 300px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 40px;
-            display: flex; flex-direction: column; justify-content: space-between;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-            box-shadow: 0 0 0 rgba(0,0,0,0);
-        }
-
-        /* The Hover Effect: Lift off the floor and face the user */
-        .card:hover {
-            background: #1a1a1a;
-            border-color: var(--accent);
-            /* Counter-rotate to face screen */
-            transform: translateZ(150px) rotateX(-60deg) rotateZ(10deg) scale(1.1) !important; 
-            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
-        
-        .card:hover .card-num { color: var(--accent); opacity: 1; transform: translateX(10px); }
-        .card:hover .arrow { opacity: 1; transform: translateX(0); }
-
-        /* Card Content */
-        .card-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-        }
-        .card-num {
-            font-family: var(--font-ui);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            transition: 0.3s;
-            opacity: 0.5;
-        }
-        .card-cat {
-            font-family: var(--font-ui);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-
-        .card-body h2 {
-            font-family: var(--font-display);
-            font-weight: 300;
+        .brand h1 {
+            font-family: var(--font-serif);
             font-size: 3rem;
             line-height: 1;
             margin-bottom: 10px;
-            font-style: italic;
         }
-        .card-body p {
+        .brand p {
+            font-size: 1rem;
+            color: var(--text-sec);
+            font-weight: 300;
+        }
+
+        .nav-menu { margin-top: -60px; }
+        .nav-item {
+            display: block;
+            color: var(--text-sec);
+            margin-bottom: 15px;
             font-size: 0.9rem;
-            color: var(--text-muted);
-            max-width: 80%;
-            line-height: 1.5;
-        }
-
-        .card-footer {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-top: 20px;
-        }
-        .tech-stack {
-            font-size: 0.75rem;
-            color: #555;
-            font-family: var(--font-code);
-        }
-        .arrow {
-            font-size: 1.5rem;
-            color: var(--accent);
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: 0.3s;
-        }
-
-        /* --- 4. INTRO SECTION --- */
-        .intro-text {
-            position: absolute;
-            top: -400px; left: 0;
-            width: 100%;
-            text-align: center;
-        }
-        .intro-text h1 {
-            font-family: var(--font-display);
-            font-size: 6rem;
-            line-height: 0.9;
-        }
-        .intro-text p {
-            font-family: var(--font-ui);
-            margin-top: 20px;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
             text-transform: uppercase;
-            color: var(--accent);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-main);
+            padding-left: 10px; /* Slide effect */
+        }
+        .nav-item::before {
+            content: ''; display: block; width: 0px; height: 1px; background: white; transition: 0.3s;
+        }
+        .nav-item.active::before { width: 30px; }
+
+        .socials { display: flex; gap: 20px; }
+        .social-link { font-size: 1.2rem; opacity: 0.5; }
+        .social-link:hover { opacity: 1; transform: translateY(-2px); }
+
+        /* --- 5. RIGHT SIDE (Scrolling Content) --- */
+        .content {
+            padding: 80px 60px;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            #world { transform: rotateX(0) rotateZ(0) translateX(0) scale(1); }
-            .scroll-container { width: 90%; }
-            .card:hover { transform: scale(1.05) !important; }
-            .intro-text h1 { font-size: 3rem; }
+        section {
+            margin-bottom: 150px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-tag {
+            font-family: var(--font-code);
+            color: var(--text-sec);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        /* Hero Text in Content */
+        .lead-text {
+            font-size: 2rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        .lead-text b { font-weight: 600; color: white; }
+
+        /* Stats Grid (Minimal) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 30px 0;
+        }
+        .stat h3 { font-size: 2.5rem; font-weight: 300; line-height: 1; }
+        .stat span { font-size: 0.8rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Project Cards (Clean & Sharp) */
+        .project-card {
+            display: block;
+            margin-bottom: 60px;
+            group: cursor;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 350px;
+            background: #222;
+            margin-bottom: 25px;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+        }
+        .card-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.7s ease;
+            opacity: 0.8;
+        }
+        .project-card:hover .card-image img { transform: scale(1.05); opacity: 1; }
+
+        .project-info h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; font-family: var(--font-serif); }
+        .project-info p { color: var(--text-sec); font-size: 0.9rem; max-width: 500px; margin-bottom: 15px;}
+        .tech-tags span {
+            font-size: 0.75rem; padding: 5px 10px; border: 1px solid var(--border);
+            border-radius: 20px; margin-right: 5px; color: var(--text-sec);
+        }
+
+        /* Contact Section */
+        .email-link {
+            font-size: 4vw;
+            font-family: var(--font-serif);
+            font-style: italic;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .email-link:hover { border-color: white; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { 
+                position: relative; height: auto; padding: 40px 20px; border-right: none; border-bottom: 1px solid var(--border);
+            }
+            .nav-menu { display: none; } /* Hide sticky nav on mobile */
+            .content { padding: 40px 20px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 40px;}
+            .email-link { font-size: 2rem; }
+        }
+
     </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="noise"></div>
+    <div class="layout">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <h1>Carlos.</h1>
+                <p>Full Stack Engineer</p>
+                <p style="color: #444; margin-top: 5px;">Based in Kerala, IN</p>
+            </div>
 
-    <nav class="nav-bar">
-        <a href="/" class="brand">TheCarlos.in</a>
-        <div class="status">System <span>Online</span></div>
-    </nav>
+            <nav class="nav-menu">
+                <a href="#about" class="nav-item active">01 About</a>
+                <a href="#projects" class="nav-item">02 Selected Works</a>
+                <a href="#expertise" class="nav-item">03 Expertise</a>
+                <a href="#contact" class="nav-item">04 Contact</a>
+            </nav>
 
-    <div class="progress-line">
-        <div class="progress-fill" id="p-bar"></div>
-    </div>
+            <div class="socials">
+                <a href="https://github.com" class="social-link">GH</a>
+                <a href="https://twitter.com" class="social-link">TW</a>
+                <a href="https://linkedin.com" class="social-link">LN</a>
+                <a href="/" class="social-link" style="font-size:0.8rem; border:1px solid #333; padding: 5px 10px; border-radius: 4px;">EXIT PORTFOLIO</a>
+            </div>
+        </aside>
 
-    <div id="world">
-        <div class="scroll-container" id="container">
+        <main class="content">
             
-            <div class="intro-text" style="transform: translateZ(50px);">
-                <h1>Design.<br>Logic.<br>Structure.</h1>
-                <p>Scroll to Explore</p>
-            </div>
+            <section id="about">
+                <span class="section-tag">/ INTRODUCTION</span>
+                <p class="lead-text">
+                    I build accessible, pixel-perfect, performant web experiences. 
+                    Currently focused on <b>Affiliate Systems</b> and <b>AI Integration</b>.
+                </p>
+                <p style="color: var(--text-sec); max-width: 500px; margin-bottom: 40px;">
+                    With a background in full-stack development, I bridge the gap between complex backend logic and silky-smooth frontend interactions.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat">
+                        <h3>03+</h3>
+                        <span>Years Exp.</span>
+                    </div>
+                    <div class="stat">
+                        <h3>12+</h3>
+                        <span>Projects</span>
+                    </div>
+                    <div class="stat">
+                        <h3>100%</h3>
+                        <span>Commitment</span>
+                    </div>
+                </div>
+            </section>
 
-            </div>
+            <section id="projects">
+                <span class="section-tag">/ SELECTED WORKS</span>
+                
+                <a href="/affiliate/" class="project-card">
+                    <div class="card-image">
+                        <div style="width:100%; height:100%; background: linear-gradient(45deg, #1a1a1a, #2a2a2a); display:flex; align-items:center; justify-content:center; color:#333; font-size:2rem;">JB</div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Janatha Bazar Affiliate</h3>
+                        <p>A comprehensive tracking system built with Supabase and React. Features real-time dashboard analytics and commission logic.</p>
+                        <div class="tech-tags">
+                            <span>React</span>
+                            <span>Supabase</span>
+                            <span>Tailwind</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#" class="project-card">
+                    <div class="card-image">
+                        <div style="width:100%; height:100%; background: linear-gradient(45deg, #0f172a, #1e293b); display:flex; align-items:center; justify-content:center; color:#333; font-size:2rem;">AI</div>
+                    </div>
+                    <div class="project-info">
+                        <h3>The Carlos OS</h3>
+                        <p>An experimental web-based operating system UI exploring spatial navigation and 3D web technologies.</p>
+                        <div class="tech-tags">
+                            <span>Vanilla JS</span>
+                            <span>CSS Grid</span>
+                            <span>AI API</span>
+                        </div>
+                    </div>
+                </a>
+
+            </section>
+
+            <section id="expertise">
+                <span class="section-tag">/ TECHNICAL ARSENAL</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 40px;">
+                    <div>
+                        <h4 style="margin-bottom: 20px; font-weight: 500;">Frontend</h4>
+                        <ul style="color: var(--text-sec); line-height: 2;">
+                            <li>JavaScript (ES6+)</li>
+                            <li>React.js / Next.js</li>
+                            <li>Tailwind CSS</li>
+                            <li>HTML5 & CSS3</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 20px; font-weight: 500;">Backend</h4>
+                        <ul style="color: var(--text-sec); line-height: 2;">
+                            <li>Node.js</li>
+                            <li>Python</li>
+                            <li>Supabase / PostgreSQL</li>
+                            <li>REST APIs</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 20px; font-weight: 500;">Design & AI</h4>
+                        <ul style="color: var(--text-sec); line-height: 2;">
+                            <li>Figma</li>
+                            <li>UI/UX Prototyping</li>
+                            <li>LLM Integration</li>
+                            <li>Prompt Engineering</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" style="padding-bottom: 100px;">
+                <span class="section-tag">/ GET IN TOUCH</span>
+                <h2 style="font-size: 2rem; margin-bottom: 40px; font-weight: 300;">Interested in working together?</h2>
+                <a href="mailto:contact@thecarlos.in" class="email-link">contact@thecarlos.in</a>
+            </section>
+
+        </main>
     </div>
 
     <script>
-        // --- DATA ---
-        const data = [
-            {
-                cat: "Identity",
-                title: "The Architect",
-                desc: "Full Stack Developer. I don't just write code; I construct digital ecosystems with precision and purpose.",
-                tech: "JS / AI / WEB3",
-                link: "#"
-            },
-            {
-                cat: "Featured Project",
-                title: "Janatha Bazar",
-                desc: "A complex affiliate tracking module engineered with Supabase logic for real-time analytics.",
-                tech: "React / Supabase / SQL",
-                link: "/affiliate/"
-            },
-            {
-                cat: "Intelligence",
-                title: "AI Integration",
-                desc: "Developing custom LLM solutions to bridge the gap between human intent and machine execution.",
-                tech: "OpenAI API / Python",
-                link: "#"
-            },
-            {
-                cat: "Statistics",
-                title: "Tech Stack",
-                desc: "JavaScript (35.9%) // CSS (26.9%) // HTML (23.3%). Constantly evolving weaponry.",
-                tech: "Analysis based on GitHub",
-                link: "#"
-            },
-            {
-                cat: "Contact",
-                title: "Initiate Link",
-                desc: "Available for high-level collaborations. Let's build something impossible.",
-                tech: "contact@thecarlos.in",
-                link: "mailto:contact@thecarlos.in"
-            }
-        ];
+        // --- SCROLL OBSERVER ---
+        // This adds the "fade up" animation when elements come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
 
-        // --- SETUP ---
-        const container = document.getElementById('container');
-        const CARD_GAP = 360; // Vertical distance between cards
-        let scrollY = 0;
-        let targetScrollY = 0;
-        const maxScroll = data.length * CARD_GAP + 200;
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
 
-        // Render Cards
-        data.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.classList.add('card');
-            // Initial Position
-            card.style.top = `${index * CARD_GAP}px`;
-            
-            card.innerHTML = `
-                <div class="card-header">
-                    <span class="card-num">0${index + 1}</span>
-                    <span class="card-cat">${item.cat}</span>
-                </div>
-                <div class="card-body">
-                    <h2>${item.title}</h2>
-                    <p>${item.desc}</p>
-                </div>
-                <div class="card-footer">
-                    <span class="tech-stack">${item.tech}</span>
-                    <span class="arrow">→</span>
-                </div>
-            `;
-            
-            // Interaction
-            card.addEventListener('click', () => {
-                if(item.link !== '#') window.location.href = item.link;
+        // --- ACTIVE NAV LINK ---
+        // Highlights the sidebar link based on scroll position
+        const sections = document.querySelectorAll('section');
+        const navLi = document.querySelectorAll('.nav-item');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
             });
 
-            container.appendChild(card);
+            navLi.forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) {
+                    li.classList.add('active');
+                }
+            });
         });
-
-        // --- ANIMATION LOOP ---
-        function animate() {
-            // Smooth Scroll Physics (Linear Interpolation)
-            scrollY += (targetScrollY - scrollY) * 0.08;
-
-            // Move the container "Up" (which looks like moving camera forward in 3D)
-            // We use transform translateY.
-            container.style.transform = `translate(-50%, -50%) translateY(${-scrollY}px)`;
-
-            // Update Progress Bar
-            const p = Math.min(100, Math.max(0, (scrollY / (maxScroll - window.innerHeight)) * 100));
-            document.getElementById('p-bar').style.height = `${p}%`;
-
-            requestAnimationFrame(animate);
-        }
-
-        // --- EVENTS ---
-        window.addEventListener('wheel', (e) => {
-            targetScrollY += e.deltaY;
-            // Clamp
-            if (targetScrollY < 0) targetScrollY = 0;
-            if (targetScrollY > maxScroll) targetScrollY = maxScroll;
-        });
-
-        // Touch
-        let touchStart = 0;
-        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientY);
-        window.addEventListener('touchmove', e => {
-            const touchY = e.touches[0].clientY;
-            targetScrollY += (touchStart - touchY) * 2;
-            touchStart = touchY;
-            if (targetScrollY < 0) targetScrollY = 0;
-            if (targetScrollY > maxScroll) targetScrollY = maxScroll;
-        });
-
-        animate();
-
     </script>
 </body>
 </html>
