@@ -3,75 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | SINGULARITY</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
+    <title>THE CARLOS | WARP SPEED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg: #000000;
+            --primary: #00f3ff; /* Cyan Neon */
+            --secondary: #ff0055; /* Cyber Red */
+            --font-head: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: white;
+            height: 100vh;
+            overflow: hidden; /* We hijack the scroll */
+            font-family: var(--font-body);
+        }
+
+        /* Starfield Canvas Background */
+        #starfield {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* The Viewport (Camera) */
+        #viewport {
+            height: 100vh;
+            width: 100vw;
+            perspective: 1000px; /* Creates the 3D depth */
+            overflow: hidden;
+            position: fixed;
+            top: 0; left: 0;
+            z-index: 10;
+        }
+
+        /* The World (The object moving towards camera) */
+        #world {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            position: absolute;
+            top: 0; left: 0;
+        }
+
+        /* The Layers (Sections) */
+        .layer {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Initially hidden to prevent the "stacking" look */
+            opacity: 0; 
+        }
+
+        /* --- CONTENT STYLING --- */
+        h1 {
+            font-family: var(--font-head);
+            font-size: 8vw;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px var(--primary);
+            letter-spacing: 10px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        h2 {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+
+        p { font-size: 1.5rem; max-width: 600px; line-height: 1.6; margin-bottom: 10px;}
+
+        .highlight { color: var(--primary); font-weight: bold; }
+
+        .btn {
+            margin-top: 40px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            cursor: pointer;
+            pointer-events: auto; /* Ensure clickable */
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 30px var(--primary);
+        }
+
+        /* Project Card Styling */
+        .project-box {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--secondary);
+            padding: 50px;
+            max-width: 800px;
+            box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
+            transform: rotateY(10deg); /* Slight 3D tilt */
+        }
+
+        .project-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* Skills Styling */
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 30px;
+        }
+        .skill-item {
+            font-size: 2rem;
+            font-family: var(--font-head);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 20px;
+        }
+
+        /* --- HUD OVERLAY (Fixed on screen) --- */
+        .hud {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* Let clicks pass through */
+            z-index: 100;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        .hud-top { display: flex; justify-content: space-between; }
+        .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+
+        .hud-text {
+            font-family: var(--font-head);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .depth-meter {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px; left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .back-btn {
+            pointer-events: auto;
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: white; color: black; }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(10px); }
+            100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+        }
+
+    </style>
 </head>
 <body>
 
+    <canvas id="starfield"></canvas>
+
     <div class="hud">
-        <div class="top-left">THE CARLOS.IN</div>
-        <div class="top-right">SYSTEM: <span id="depth-counter">0</span>m</div>
-        <div class="bottom-center">
-            <div class="scroll-icon"></div>
-            <span>SCROLL TO DIVE</span>
+        <div class="hud-top">
+            <div class="hud-text">THE CARLOS OS // V2.0</div>
+            <div class="hud-text depth-meter">DEPTH: <span id="depth-val">0</span> u</div>
         </div>
-        <a href="/" class="exit-btn">ABORT / EXIT</a>
+        
+        <div class="scroll-hint hud-text">
+            SCROLL TO DIVE
+            <br>▼
+        </div>
+
+        <div class="hud-bottom">
+            <div class="hud-text">LOCATION: KERALA, IN</div>
+            <a href="/" class="back-btn hud-text">ABORT MISSION</a>
+        </div>
     </div>
 
     <div id="viewport">
         <div id="world">
             
             <div class="layer" data-z="0">
-                <h1 class="glitch-title">THE CARLOS</h1>
-                <p class="subtitle">Welcome to the Deep Web.</p>
+                <h1>THE CARLOS</h1>
+                <p class="highlight">FULL STACK DEVELOPER & AI ARCHITECT</p>
             </div>
 
             <div class="layer" data-z="-1500">
-                <div class="content-box">
-                    <h2>THE ARCHITECT</h2>
-                    <p>I don't just write code.</p>
-                    <p>I build <strong>digital ecosystems</strong>.</p>
-                    <div class="stat-ring">
-                        <div class="stat">JS</div>
-                        <div class="stat">AI</div>
-                        <div class="stat">WEB3</div>
-                    </div>
-                </div>
+                <h2>THE MISSION</h2>
+                <p>I don't just build websites.</p>
+                <p>I engineer <span class="highlight">digital experiences</span> that merge human creativity with artificial intelligence.</p>
             </div>
 
             <div class="layer" data-z="-3000">
-                <div class="project-card left">
-                    <span>PROJECT 01</span>
-                    <h3>JANATHA BAZAR</h3>
-                    <p>Affiliate Logic Core. Supabase Integrated.</p>
-                    <a href="#" class="holo-btn">ACCESS DATA</a>
+                <div class="project-box">
+                    <span class="project-tag">FEATURED PROJECT</span>
+                    <h2>JANATHA BAZAR</h2>
+                    <p>A next-generation affiliate system powered by Supabase logic.</p>
+                    <p>Real-time tracking. Seamless integration.</p>
+                    <a href="/affiliate/" class="btn">INITIALIZE SYSTEM</a>
                 </div>
-                <div class="particle p1"></div>
-                <div class="particle p2"></div>
             </div>
 
             <div class="layer" data-z="-4500">
-                <h2>THE ARSENAL</h2>
-                <div class="skill-cloud">
-                    <span>JavaScript</span>
-                    <span>TypeScript</span>
-                    <span>Node.js</span>
-                    <span>React</span>
-                    <span>Supabase</span>
-                    <span>Python</span>
+                <h2>WEAPONRY</h2>
+                <div class="skill-grid">
+                    <div class="skill-item">JS</div>
+                    <div class="skill-item">REACT</div>
+                    <div class="skill-item">NODE</div>
+                    <div class="skill-item">AI</div>
+                    <div class="skill-item">PYTHON</div>
+                    <div class="skill-item">DB</div>
                 </div>
             </div>
 
             <div class="layer" data-z="-6000">
-                <div class="void-circle"></div>
-                <h2>INITIATE CONTACT</h2>
-                <a href="mailto:contact@thecarlos.in" class="final-link">contact@thecarlos.in</a>
+                <h2>ESTABLISH UPLINK</h2>
+                <p>Are you ready to collaborate?</p>
+                <a href="mailto:contact@thecarlos.in" class="btn">SEND SIGNAL</a>
             </div>
 
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        /* --- STARFIELD LOGIC --- */
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Create random stars
+        for(let i=0; i<400; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                z: Math.random() * 2 // Speed factor
+            });
+        }
+
+        function drawStars() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "white";
+            
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.z * 0.8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Move star to create warp effect
+                star.x -= (star.x - width/2) * 0.005 * speedFactor;
+                star.y -= (star.y - height/2) * 0.005 * speedFactor;
+                
+                // Reset if out of bounds (simplified warp loop)
+                if(star.x < 0 || star.x > width || star.y < 0 || star.y > height) {
+                    star.x = Math.random() * width;
+                    star.y = Math.random() * height;
+                }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        
+        let speedFactor = 1; // Increases when scrolling
+        drawStars();
+
+
+        /* --- 3D SCROLL LOGIC --- */
+        const world = document.getElementById('world');
+        const layers = document.querySelectorAll('.layer');
+        const depthDisplay = document.getElementById('depth-val');
+        
+        let currentZ = 0;
+        let targetZ = 0;
+        const SPEED = 3.5;
+        const MAX_DEPTH = 6500;
+
+        // 1. Position Initial Layers
+        layers.forEach(layer => {
+            const zVal = layer.getAttribute('data-z');
+            layer.style.transform = `translate(-50%, -50%) translateZ(${zVal}px)`;
+        });
+
+        // 2. Animation Loop
+        function animateScroll() {
+            // Smooth easing
+            currentZ += (targetZ - currentZ) * 0.08;
+            
+            // Move world
+            world.style.transform = `translateZ(${currentZ}px)`;
+            
+            // Update HUD
+            depthDisplay.innerText = Math.round(currentZ);
+
+            // Warp Speed Effect on stars based on movement
+            const diff = Math.abs(targetZ - currentZ);
+            speedFactor = 1 + (diff * 0.05);
+
+            // Visibility Logic (Fade in/out)
+            layers.forEach(layer => {
+                const itemZ = parseInt(layer.getAttribute('data-z')); 
+                const distance = itemZ + currentZ; // Distance from camera
+
+                // Visible range: -1000 (behind) to 1000 (ahead)
+                // Peak visibility is at 0
+                let opacity = 0;
+                
+                if (distance > -500 && distance < 800) {
+                    // Calculate fade
+                    opacity = 1 - (Math.abs(distance) / 800);
+                    // Boost opacity in the sweet spot
+                    if(opacity > 1) opacity = 1;
+                }
+
+                layer.style.opacity = Math.max(0, opacity);
+                
+                // Optimization: don't render invisible layers
+                layer.style.display = opacity < 0.05 ? 'none' : 'flex';
+            });
+
+            requestAnimationFrame(animateScroll);
+        }
+        animateScroll();
+
+        // 3. Scroll Event Listeners
+        window.addEventListener('wheel', (e) => {
+            targetZ += e.deltaY * SPEED;
+            
+            // Clamp values
+            if (targetZ < 0) targetZ = 0;
+            if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
+        });
+
+        // Touch support for mobile
+        let touchStart = 0;
+        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientY);
+        window.addEventListener('touchmove', e => {
+            const touchY = e.touches[0].clientY;
+            const delta = (touchStart - touchY) * 4; // Multiplier for speed
+            targetZ += delta;
+            touchStart = touchY;
+
+            if (targetZ < 0) targetZ = 0;
+            if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
+        });
+
+    </script>
 </body>
 </html>
