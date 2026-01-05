@@ -1,73 +1,81 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Live Clock & Date
-    function updateTime() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', { hour12: false });
-        const dateString = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-        
-        document.getElementById('clock').innerText = timeString;
-        document.getElementById('date').innerText = dateString.toUpperCase();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
+// Configuration
+const SPEED_FACTOR = 2.5; // How fast you fly
+const MAX_DEPTH = 6500;   // When to stop
+let currentZ = 0;
+let targetZ = 0;
 
-    // 2. Terminal Typing Effect
-    const terminalText = "echo 'Welcome to The Carlos OS'";
-    const typeWriterElement = document.getElementById('typewriter');
-    let i = 0;
+const world = document.getElementById('world');
+const layers = document.querySelectorAll('.layer');
+const depthDisplay = document.getElementById('depth-counter');
 
-    function typeTerminal() {
-        if (i < terminalText.length) {
-            typeWriterElement.innerHTML += terminalText.charAt(i);
-            i++;
-            setTimeout(typeTerminal, 100);
-        }
-    }
-    setTimeout(typeTerminal, 1000);
-
-    // 3. 3D Tilt Effect Logic (Custom Physics)
-    const cards = document.querySelectorAll('.card[data-tilt]');
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Calculate center
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Calculate tilt amount (max 15 deg)
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
-
-            // Add lighting effect
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            card.style.boxShadow = `${-rotateY}px ${rotateX}px 20px rgba(0,0,0,0.5)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            // Reset position
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-            card.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
-        });
-    });
-    
-    // 4. Staggered Entry Animation
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-            
-            // Remove transition after animation so tilt works smoothly
-            setTimeout(() => {
-                card.style.transition = 'transform 0.1s ease-out';
-            }, 500);
-        }, index * 100);
-    });
+// 1. Initial Setup: Position elements in 3D space
+layers.forEach(layer => {
+    const zVal = layer.getAttribute('data-z');
+    layer.style.transform = `translate(-50%, -50%) translateZ(${zVal}px)`;
 });
+
+// 2. The Scroll Loop (Smooth Physics)
+function animate() {
+    // Linear Interpolation for smoothness (Ease-out effect)
+    currentZ += (targetZ - currentZ) * 0.08;
+    
+    // Apply transform to the world container
+    // We are moving the world POSITIVELY to bring negative Z items closer
+    world.style.transform = `translateZ(${currentZ}px)`;
+
+    // Update HUD
+    depthDisplay.innerText = Math.round(currentZ);
+
+    // Opacity Logic (Fade items out when they pass the camera)
+    layers.forEach(layer => {
+        const itemZ = parseInt(layer.getAttribute('data-z')); // e.g. -1500
+        const distanceToCamera = itemZ + currentZ; // if currentZ is 1500, distance is 0
+
+        let opacity = 0;
+        
+        // Complex logic to make things fade in as you approach, and fade out as you pass
+        if (distanceToCamera > -500 && distanceToCamera < 500) {
+            opacity = 1 - (Math.abs(distanceToCamera) / 500);
+        } else if (distanceToCamera > 500) {
+            opacity = 0; // Behind camera
+        } else {
+            opacity = 0; // Too far away
+        }
+
+        // Special case: Keep the first item visible longer
+        if(itemZ === 0 && distanceToCamera > -1000) opacity = 1 - (Math.abs(distanceToCamera)/1000);
+
+        layer.style.opacity = opacity;
+        
+        // Optimisation: hide invisible layers
+        layer.style.display = opacity < 0.01 ? 'none' : 'flex';
+    });
+
+    requestAnimationFrame(animate);
+}
+
+// 3. Event Listeners
+window.addEventListener('wheel', (e) => {
+    // e.deltaY is the scroll amount
+    targetZ += e.deltaY * SPEED_FACTOR;
+
+    // Clamping
+    if (targetZ < 0) targetZ = 0;
+    if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
+});
+
+// Touch support for mobile
+let touchStartY = 0;
+window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+window.addEventListener('touchmove', e => {
+    const touchY = e.touches[0].clientY;
+    const deltaY = touchStartY - touchY;
+    targetZ += deltaY * (SPEED_FACTOR * 1.5);
+    touchStartY = touchY;
+    
+    if (targetZ < 0) targetZ = 0;
+    if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
+});
+
+// Start the loop
+animate();
