@@ -54,5 +54,82 @@
   </main>
 
   <script src="./Janathabazar.js"></script>
+<div id="security-overlay" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Minecraft', monospace;
+">
+    <div class="popup-platter" style="
+        background: rgba(20, 20, 20, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 40px;
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        color: #fff;
+        position: relative; /* Needed for the X positioning */
+    ">
+        
+        <span onclick="document.getElementById('security-overlay').style.display='none'" style="
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s;
+        "
+        onmouseover="this.style.color='#ff5555'"
+        onmouseout="this.style.color='rgba(255, 255, 255, 0.5)'"
+        title="Close">
+            &times;
+        </span>
+
+        <h2 style="
+            font-size: 1.5rem; 
+            margin-top: 10px; 
+            margin-bottom: 20px; 
+            line-height: 1.4;
+            color: #ff5555;
+            text-shadow: 0 0 5px rgba(255, 85, 85, 0.5);
+        ">
+            Due to Google's security concerns you can't use Gmail in the email section, kindly use any other email.
+        </h2>
+
+        <p style="
+            font-size: 0.9rem; 
+            color: rgba(255, 255, 255, 0.6); 
+            margin-bottom: 30px;
+        ">
+            This luckydraw was ended and the winner has been selected.
+        </p>
+
+        <button onclick="document.getElementById('security-overlay').style.display='none'" style="
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        " 
+        onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.boxShadow='0 0 10px rgba(255,255,255,0.3)'" 
+        onmouseout="this.style.background='transparent'; this.style.boxShadow='none'">
+            ACKNOWLEDGE
+        </button>
+    </div>
+</div>
 </body>
 </html>
