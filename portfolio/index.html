@@ -3,393 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | SENTIENT CORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>THE CARLOS | ARCHITECT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,600&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. PREMIUM CSS VARIABLES --- */
+        /* --- 1. LUXURY STYLING --- */
         :root {
-            --bg-dark: #050505;
-            --glass-bg: rgba(20, 20, 20, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #3b82f6; /* Premium Blue */
-            --accent-glow: rgba(59, 130, 246, 0.5);
-            --danger: #ef4444;
-            --font-ui: 'Inter', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
-            
-            --core-width: 400px;
-            --core-height: 500px;
+            --bg: #0b0b0b;
+            --card-bg: #141414;
+            --text-main: #e0e0e0;
+            --text-muted: #666;
+            --accent: #d4af37; /* Champagne Gold */
+            --font-display: 'Cormorant Garamond', serif;
+            --font-ui: 'Manrope', sans-serif;
+            --perspective: 1000px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg);
             color: var(--text-main);
             font-family: var(--font-ui);
             height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+            overflow: hidden; /* We control the scroll manually */
+            perspective: var(--perspective);
         }
 
-        /* --- 2. AMBIENT BACKGROUND --- */
-        /* Animated Aurora Blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: float 10s infinite ease-in-out;
-            z-index: 0;
-        }
-        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #4c1d95; animation-delay: 0s; }
-        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: #0f4c75; animation-delay: 2s; }
-        .blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #be185d; animation-delay: 4s; opacity: 0.4;}
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
-        }
-
-        /* Noise Overlay for Texture */
+        /* Ambient Grain Texture */
         .noise {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.03"/%3E%3C/svg%3E');
+            pointer-events: none; z-index: 9999;
+        }
+
+        /* Fixed HUD */
+        .nav-bar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 40px;
+            display: flex; justify-content: space-between;
+            z-index: 100;
             pointer-events: none;
-            z-index: 1;
         }
-
-        /* --- 3. THE SENTIENT CORE (Main UI) --- */
-        #core {
-            position: relative;
-            width: var(--core-width);
-            height: var(--core-height);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255,255,255,0.05) inset;
-            z-index: 10;
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                        height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header / Nav */
-        .core-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            height: 70px;
-            flex-shrink: 0;
-        }
-
         .brand {
-            font-family: var(--font-code);
-            font-weight: 700;
-            font-size: 0.9rem;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-style: italic;
             letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
-
-        .nav-icons { display: flex; gap: 15px; }
-        .nav-btn {
-            background: none; border: none; color: var(--text-muted);
-            cursor: pointer; transition: 0.3s; font-size: 1.1rem;
-        }
-        .nav-btn:hover, .nav-btn.active { color: var(--text-main); transform: scale(1.1); }
-
-        /* Content Area */
-        .viewport {
-            flex-grow: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .view {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            padding: 24px;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            transition: 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto; /* Allow scroll inside if needed */
-        }
-        /* Hide scrollbar */
-        .view::-webkit-scrollbar { width: 0px; }
-
-        .view.active-view {
-            opacity: 1;
-            transform: translateY(0);
+            color: var(--text-main);
             pointer-events: auto;
-        }
-
-        /* --- 4. VIEW SPECIFIC STYLES --- */
-        
-        /* Home View */
-        .hero-title {
-            font-size: 2.5rem;
-            line-height: 1.1;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.5; margin-bottom: 30px; }
-        
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: auto;
-        }
-        .tile {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 120px;
-        }
-        .tile:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); border-color: rgba(255,255,255,0.1); }
-        .tile i { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); }
-        .tile span { font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Projects View */
-        .project-list { display: flex; flex-direction: column; gap: 15px; }
-        .project-card {
-            display: flex;
-            gap: 15px;
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
             text-decoration: none;
-            color: inherit;
         }
-        .project-card:hover { background: rgba(255,255,255,0.08); }
-        .p-icon {
-            width: 40px; height: 40px; background: rgba(59, 130, 246, 0.2);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        .status {
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+        .status span { color: var(--accent); }
+
+        .progress-line {
+            position: fixed; left: 40px; bottom: 40px;
+            width: 1px; height: 100px;
+            background: rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+        .progress-fill {
+            width: 100%; height: 0%;
+            background: var(--accent);
+            transition: height 0.1s;
+        }
+
+        /* --- 2. THE 3D PLANE --- */
+        #world {
+            position: absolute;
+            width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            /* The Isometric Tilt */
+            transform: rotateX(60deg) rotateZ(-10deg) translateX(10%) scale(0.8);
+            transition: transform 0.1s ease-out;
+        }
+
+        .scroll-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            /* Infinite height handled by JS positioning */
+            transform-style: preserve-3d;
+        }
+
+        /* --- 3. CARDS --- */
+        .card {
+            position: absolute; /* Positioned by JS */
+            width: 100%;
+            height: 300px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+
+        /* The Hover Effect: Lift off the floor and face the user */
+        .card:hover {
+            background: #1a1a1a;
+            border-color: var(--accent);
+            /* Counter-rotate to face screen */
+            transform: translateZ(150px) rotateX(-60deg) rotateZ(10deg) scale(1.1) !important; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        
+        .card:hover .card-num { color: var(--accent); opacity: 1; transform: translateX(10px); }
+        .card:hover .arrow { opacity: 1; transform: translateX(0); }
+
+        /* Card Content */
+        .card-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .card-num {
+            font-family: var(--font-ui);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: 0.3s;
+            opacity: 0.5;
+        }
+        .card-cat {
+            font-family: var(--font-ui);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 50px;
+        }
+
+        .card-body h2 {
+            font-family: var(--font-display);
+            font-weight: 300;
+            font-size: 3rem;
+            line-height: 1;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        .card-body p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .card-footer {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-top: 20px;
+        }
+        .tech-stack {
+            font-size: 0.75rem;
+            color: #555;
+            font-family: var(--font-code);
+        }
+        .arrow {
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: 0.3s;
+        }
+
+        /* --- 4. INTRO SECTION --- */
+        .intro-text {
+            position: absolute;
+            top: -400px; left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .intro-text h1 {
+            font-family: var(--font-display);
+            font-size: 6rem;
+            line-height: 0.9;
+        }
+        .intro-text p {
+            font-family: var(--font-ui);
+            margin-top: 20px;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
             color: var(--accent);
         }
-        .p-info h4 { font-size: 1rem; margin-bottom: 4px; }
-        .p-info p { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* Stats View */
-        .stat-row { margin-bottom: 15px; }
-        .stat-head { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; font-family: var(--font-code); }
-        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-        .fill { height: 100%; background: var(--text-main); border-radius: 3px; }
-        .fill.blue { background: #3b82f6; }
-        .fill.purple { background: #a855f7; }
-        .fill.orange { background: #f97316; }
-
-        /* Exit Button */
-        .exit-link {
-            position: absolute; bottom: 30px; text-decoration: none;
-            color: var(--text-muted); font-size: 0.8rem; letter-spacing: 2px;
-            opacity: 0.5; transition: 0.3s;
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            #world { transform: rotateX(0) rotateZ(0) translateX(0) scale(1); }
+            .scroll-container { width: 90%; }
+            .card:hover { transform: scale(1.05) !important; }
+            .intro-text h1 { font-size: 3rem; }
         }
-        .exit-link:hover { opacity: 1; color: var(--danger); }
-
-        /* Scramble Effect Class */
-        .scramble { display: inline-block; min-width: 100px; }
-
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
     <div class="noise"></div>
-    
-    <a href="/" class="exit-link">TERMINATE SESSION</a>
 
-    <div id="core">
-        
-        <div class="core-header">
-            <div class="brand">
-                <div class="status-dot"></div>
-                <span id="brand-text">THE CARLOS</span>
-            </div>
-            <nav class="nav-icons">
-                <button class="nav-btn active" onclick="switchView('home')" title="Home"><i class="fas fa-home">⌂</i></button>
-                <button class="nav-btn" onclick="switchView('work')" title="Work"><i class="fas fa-layer-group">❖</i></button>
-                <button class="nav-btn" onclick="switchView('stats')" title="Stats"><i class="fas fa-chart-pie">⚡</i></button>
-                <button class="nav-btn" onclick="window.location.href='mailto:contact@thecarlos.in'" title="Contact"><i class="fas fa-envelope">✉</i></button>
-            </nav>
-        </div>
+    <nav class="nav-bar">
+        <a href="/" class="brand">TheCarlos.in</a>
+        <div class="status">System <span>Online</span></div>
+    </nav>
 
-        <div class="viewport">
+    <div class="progress-line">
+        <div class="progress-fill" id="p-bar"></div>
+    </div>
+
+    <div id="world">
+        <div class="scroll-container" id="container">
             
-            <div class="view active-view" id="view-home" data-width="400" data-height="500">
-                <h1 class="hero-title">Hello,<br>I'm Carlos.</h1>
-                <p class="hero-sub">Full Stack Developer & AI Architect. I build digital products that feel alive.</p>
-                
-                <div class="action-grid">
-                    <div class="tile" onclick="switchView('work')">
-                        <i>❖</i>
-                        <span>View Projects</span>
-                    </div>
-                    <div class="tile" onclick="switchView('stats')">
-                        <i>⚡</i>
-                        <span>Analyze Skills</span>
-                    </div>
-                </div>
+            <div class="intro-text" style="transform: translateZ(50px);">
+                <h1>Design.<br>Logic.<br>Structure.</h1>
+                <p>Scroll to Explore</p>
             </div>
 
-            <div class="view" id="view-work" data-width="600" data-height="550">
-                <h2 class="scramble-target" style="margin-bottom: 20px;">SELECTED WORKS</h2>
-                <div class="project-list">
-                    
-                    <a href="/affiliate/" class="project-card">
-                        <div class="p-icon">JB</div>
-                        <div class="p-info">
-                            <h4>Janatha Bazar Affiliate</h4>
-                            <p>Supabase integrated tracking system with real-time analytics.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card">
-                        <div class="p-icon">AI</div>
-                        <div class="p-info">
-                            <h4>Chatbot Integration</h4>
-                            <p>Custom LLM implementation for customer support.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card">
-                        <div class="p-icon">OS</div>
-                        <div class="p-info">
-                            <h4>The Carlos OS</h4>
-                            <p>Experimental web-based operating system UI.</p>
-                        </div>
-                    </a>
-
-                </div>
             </div>
-
-            <div class="view" id="view-stats" data-width="380" data-height="600">
-                <h2 class="scramble-target" style="margin-bottom: 30px;">SYSTEM STATUS</h2>
-                
-                <div class="stat-row">
-                    <div class="stat-head"><span>JAVASCRIPT</span> <span>35.9%</span></div>
-                    <div class="progress-bar"><div class="fill blue" style="width: 35.9%"></div></div>
-                </div>
-
-                <div class="stat-row">
-                    <div class="stat-head"><span>CSS / TAILWIND</span> <span>26.9%</span></div>
-                    <div class="progress-bar"><div class="fill purple" style="width: 26.9%"></div></div>
-                </div>
-
-                <div class="stat-row">
-                    <div class="stat-head"><span>HTML</span> <span>23.3%</span></div>
-                    <div class="progress-bar"><div class="fill orange" style="width: 23.3%"></div></div>
-                </div>
-
-                <div class="stat-row" style="margin-top: 40px">
-                    <div class="stat-head"><span>SERVER STATUS</span> <span style="color:#10b981">ONLINE</span></div>
-                    <div class="stat-head"><span>LOCATION</span> <span>IN, KERALA</span></div>
-                    <div class="stat-head"><span>TIME</span> <span id="clock">00:00</span></div>
-                </div>
-            </div>
-
-        </div>
     </div>
 
     <script>
-        // --- CORE LOGIC ---
-        
-        const core = document.getElementById('core');
-        const views = document.querySelectorAll('.view');
-        const navBtns = document.querySelectorAll('.nav-btn');
+        // --- DATA ---
+        const data = [
+            {
+                cat: "Identity",
+                title: "The Architect",
+                desc: "Full Stack Developer. I don't just write code; I construct digital ecosystems with precision and purpose.",
+                tech: "JS / AI / WEB3",
+                link: "#"
+            },
+            {
+                cat: "Featured Project",
+                title: "Janatha Bazar",
+                desc: "A complex affiliate tracking module engineered with Supabase logic for real-time analytics.",
+                tech: "React / Supabase / SQL",
+                link: "/affiliate/"
+            },
+            {
+                cat: "Intelligence",
+                title: "AI Integration",
+                desc: "Developing custom LLM solutions to bridge the gap between human intent and machine execution.",
+                tech: "OpenAI API / Python",
+                link: "#"
+            },
+            {
+                cat: "Statistics",
+                title: "Tech Stack",
+                desc: "JavaScript (35.9%) // CSS (26.9%) // HTML (23.3%). Constantly evolving weaponry.",
+                tech: "Analysis based on GitHub",
+                link: "#"
+            },
+            {
+                cat: "Contact",
+                title: "Initiate Link",
+                desc: "Available for high-level collaborations. Let's build something impossible.",
+                tech: "contact@thecarlos.in",
+                link: "mailto:contact@thecarlos.in"
+            }
+        ];
 
-        // 1. View Switching & Morphing
-        function switchView(viewName) {
-            // Update Nav
-            navBtns.forEach(btn => btn.classList.remove('active'));
-            // Simple mapping based on index or onclick context, 
-            // but here we manually finding the button for simplicity of code
-            // (Skipped for brevity, focusing on visuals)
+        // --- SETUP ---
+        const container = document.getElementById('container');
+        const CARD_GAP = 360; // Vertical distance between cards
+        let scrollY = 0;
+        let targetScrollY = 0;
+        const maxScroll = data.length * CARD_GAP + 200;
 
-            // Hide all views
-            views.forEach(v => v.classList.remove('active-view'));
-
-            // Find target
-            const target = document.getElementById(`view-${viewName}`);
-            target.classList.add('active-view');
-
-            // Morph Core Dimensions
-            const w = target.getAttribute('data-width');
-            const h = target.getAttribute('data-height');
+        // Render Cards
+        data.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            // Initial Position
+            card.style.top = `${index * CARD_GAP}px`;
             
-            core.style.width = `${w}px`;
-            core.style.height = `${h}px`;
-
-            // Trigger Text Scramble on headers
-            const header = target.querySelector('.scramble-target');
-            if(header) scrambleText(header);
-        }
-
-        // 2. Text Scramble Effect (The "Hacker" feel)
-        function scrambleText(element) {
-            const originalText = element.innerText;
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>[]';
-            let iterations = 0;
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="card-num">0${index + 1}</span>
+                    <span class="card-cat">${item.cat}</span>
+                </div>
+                <div class="card-body">
+                    <h2>${item.title}</h2>
+                    <p>${item.desc}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="tech-stack">${item.tech}</span>
+                    <span class="arrow">→</span>
+                </div>
+            `;
             
-            const interval = setInterval(() => {
-                element.innerText = originalText.split('')
-                    .map((letter, index) => {
-                        if(index < iterations) return originalText[index];
-                        return chars[Math.floor(Math.random() * chars.length)];
-                    })
-                    .join('');
-                
-                if(iterations >= originalText.length) clearInterval(interval);
-                iterations += 1/2; // Speed
-            }, 30);
-        }
+            // Interaction
+            card.addEventListener('click', () => {
+                if(item.link !== '#') window.location.href = item.link;
+            });
 
-        // 3. Live Clock
-        setInterval(() => {
-            const now = new Date();
-            const time = now.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
-            const clock = document.getElementById('clock');
-            if(clock) clock.innerText = time;
-        }, 1000);
-
-        // 4. Initial Scramble on Load
-        window.addEventListener('load', () => {
-            scrambleText(document.getElementById('brand-text'));
+            container.appendChild(card);
         });
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            // Smooth Scroll Physics (Linear Interpolation)
+            scrollY += (targetScrollY - scrollY) * 0.08;
+
+            // Move the container "Up" (which looks like moving camera forward in 3D)
+            // We use transform translateY.
+            container.style.transform = `translate(-50%, -50%) translateY(${-scrollY}px)`;
+
+            // Update Progress Bar
+            const p = Math.min(100, Math.max(0, (scrollY / (maxScroll - window.innerHeight)) * 100));
+            document.getElementById('p-bar').style.height = `${p}%`;
+
+            requestAnimationFrame(animate);
+        }
+
+        // --- EVENTS ---
+        window.addEventListener('wheel', (e) => {
+            targetScrollY += e.deltaY;
+            // Clamp
+            if (targetScrollY < 0) targetScrollY = 0;
+            if (targetScrollY > maxScroll) targetScrollY = maxScroll;
+        });
+
+        // Touch
+        let touchStart = 0;
+        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientY);
+        window.addEventListener('touchmove', e => {
+            const touchY = e.touches[0].clientY;
+            targetScrollY += (touchStart - touchY) * 2;
+            touchStart = touchY;
+            if (targetScrollY < 0) targetScrollY = 0;
+            if (targetScrollY > maxScroll) targetScrollY = maxScroll;
+        });
+
+        animate();
 
     </script>
 </body>
