@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carlos | Systems Engineer</title>
+    <title>Carlos | Systems Architect</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
@@ -11,97 +11,116 @@
 </head>
 <body>
 
-    <div class="noise"></div>
-    
-    <div class="layout-wrapper">
+    <div class="noise-overlay"></div>
+
+    <div class="layout-container">
         
         <nav class="top-nav">
             <div class="brand">
-                <span class="brand-name">The Carlos.in</span>
-                <span class="brand-role"> / Full Stack</span>
+                <span class="brand-main">The Carlos.in</span>
+                <span class="brand-sub">// v2.0</span>
             </div>
-            <div class="status-pill">
-                <span class="status-dot"></span> 
-                <span>System Online</span>
+            
+            <div class="system-status">
+                <span class="status-light"></span>
+                <span>OPERATIONAL</span>
             </div>
-            <a href="/" class="nav-btn">Exit to Dashboard</a>
+
+            <a href="/" class="exit-link">Exit to Dashboard ↗</a>
         </nav>
 
-        <div class="bento-grid" id="grid">
-            
-            <div class="card hero">
+        <div class="bento-grid" id="grid-container">
+
+            <div class="card hero-card">
+                <div class="card-glow"></div>
                 <div class="card-content">
-                    <h1 class="title">
-                        Building digital<br>
-                        <span class="serif">architectures</span> & <br>
-                        experiences.
+                    <h1 class="hero-title">
+                        Building digital <span class="serif">architectures</span> & <br>
+                        intelligent systems.
                     </h1>
-                    <p class="subtitle">
-                        Full Stack Developer focused on scalable systems and intuitive design. Based in Kerala, India.
+                    <p class="hero-sub">
+                        Full Stack Developer focused on scalable backend logic and cinematic frontend experiences. Based in Kerala, India.
                     </p>
-                    <div class="btn-group">
-                        <a href="mailto:contact@thecarlos.in" class="btn primary">Initialize Contact</a>
-                        <a href="#work" class="btn secondary">View Work</a>
+                    <div class="action-row">
+                        <button class="btn-primary" onclick="window.location.href='mailto:contact@thecarlos.in'">Initialize Contact</button>
+                        <a href="#work" class="btn-text">View Selected Works</a>
                     </div>
                 </div>
             </div>
 
-            <div class="card stats">
-                <div class="card-header">
-                    <h3>Core Stack</h3>
-                    <i class="fas fa-code"></i>
-                </div>
-                <div class="stack-list">
-                    <div class="stack-item">
-                        <span class="label">JavaScript</span>
-                        <div class="bar-container"><div class="bar-fill" style="width: 35.9%; background: #fff;"></div></div>
-                        <span class="percent">35%</span>
+            <div class="card stats-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="card-label"><i class="fas fa-code"></i> STACK_ANALYSIS</div>
+                    
+                    <div class="stat-group">
+                        <div class="stat-row">
+                            <span>JavaScript</span>
+                            <span class="stat-val">35.9%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 35.9%"></div></div>
                     </div>
-                    <div class="stack-item">
-                        <span class="label">CSS / Design</span>
-                        <div class="bar-container"><div class="bar-fill" style="width: 27%; background: #888;"></div></div>
-                        <span class="percent">27%</span>
+
+                    <div class="stat-group">
+                        <div class="stat-row">
+                            <span>CSS / Design</span>
+                            <span class="stat-val">27.0%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 27%"></div></div>
                     </div>
-                    <div class="stack-item">
-                        <span class="label">AI / Python</span>
-                        <div class="bar-container"><div class="bar-fill" style="width: 20%; background: #444;"></div></div>
-                        <span class="percent">20%</span>
+
+                    <div class="stat-group">
+                        <div class="stat-row">
+                            <span>HTML / Structure</span>
+                            <span class="stat-val">23.3%</span>
+                        </div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 23.3%"></div></div>
                     </div>
                 </div>
             </div>
 
-            <div class="card project-main" onclick="window.location.href='/affiliate/'">
-                <div class="card-bg-img"></div> <div class="card-content bottom">
-                    <div class="tag">FEATURED CASE</div>
-                    <h2>Janatha Bazar</h2>
-                    <p>Affiliate tracking system with real-time analytics.</p>
-                </div>
-                <div class="arrow-icon">↗</div>
-            </div>
-
-            <div class="card project-sub">
-                <div class="card-header">
-                    <h3>Experiment</h3>
-                </div>
-                <h2>The Carlos OS</h2>
-                <p>Web-based spatial operating system UI.</p>
-            </div>
-
-            <div class="card social">
-                <h3>Connect</h3>
-                <div class="social-links">
-                    <a href="#" class="social-item">GitHub</a>
-                    <a href="#" class="social-item">LinkedIn</a>
-                    <a href="#" class="social-item">X (Twitter)</a>
+            <div class="card project-card" onclick="window.location.href='/affiliate/'">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="card-label highlight">FEATURED CASE</div>
+                    <div class="project-info-bottom">
+                        <h2>Janatha Bazar Affiliate</h2>
+                        <p>Real-time tracking system engineered with Supabase.</p>
+                    </div>
+                    <div class="icon-arrow">→</div>
                 </div>
             </div>
 
-            <div class="card about">
-                <div class="card-header">
-                    <h3>AI Assistant</h3>
+            <div class="card sub-project-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="card-label">EXPERIMENT</div>
+                    <h3>The Carlos OS</h3>
+                    <p>Spatial operating system UI.</p>
                 </div>
-                <p>Have questions? Ask my digital twin.</p>
-                <a href="/chat.html" class="circle-btn"><i class="fas fa-comment"></i></a>
+            </div>
+
+            <div class="card social-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="card-label">NETWORK</div>
+                    <div class="social-list">
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">X (Twitter)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card ai-card">
+                <div class="card-glow"></div>
+                <div class="card-content row-layout">
+                    <div>
+                        <div class="card-label">AI ASSISTANT</div>
+                        <p>Ask my digital twin.</p>
+                    </div>
+                    <a href="/chat.html" class="ai-btn"><i class="fas fa-comment-dots"></i></a>
+                </div>
             </div>
 
         </div>
