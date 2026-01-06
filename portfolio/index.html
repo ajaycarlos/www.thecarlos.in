@@ -3,334 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | HYPER-CUBE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <title>THE CARLOS | KINETIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;600&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. PREMIUM AESTHETICS --- */
+        /* --- 1. MINIMALIST BASE --- */
         :root {
-            --bg: #050505;
-            --face-bg: #101010;
-            --text-main: #ffffff;
-            --text-muted: #666;
-            --accent: #ffffff;
-            --glow: rgba(255, 255, 255, 0.05);
-            --cube-size: 600px; /* Base size */
+            --bg: #080808;
+            --text: #f0f0f0;
+            --accent: #fff;
+            --dim: #444;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Custom cursor */ }
 
         body {
             background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            font-family: 'Manrope', sans-serif;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1200px; /* The Camera Lens */
-        }
-
-        /* Ambient Lighting / Floor Reflection */
-        .floor {
-            position: absolute;
-            bottom: -200px;
-            width: 2000px; height: 2000px;
-            background: radial-gradient(#222, #000 60%);
-            transform: rotateX(90deg);
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        /* --- 2. THE 3D SCENE --- */
-        .scene {
-            width: var(--cube-size);
-            height: var(--cube-size);
             position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* The Cube Itself */
-        .cube {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            /* Default Rotation */
-            transform: translateZ(calc(var(--cube-size) / -2));
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* --- 2. THE TRAIL CONTAINER (Behind everything) --- */
+        #trail-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
-        /* --- 3. THE FACES --- */
-        .face {
+        .trail-img {
             position: absolute;
-            width: var(--cube-size);
-            height: var(--cube-size);
-            background: var(--face-bg);
-            border: 1px solid rgba(255,255,255,0.08);
+            width: 200px;
+            height: 140px;
+            object-fit: cover;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            animation: popFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            filter: grayscale(100%); /* Classy B&W look */
+            border-radius: 4px;
+        }
+
+        @keyframes popFade {
+            0% { transform: translate(-50%, -50%) scale(0.5) rotate(-5deg); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 0; }
+        }
+
+        /* --- 3. UI LAYER (On top) --- */
+        .ui {
+            position: relative;
+            z-index: 10;
+            width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 60px;
-            backface-visibility: hidden; /* Hide back for performance */
-            box-shadow: 0 0 100px rgba(0,0,0,0.8) inset; /* Inner vignette */
+            pointer-events: none; /* Let clicks pass through to links */
         }
 
-        /* Face Positioning mathematics */
-        .front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
-        .right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
-        .back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
-        .left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
-
-        /* --- 4. CONTENT STYLING --- */
+        /* Typography */
         h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
-            font-size: 4rem;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 20px;
+            font-size: 8vw;
+            line-height: 0.9;
             text-transform: uppercase;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        h2 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: -2px;
             text-align: center;
-            line-height: 1.6;
-            max-width: 400px;
-            margin-bottom: 40px;
-        }
-
-        .highlight { color: #fff; font-weight: bold; border-bottom: 1px solid #fff; }
-
-        /* Buttons */
-        .btn-group { display: flex; gap: 20px; }
-        .btn {
-            padding: 15px 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: transparent;
-            color: white;
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
+            mix-blend-mode: exclusion; /* Colors invert over images */
+            pointer-events: auto;
             transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
         }
-        .btn:hover {
-            background: white;
-            color: black;
-            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        
+        .serif {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 500;
+            color: #888;
         }
 
-        /* Project Grid (Inside Face 2) */
-        .project-row {
+        .menu {
+            margin-top: 50px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 100%;
+            gap: 60px;
+            pointer-events: auto;
         }
-        .project-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.02);
-            transition: 0.3s;
+
+        .menu-link {
             text-decoration: none;
-            color: white;
+            color: var(--text);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            mix-blend-mode: exclusion;
         }
-        .project-item:hover {
-            background: white;
-            color: black;
-            transform: scale(1.02);
+
+        .menu-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0%; height: 1px; background: white;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .p-name { font-family: 'Syncopate', sans-serif; font-weight: 700; }
-        .p-tech { font-size: 0.8rem; opacity: 0.7; }
+        .menu-link:hover::after { width: 100%; }
 
-        /* Stats (Face 3) */
-        .stat-huge { font-size: 6rem; font-weight: 700; font-family: 'Syncopate', sans-serif; line-height: 1; }
-        .stat-label { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 30px;}
-
-        /* HUD Navigation (Fixed) */
-        .nav-hud {
+        /* Custom Cursor */
+        #cursor {
             position: fixed;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-        }
-        .dot {
-            width: 10px; height: 10px;
-            background: rgba(255,255,255,0.2);
+            top: 0; left: 0;
+            width: 15px; height: 15px;
+            background: white;
             border-radius: 50%;
-            cursor: pointer;
-            transition: 0.3s;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+            mix-blend-mode: difference;
         }
-        .dot.active { background: white; transform: scale(1.5); }
-
+        
+        /* Hint Text */
         .hint {
-            position: fixed; top: 40px; right: 40px;
-            font-size: 0.7rem; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 2px;
-            writing-mode: vertical-rl;
-        }
-
-        /* Mobile Responsive */
-        @media(max-width: 768px) {
-            :root { --cube-size: 350px; }
-            h1 { font-size: 2.5rem; }
-            .btn { padding: 10px 20px; font-size: 0.7rem; }
-            .floor { bottom: -100px; }
+            position: absolute; bottom: 40px;
+            font-size: 0.8rem; color: #555;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="floor"></div>
-    <div class="hint">Scroll to Rotate // Drag to spin</div>
+    <div id="cursor"></div>
 
-    <div class="scene">
-        <div class="cube" id="cube">
-            
-            <div class="face front">
-                <h2>Identity</h2>
-                <h1>The<br>Carlos.</h1>
-                <p>Full Stack Engineer & AI Architect. Building the bridge between human intent and machine logic.</p>
-                <div class="btn-group">
-                    <button class="btn" onclick="rotateTo(1)">View Work</button>
-                    <button class="btn" onclick="rotateTo(3)">Contact</button>
-                </div>
-            </div>
+    <div id="trail-container"></div>
 
-            <div class="face right">
-                <h2>Selected Works</h2>
-                <div class="project-row">
-                    <a href="/affiliate/" class="project-item">
-                        <span class="p-name">Janatha Bazar</span>
-                        <span class="p-tech">SUPABASE / REACT</span>
-                    </a>
-                    <a href="#" class="project-item">
-                        <span class="p-name">AI Neural Core</span>
-                        <span class="p-tech">PYTHON / LLM</span>
-                    </a>
-                    <a href="#" class="project-item">
-                        <span class="p-name">Hyper-Cube UI</span>
-                        <span class="p-tech">CSS 3D / JS</span>
-                    </a>
-                </div>
-            </div>
+    <div class="ui">
+        <h1>
+            <span class="serif">The</span><br>
+            Carlos<br>
+            Portfolio
+        </h1>
 
-            <div class="face back">
-                <h2>System Analytics</h2>
-                <div class="stat-huge">JS</div>
-                <div class="stat-label">35.9% Dominance</div>
-                
-                <div class="stat-huge">AI</div>
-                <div class="stat-label">Neural Architecture</div>
-                
-                <p style="font-size:0.8rem; margin-top:20px;">Based on GitHub Telemetry</p>
-            </div>
+        <nav class="menu">
+            <a href="/affiliate/" class="menu-link" data-hover>Projects</a>
+            <a href="#" class="menu-link" data-hover>About</a>
+            <a href="mailto:contact@thecarlos.in" class="menu-link" data-hover>Contact</a>
+        </nav>
 
-            <div class="face left">
-                <h2>Transmission</h2>
-                <h1>Let's<br>Build.</h1>
-                <p>Available for high-impact projects.</p>
-                <a href="mailto:contact@thecarlos.in" class="btn">INITIALIZE EMAIL</a>
-                <br>
-                <a href="/" style="color:#444; font-size:0.8rem; text-decoration:none; margin-top:20px;">[ EXIT TO DASHBOARD ]</a>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="nav-hud">
-        <div class="dot active" onclick="rotateTo(0)"></div>
-        <div class="dot" onclick="rotateTo(1)"></div>
-        <div class="dot" onclick="rotateTo(2)"></div>
-        <div class="dot" onclick="rotateTo(3)"></div>
+        <div class="hint">Move cursor to paint</div>
     </div>
 
     <script>
-        // --- 3D ROTATION LOGIC ---
-        const cube = document.getElementById('cube');
-        const dots = document.querySelectorAll('.dot');
-        let currentFace = 0; // 0=Front, 1=Right, 2=Back, 3=Left
-        let isSpinning = false;
+        // --- CONFIGURATION ---
+        // Replace these URLs with your actual project screenshots if you have them.
+        // Using colored placeholders for the demo effect.
+        const images = [
+            'https://via.placeholder.com/400x300/333/fff?text=Janatha+Bazar',
+            'https://via.placeholder.com/400x300/555/fff?text=AI+Module',
+            'https://via.placeholder.com/400x300/111/fff?text=Web+System',
+            'https://via.placeholder.com/400x300/777/fff?text=Dashboard',
+            'https://via.placeholder.com/400x300/000/fff?text=Analytics'
+        ];
 
-        function updateCube() {
-            const rotation = currentFace * -90;
-            cube.style.transform = `translateZ(calc(var(--cube-size) / -2)) rotateY(${rotation}deg)`;
+        let imgIndex = 0;
+        let zIndex = 1;
+        
+        const container = document.getElementById('trail-container');
+        const cursor = document.getElementById('cursor');
+
+        // --- MOUSE TRACKING ---
+        let lastX = 0;
+        let lastY = 0;
+        const distThreshold = 100; // How far mouse must move to spawn next image
+
+        window.addEventListener('mousemove', (e) => {
+            // 1. Move Custom Cursor
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+
+            // 2. Calculate Distance
+            const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+
+            // 3. Spawn Image if distance met
+            if (dist > distThreshold) {
+                spawnImage(e.clientX, e.clientY);
+                lastX = e.clientX;
+                lastY = e.clientY;
+            }
+        });
+
+        function spawnImage(x, y) {
+            const img = document.createElement('img');
+            img.src = images[imgIndex];
+            img.classList.add('trail-img');
             
-            // Update dots
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentFace);
+            // Randomize position slightly for "organic" feel
+            const randomRotation = (Math.random() - 0.5) * 30;
+            
+            img.style.left = `${x}px`;
+            img.style.top = `${y}px`;
+            img.style.zIndex = zIndex++;
+            img.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg) scale(0.5)`;
+
+            container.appendChild(img);
+
+            // Cycle through images
+            imgIndex++;
+            if(imgIndex >= images.length) imgIndex = 0;
+
+            // Cleanup: Remove image from DOM after animation finishes (1.2s)
+            setTimeout(() => {
+                img.remove();
+            }, 1200);
+        }
+
+        // --- HOVER EFFECTS ---
+        const links = document.querySelectorAll('[data-hover]');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.width = '80px';
+                cursor.style.height = '80px';
             });
-        }
-
-        // Manual Navigation
-        function rotateTo(faceIndex) {
-            currentFace = faceIndex;
-            updateCube();
-        }
-
-        // Scroll Navigation
-        let lastScrollTime = 0;
-        window.addEventListener('wheel', (e) => {
-            const now = Date.now();
-            if (now - lastScrollTime < 800) return; // Debounce fast scrolls
-            lastScrollTime = now;
-
-            if (e.deltaY > 0) {
-                // Scroll Down -> Rotate Right
-                currentFace++;
-                if (currentFace > 3) currentFace = 0;
-            } else {
-                // Scroll Up -> Rotate Left
-                currentFace--;
-                if (currentFace < 0) currentFace = 3;
-            }
-            updateCube();
+            link.addEventListener('mouseleave', () => {
+                cursor.style.width = '15px';
+                cursor.style.height = '15px';
+            });
         });
 
-        // Touch Swipe Navigation
-        let touchStartX = 0;
-        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-        window.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > 50) { // Threshold
-                if (diff > 0) {
-                    currentFace++; // Swipe Left -> Next
-                    if (currentFace > 3) currentFace = 0;
-                } else {
-                    currentFace--; // Swipe Right -> Prev
-                    if (currentFace < 0) currentFace = 3;
-                }
-                updateCube();
-            }
+        // Touch support (simple tap spawns image)
+        window.addEventListener('touchstart', (e) => {
+            spawnImage(e.touches[0].clientX, e.touches[0].clientY);
         });
-
-        // Intro Animation
-        setTimeout(() => {
-            cube.style.transition = 'transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-        }, 100);
 
     </script>
 </body>
