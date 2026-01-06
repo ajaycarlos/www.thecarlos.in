@@ -3,78 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | The Carlos</title>
+    <title>Carlos | Systems Engineer</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="/" class="nav-btn">← Return to Dashboard</a>
-        <div class="status-indicator">
-            <span class="dot"></span> Online
-        </div>
-    </nav>
-
-    <div class="bento-container">
-        <div class="card hero">
-            <div class="hero-content">
-                <h5>Welcome to</h5>
-                <h1>THE CARLOS <span class="highlight">PORTFOLIO</span></h1>
-                <p>Full Stack Developer & AI Enthusiast.</p>
-                <button class="cta-btn" onclick="window.location.href='mailto:contact@thecarlos.in'">Initialize Contact</button>
+    <div class="noise"></div>
+    
+    <div class="layout-wrapper">
+        
+        <nav class="top-nav">
+            <div class="brand">
+                <span class="brand-name">The Carlos.in</span>
+                <span class="brand-role"> / Full Stack</span>
             </div>
-        </div>
+            <div class="status-pill">
+                <span class="status-dot"></span> 
+                <span>System Online</span>
+            </div>
+            <a href="/" class="nav-btn">Exit to Dashboard</a>
+        </nav>
 
-        <div class="card stats">
-            <h3>System Architecture</h3>
-            <div class="lang-bar-container">
-                <div class="lang-bar">
-                    <div class="segment js" style="width: 35.9%"></div>
-                    <div class="segment css" style="width: 26.9%"></div>
-                    <div class="segment html" style="width: 23.3%"></div>
-                    <div class="segment ts" style="width: 13.9%"></div>
+        <div class="bento-grid" id="grid">
+            
+            <div class="card hero">
+                <div class="card-content">
+                    <h1 class="title">
+                        Building digital<br>
+                        <span class="serif">architectures</span> & <br>
+                        experiences.
+                    </h1>
+                    <p class="subtitle">
+                        Full Stack Developer focused on scalable systems and intuitive design. Based in Kerala, India.
+                    </p>
+                    <div class="btn-group">
+                        <a href="mailto:contact@thecarlos.in" class="btn primary">Initialize Contact</a>
+                        <a href="#work" class="btn secondary">View Work</a>
+                    </div>
                 </div>
-                <div class="lang-legend">
-                    <div class="legend-item"><span class="dot js-dot"></span> JS 35.9%</div>
-                    <div class="legend-item"><span class="dot css-dot"></span> CSS 26.9%</div>
-                    <div class="legend-item"><span class="dot html-dot"></span> HTML 23.3%</div>
-                    <div class="legend-item"><span class="dot ts-dot"></span> TS 13.9%</div>
+            </div>
+
+            <div class="card stats">
+                <div class="card-header">
+                    <h3>Core Stack</h3>
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="stack-list">
+                    <div class="stack-item">
+                        <span class="label">JavaScript</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: 35.9%; background: #fff;"></div></div>
+                        <span class="percent">35%</span>
+                    </div>
+                    <div class="stack-item">
+                        <span class="label">CSS / Design</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: 27%; background: #888;"></div></div>
+                        <span class="percent">27%</span>
+                    </div>
+                    <div class="stack-item">
+                        <span class="label">AI / Python</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: 20%; background: #444;"></div></div>
+                        <span class="percent">20%</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card project-main">
-            <div class="card-header">
-                <h3>Main Project</h3>
-                <span class="tag">Live</span>
+            <div class="card project-main" onclick="window.location.href='/affiliate/'">
+                <div class="card-bg-img"></div> <div class="card-content bottom">
+                    <div class="tag">FEATURED CASE</div>
+                    <h2>Janatha Bazar</h2>
+                    <p>Affiliate tracking system with real-time analytics.</p>
+                </div>
+                <div class="arrow-icon">↗</div>
             </div>
-            <h2>Janatha Bazar Affiliate</h2>
-            <p>An integrated affiliate system built with Supabase.</p>
-            <div class="card-footer">
-                <a href="/affiliate/" class="link-btn">Launch Module ↗</a>
+
+            <div class="card project-sub">
+                <div class="card-header">
+                    <h3>Experiment</h3>
+                </div>
+                <h2>The Carlos OS</h2>
+                <p>Web-based spatial operating system UI.</p>
             </div>
-        </div>
 
-        <div class="card social">
-            <h3>Connect</h3>
-            <div class="social-links">
-                <a href="#" class="social-icon">GitHub</a>
-                <a href="#" class="social-icon">Twitter</a>
-                <a href="#" class="social-icon">LinkedIn</a>
+            <div class="card social">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#" class="social-item">GitHub</a>
+                    <a href="#" class="social-item">LinkedIn</a>
+                    <a href="#" class="social-item">X (Twitter)</a>
+                </div>
             </div>
-        </div>
 
-        <div class="card about">
-            <h3>About Entity</h3>
-            <p>I build accessible, pixel-perfect, performant web experiences. Currently experimenting with AI integration and serverless architecture.</p>
-        </div>
+            <div class="card about">
+                <div class="card-header">
+                    <h3>AI Assistant</h3>
+                </div>
+                <p>Have questions? Ask my digital twin.</p>
+                <a href="/chat.html" class="circle-btn"><i class="fas fa-comment"></i></a>
+            </div>
 
-         <div class="card chat-link">
-            <h3>Ask Carlos</h3>
-            <p>Interact with the AI assistant.</p>
-            <a href="/chat.html" class="circle-btn">?</a>
         </div>
     </div>
 
