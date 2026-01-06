@@ -3,327 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | CINEMATIC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;500&display=swap" rel="stylesheet">
+    <title>THE CARLOS | MOLECULAR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. LUXURY CSS VARIABLES --- */
+        /* --- CSS STYLES --- */
         :root {
-            --bg: #050505;
-            --text: #e0e0e0;
-            --gold: #d4af37; /* Premium Gold */
-            --font-display: 'Italiana', serif;
-            --font-body: 'Manrope', sans-serif;
-            --cursor-size: 80px;
+            --bg: #000000;
+            --particle-color: #d4af37; /* Gold */
+            --text-color: #ffffff;
+            --accent: #d4af37;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
-            color: var(--text);
-            font-family: var(--font-body);
-            overflow: hidden; /* We hijack scroll for the smooth effect */
+            color: var(--text-color);
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden; /* Canvas covers everything */
+            height: 100vh;
+            user-select: none;
         }
 
-        /* --- 2. CUSTOM CURSOR (The "Lens") --- */
-        #cursor {
-            position: fixed;
+        /* The Canvas acts as the background/header */
+        #canvas1 {
+            position: absolute;
             top: 0; left: 0;
-            width: var(--cursor-size); height: var(--cursor-size);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
-            mix-blend-mode: difference; /* THE MAGIC: Inverts colors */
-            background: white; 
-        }
-        
-        /* Cursor interaction state */
-        body:hover #cursor.hovered {
-            width: 120px; height: 120px;
-            background: var(--gold);
-            border-color: var(--gold);
+            width: 100%; height: 100%;
+            z-index: 1;
         }
 
-        /* Ambient Noise Texture */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E');
-            pointer-events: none; z-index: 50;
-        }
-
-        /* --- 3. SCROLL CONTAINER --- */
-        .scroll-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            will-change: transform; /* Performance optimization */
-        }
-
-        /* --- 4. SECTIONS --- */
-        section {
-            padding: 100px 10vw;
-            min-height: 80vh;
+        /* --- UI OVERLAY (Floating above particles) --- */
+        .ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Let mouse pass through to canvas */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            justify-content: space-between;
+            padding: 40px;
         }
 
-        /* HEADER */
-        .header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            padding: 40px 60px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference; /* Ensures visibility on white cursor */
+        /* Navigation */
+        .nav-dock {
+            pointer-events: auto;
+            display: flex;
+            gap: 40px;
+            margin: 0 auto;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
         }
-        .logo { font-family: var(--font-display); font-size: 1.5rem; color: white; text-decoration: none; text-transform: uppercase;}
-        .menu-btn { font-family: var(--font-body); font-size: 0.9rem; color: white; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* TYPOGRAPHY */
-        h1.hero-title {
-            font-family: var(--font-display);
-            font-size: 10vw; /* Responsive massive text */
-            line-height: 0.9;
+        .nav-btn {
+            background: none; border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            margin-bottom: 40px;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.7); /* Outline effect */
-            transition: 0.5s;
-        }
-        h1.hero-title:hover { -webkit-text-stroke: 0; color: var(--gold); }
-
-        .subtitle {
-            font-size: 1.2rem;
-            max-width: 500px;
-            margin-left: auto;
-            color: #888;
-            line-height: 1.8;
-        }
-
-        /* PROJECT LIST (The "Menu" style) */
-        .project-item {
-            position: relative;
-            padding: 50px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            letter-spacing: 2px;
+            cursor: pointer;
             transition: 0.3s;
         }
-        .project-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
-        
-        .project-link {
-            display: flex; justify-content: space-between; align-items: baseline;
-            text-decoration: none; color: var(--text);
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
-        .p-title { font-family: var(--font-display); font-size: 4vw; transition: 0.4s; }
-        .p-cat { font-family: var(--font-body); font-size: 1rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .project-item:hover .p-title { color: var(--gold); padding-left: 20px; }
-        .project-item:hover { background: rgba(255,255,255,0.02); }
-
-        /* IMAGE REVEAL (Hidden image shows on hover) */
-        .hover-reveal {
-            position: fixed;
-            width: 300px; height: 400px;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background-size: cover;
-            background-position: center;
-            pointer-events: none;
-            z-index: 10;
+        /* Content Overlay (Hidden by default, fades in) */
+        .content-overlay {
+            position: absolute;
+            top: 55%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
             opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            filter: grayscale(100%);
+            transition: 0.5s;
+            pointer-events: none;
         }
-        .project-item:hover .hover-reveal {
-            opacity: 0.6;
-            transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+        .content-overlay.active {
+            opacity: 1;
+            top: 60%; /* Slide down slightly */
+            pointer-events: auto;
         }
 
-        /* STATS */
-        .stats-row {
-            display: flex; gap: 50px; margin-top: 50px;
+        .info-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 0;
+            position: relative;
         }
-        .stat-box h3 { font-family: var(--font-display); font-size: 3rem; color: var(--gold); }
-        .stat-box p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+        .info-card::before {
+            content: ''; position: absolute; top: -1px; left: -1px;
+            width: 10px; height: 10px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent);
+        }
+        .info-card::after {
+            content: ''; position: absolute; bottom: -1px; right: -1px;
+            width: 10px; height: 10px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent);
+        }
 
-        /* CONTACT */
-        .contact-section { min-height: 60vh; }
-        .big-link {
-            font-family: var(--font-display);
-            font-size: 6vw;
-            color: var(--text);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
+        h2 { font-size: 1.5rem; margin-bottom: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; }
+        p { line-height: 1.6; color: #ccc; margin-bottom: 20px; font-size: 1.1rem; }
+        
+        .btn {
+            display: inline-block; padding: 10px 30px;
+            border: 1px solid var(--accent); color: var(--accent);
+            text-decoration: none; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 0.8rem;
             transition: 0.3s;
         }
-        .big-link:hover { color: var(--gold); border-bottom: 1px solid var(--gold); }
+        .btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
 
-        /* FOOTER */
-        .footer {
-            padding: 40px 60px;
-            display: flex; justify-content: space-between;
-            font-size: 0.8rem; color: #555;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* Grid for Projects */
+        .project-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
         }
+        .p-item {
+            border: 1px solid #333; padding: 20px; text-align: left; transition: 0.3s;
+            background: rgba(0,0,0,0.5);
+        }
+        .p-item:hover { border-color: var(--accent); background: rgba(20,20,20,0.9); }
+        .p-head { font-size: 1.2rem; color: white; margin-bottom: 5px; }
+        .p-sub { font-size: 0.8rem; color: #666; text-transform: uppercase; }
 
-        @media (max-width: 768px) {
-            h1.hero-title { font-size: 15vw; }
-            .p-title { font-size: 8vw; }
-            .stats-row { flex-direction: column; gap: 20px; }
-            #cursor { display: none; } /* Disable custom cursor on touch */
-            * { cursor: auto; }
+        /* Top Bar */
+        .top-bar { pointer-events: auto; display: flex; justify-content: space-between; align-items: center; }
+        .back-link { color: #555; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; }
+        .back-link:hover { color: white; }
+
+        /* Mobile Fix */
+        @media(max-width: 768px) {
+            .nav-dock { width: 100%; justify-content: space-around; padding: 15px; }
+            .project-grid { grid-template-columns: 1fr; }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="noise"></div>
-    <div id="cursor"></div>
+    <canvas id="canvas1"></canvas>
 
-    <nav class="header">
-        <a href="/" class="logo" data-hover>The Carlos</a>
-        <div class="menu-btn" data-hover>System Online</div>
-    </nav>
-
-    <div class="scroll-container" id="scroll-container">
-        
-        <section>
-            <h1 class="hero-title">Digital<br>Architect</h1>
-            <div class="subtitle">
-                I build digital ecosystems that merge logic with luxury.<br>
-                Full Stack Engineering & AI Integration.
-            </div>
-            
-            <div class="stats-row">
-                <div class="stat-box">
-                    <h3>35%</h3>
-                    <p>JavaScript Core</p>
-                </div>
-                <div class="stat-box">
-                    <h3>AI</h3>
-                    <p>LLM Integration</p>
-                </div>
-                <div class="stat-box">
-                    <h3>JB</h3>
-                    <p>Affiliate Systems</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div style="margin-bottom: 60px; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: #666;">/ Selected Works</div>
-            
-            <div class="project-item">
-                <a href="/affiliate/" class="project-link" data-hover>
-                    <span class="p-title">Janatha Bazar</span>
-                    <span class="p-cat">Affiliate Logic / Supabase</span>
-                </a>
-                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #111, #333);">
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">JB PROJECT</div>
-                </div>
-            </div>
-
-            <div class="project-item">
-                <a href="#" class="project-link" data-hover>
-                    <span class="p-title">Neural Chat</span>
-                    <span class="p-cat">AI / Python / API</span>
-                </a>
-                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #000, #1a1a1a);">
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">AI CHAT</div>
-                </div>
-            </div>
-
-            <div class="project-item">
-                <a href="#" class="project-link" data-hover>
-                    <span class="p-title">Carlos OS</span>
-                    <span class="p-cat">Spatial UI / WebGL</span>
-                </a>
-                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #222, #444);">
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">SYSTEM</div>
-                </div>
-            </div>
-
-        </section>
-
-        <section class="contact-section">
-            <div style="margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: #666;">/ Collaboration</div>
-            <h2 style="font-family: var(--font-display); font-size: 3rem; margin-bottom: 20px;">Ready to initiate?</h2>
-            <a href="mailto:contact@thecarlos.in" class="big-link" data-hover>contact@thecarlos.in</a>
-        </section>
-
-        <div class="footer">
-            <span>© 2024 THE CARLOS</span>
-            <span>KERALA, INDIA</span>
-            <a href="/" style="text-decoration:none; color:#555;" data-hover>EXIT PORTFOLIO</a>
+    <div class="ui-layer">
+        <div class="top-bar">
+            <div style="color:#333; font-size:0.8rem;">SYSTEM: ONLINE</div>
+            <a href="/" class="back-link">Exit to Dashboard</a>
         </div>
 
+        <div id="info-home" class="content-overlay active">
+            <p style="margin-top: 20px; opacity: 0.7; font-size: 0.9rem;">INTERACTIVE PARTICLE ENGINE</p>
+            <p style="font-size: 0.8rem; color: #555;">MOVE CURSOR TO DISPERSE</p>
+        </div>
+
+        <div id="info-work" class="content-overlay">
+            <div class="project-grid">
+                <div class="p-item" onclick="window.location.href='/affiliate/'" style="cursor: pointer;">
+                    <div class="p-head">Janatha Bazar</div>
+                    <div class="p-sub">Supabase // Affiliate Logic</div>
+                    <p style="font-size:0.8rem; margin-top:10px;">Advanced tracking system with real-time commissions.</p>
+                </div>
+                <div class="p-item">
+                    <div class="p-head">The Carlos OS</div>
+                    <div class="p-sub">JavaScript // Experimental UI</div>
+                    <p style="font-size:0.8rem; margin-top:10px;">Browser-based operating system interface.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="info-about" class="content-overlay">
+            <div class="info-card">
+                <h2>The Architect</h2>
+                <p>
+                    I am a Full Stack Developer obsessed with the intersection of Logic and Art.
+                    My code doesn't just function; it performs.
+                </p>
+                <div style="display:flex; justify-content:center; gap:20px; margin-top:20px; font-size:0.9rem; color:var(--accent);">
+                    <span>JS: 35%</span>
+                    <span>CSS: 27%</span>
+                    <span>HTML: 23%</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="info-contact" class="content-overlay">
+            <div class="info-card">
+                <h2>Initialize Uplink</h2>
+                <p>Available for high-impact projects.</p>
+                <a href="mailto:contact@thecarlos.in" class="btn">contact@thecarlos.in</a>
+            </div>
+        </div>
+
+        <div class="nav-dock">
+            <button class="nav-btn active" onclick="changeState('HOME')">Identity</button>
+            <button class="nav-btn" onclick="changeState('WORK')">Work</button>
+            <button class="nav-btn" onclick="changeState('ABOUT')">About</button>
+            <button class="nav-btn" onclick="changeState('CONTACT')">Contact</button>
+        </div>
     </div>
 
     <script>
-        // --- 1. SMOOTH SCROLL LOGIC (Momentum + Skew) ---
-        const container = document.getElementById('scroll-container');
-        
-        // Config
-        let currentY = 0;
-        let targetY = 0;
-        let skew = 0;
-        const ease = 0.08; // The "smoothness" (lower is slower/heavier)
-        
-        // Set body height to match container so we can scroll
-        function setHeight() {
-            document.body.style.height = `${container.getBoundingClientRect().height}px`;
-        }
-        window.addEventListener('resize', setHeight);
-        // Delay slightly to ensure fonts loaded
-        setTimeout(setHeight, 500); 
+        /* --- THE PARTICLE ENGINE --- */
+        const canvas = document.getElementById('canvas1');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        // Animation Loop
-        function animateScroll() {
-            // Lerp (Linear Interpolation) formula
-            let diff = targetY - currentY;
-            currentY += diff * ease;
+        let particlesArray = [];
+        let adjustX = 0;
+        let adjustY = 0;
+
+        // Configuration
+        const mouse = { x: null, y: null, radius: 150 };
+        let currentText = "THE CARLOS";
+        
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Font settings
+        ctx.fillStyle = 'white';
+        ctx.font = '30px Verdana';
+        ctx.textAlign = 'center';
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = 2; // Particle Size
+                this.baseX = x;
+                this.baseY = y;
+                this.density = (Math.random() * 30) + 1;
+                this.color = '#d4af37'; // Gold
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+            update() {
+                // Physics: Mouse repulsion
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                
+                // Interaction Force
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = mouse.radius;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * this.density;
+                let directionY = forceDirectionY * force * this.density;
+
+                if (distance < mouse.radius) {
+                    this.x -= directionX;
+                    this.y -= directionY;
+                    this.color = '#ffffff'; // Turn white on hover
+                } else {
+                    // Return to original position
+                    if (this.x !== this.baseX) {
+                        let dx = this.x - this.baseX;
+                        this.x -= dx / 10;
+                    }
+                    if (this.y !== this.baseY) {
+                        let dy = this.y - this.baseY;
+                        this.y -= dy / 10;
+                    }
+                    this.color = '#d4af37'; // Reset to gold
+                }
+            }
+        }
+
+        // Initialize particles based on text
+        function init() {
+            particlesArray = [];
             
-            // Calculate Skew based on speed
-            skew = diff * 0.15; 
-            // Clamp skew to avoid dizziness
-            skew = Math.min(Math.max(skew, -10), 10);
+            // 1. Draw text on canvas (invisible)
+            // Responsive font size
+            let fontSize = 120;
+            if(window.innerWidth < 768) fontSize = 60;
+            
+            ctx.font = '900 ' + fontSize + 'px Montserrat';
+            ctx.fillText(currentText, 30, 40); // Temporary draw
+            
+            // Center the text data
+            const textWidth = ctx.measureText(currentText).width;
+            const startX = (canvas.width - textWidth) / 2;
+            const startY = (canvas.height / 2.5); // Move text up slightly
 
-            // Apply transform
-            // 'translate3d' triggers hardware acceleration
-            container.style.transform = `translate3d(0, -${currentY}px, 0) skewY(${skew}deg)`;
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillText(currentText, startX, startY);
 
-            requestAnimationFrame(animateScroll);
+            // 2. Scan the canvas for pixel data
+            const textCoordinates = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // 3. Create particles for every Xth pixel
+            const densityFactor = 6; // Lower = more particles (heavier)
+            
+            for (let y = 0, y2 = textCoordinates.height; y < y2; y += densityFactor) {
+                for (let x = 0, x2 = textCoordinates.width; x < x2; x += densityFactor) {
+                    // Check alpha value (4th byte)
+                    if (textCoordinates.data[(y * 4 * textCoordinates.width) + (x * 4) + 3] > 128) {
+                        let positionX = x;
+                        let positionY = y;
+                        particlesArray.push(new Particle(positionX, positionY));
+                    }
+                }
+            }
         }
-        animateScroll();
 
-        // Listen for real scroll
-        window.addEventListener('scroll', () => {
-            targetY = window.scrollY;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].draw();
+                particlesArray[i].update();
+            }
+            // Connect particles with lines if close (Optional - expensive operation)
+            connect();
+            requestAnimationFrame(animate);
+        }
+
+        // Draw lines between close particles
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dx = particlesArray[a].x - particlesArray[b].x;
+                    let dy = particlesArray[a].y - particlesArray[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 20) {
+                        opacityValue = 1 - (distance / 20);
+                        ctx.strokeStyle = 'rgba(212, 175, 55,' + opacityValue + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // --- STATE MANAGEMENT ---
+        function changeState(newState) {
+            // 1. Update Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 2. Hide all overlay content
+            document.querySelectorAll('.content-overlay').forEach(div => div.classList.remove('active'));
+
+            // 3. Update Text & Particle Simulation
+            if (newState === 'HOME') {
+                currentText = "THE CARLOS";
+                document.getElementById('info-home').classList.add('active');
+            } else if (newState === 'WORK') {
+                currentText = "PROJECTS";
+                document.getElementById('info-work').classList.add('active');
+            } else if (newState === 'ABOUT') {
+                currentText = "SKILLS";
+                document.getElementById('info-about').classList.add('active');
+            } else if (newState === 'CONTACT') {
+                currentText = "CONTACT";
+                document.getElementById('info-contact').classList.add('active');
+            }
+
+            // Re-init particles with new text
+            init();
+        }
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
         });
 
-
-        // --- 2. CUSTOM CURSOR LOGIC ---
-        const cursor = document.getElementById('cursor');
-        
-        // Track mouse
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
-
-        // Hover Effect
-        const hoverables = document.querySelectorAll('[data-hover]');
-        hoverables.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
+        // Start
+        // Wait for font to load briefly
+        setTimeout(() => {
+            init();
+            animate();
+        }, 500);
 
     </script>
 </body>
