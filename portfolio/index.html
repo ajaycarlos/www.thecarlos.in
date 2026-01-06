@@ -3,107 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carlos OS | Portfolio Module</title>
+    <title>Portfolio | The Carlos</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="overlay"></div> <nav class="top-bar fade-in">
-        <a href="/" class="back-link">
-            <span class="bracket">[</span> BACK_TO_ROOT <span class="bracket">]</span>
-        </a>
-        <div class="system-status">
-            <span class="blink">●</span> SYSTEM ONLINE
+    <nav class="top-nav">
+        <a href="/" class="nav-btn">← Return to Dashboard</a>
+        <div class="status-indicator">
+            <span class="dot"></span> Online
         </div>
     </nav>
 
-    <div class="bento-grid">
-        
-        <div class="card profile" data-tilt>
-            <div class="card-content">
-                <div class="glitch-wrapper">
-                    <h1 class="glitch" data-text="THE CARLOS">THE CARLOS</h1>
-                </div>
-                <p class="role">Full Stack Developer // AI Architect</p>
-                <div class="tags">
-                    <span>DEV</span>
-                    <span>AI</span>
-                    <span>WEB3</span>
-                </div>
+    <div class="bento-container">
+        <div class="card hero">
+            <div class="hero-content">
+                <h5>Welcome to</h5>
+                <h1>THE CARLOS <span class="highlight">PORTFOLIO</span></h1>
+                <p>Full Stack Developer & AI Enthusiast.</p>
+                <button class="cta-btn" onclick="window.location.href='mailto:contact@thecarlos.in'">Initialize Contact</button>
             </div>
-            <div class="bg-decoration"></div>
         </div>
 
-        <div class="card terminal" data-tilt>
-            <div class="terminal-header">
-                <div class="dot red"></div>
-                <div class="dot yellow"></div>
-                <div class="dot green"></div>
-                <span>bash — 80x24</span>
-            </div>
-            <div class="terminal-body" id="terminal-body">
-                <div class="output">Initializing portfolio module...</div>
-                <div class="output">Loading assets... <span class="success">Done.</span></div>
-                <div class="input-line">
-                    <span class="prompt">root@carlos:~$</span>
-                    <span class="typing" id="typewriter"></span><span class="cursor">_</span>
+        <div class="card stats">
+            <h3>System Architecture</h3>
+            <div class="lang-bar-container">
+                <div class="lang-bar">
+                    <div class="segment js" style="width: 35.9%"></div>
+                    <div class="segment css" style="width: 26.9%"></div>
+                    <div class="segment html" style="width: 23.3%"></div>
+                    <div class="segment ts" style="width: 13.9%"></div>
+                </div>
+                <div class="lang-legend">
+                    <div class="legend-item"><span class="dot js-dot"></span> JS 35.9%</div>
+                    <div class="legend-item"><span class="dot css-dot"></span> CSS 26.9%</div>
+                    <div class="legend-item"><span class="dot html-dot"></span> HTML 23.3%</div>
+                    <div class="legend-item"><span class="dot ts-dot"></span> TS 13.9%</div>
                 </div>
             </div>
         </div>
 
-        <div class="card tech-stack" data-tilt>
-            <h3><i class="fas fa-code"></i> Tech_Stack.exe</h3>
-            <div class="progress-wrapper">
-                <div class="skill">
-                    <div class="skill-info">
-                        <span>JavaScript</span>
-                        <span>35.9%</span>
-                    </div>
-                    <div class="bar-bg"><div class="bar-fill js" style="width: 35.9%"></div></div>
-                </div>
-                <div class="skill">
-                    <div class="skill-info">
-                        <span>CSS</span>
-                        <span>26.9%</span>
-                    </div>
-                    <div class="bar-bg"><div class="bar-fill css" style="width: 26.9%"></div></div>
-                </div>
-                <div class="skill">
-                    <div class="skill-info">
-                        <span>HTML</span>
-                        <span>23.3%</span>
-                    </div>
-                    <div class="bar-bg"><div class="bar-fill html" style="width: 23.3%"></div></div>
-                </div>
+        <div class="card project-main">
+            <div class="card-header">
+                <h3>Main Project</h3>
+                <span class="tag">Live</span>
+            </div>
+            <h2>Janatha Bazar Affiliate</h2>
+            <p>An integrated affiliate system built with Supabase.</p>
+            <div class="card-footer">
+                <a href="/affiliate/" class="link-btn">Launch Module ↗</a>
             </div>
         </div>
 
-        <div class="card project" data-tilt style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/affiliate/Janathabazar-logo.png'); background-size: cover;">
-            <div class="project-details">
-                <div class="badge">FEATURED</div>
-                <h2>Janatha Bazar Affiliate</h2>
-                <p>Advanced affiliate tracking system powered by Supabase.</p>
-                <a href="/affiliate/" class="glow-btn">INITIALIZE APP</a>
+        <div class="card social">
+            <h3>Connect</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon">GitHub</a>
+                <a href="#" class="social-icon">Twitter</a>
+                <a href="#" class="social-icon">LinkedIn</a>
             </div>
         </div>
 
-        <div class="card widget-time" data-tilt>
-            <div class="clock" id="clock">00:00:00</div>
-            <div class="date" id="date">LOADING DATE</div>
-            <div class="location">IN, KERALA</div>
+        <div class="card about">
+            <h3>About Entity</h3>
+            <p>I build accessible, pixel-perfect, performant web experiences. Currently experimenting with AI integration and serverless architecture.</p>
         </div>
 
-        <div class="card social" data-tilt>
-            <h3> uplink_connection</h3>
-            <div class="social-grid">
-                <a href="#" class="s-btn github"><i class="fab fa-github"></i> GH</a>
-                <a href="#" class="s-btn twitter"><i class="fab fa-twitter"></i> TW</a>
-                <a href="mailto:contact@thecarlos.in" class="s-btn email">@ MAIL</a>
-            </div>
+         <div class="card chat-link">
+            <h3>Ask Carlos</h3>
+            <p>Interact with the AI assistant.</p>
+            <a href="/chat.html" class="circle-btn">?</a>
         </div>
-
     </div>
 
     <script src="script.js"></script>
