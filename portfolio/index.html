@@ -3,371 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carlos | Portfolio</title>
+    <title>THE CARLOS | CINEMATIC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. PREMIUM VARIABLES --- */
+        /* --- 1. LUXURY CSS VARIABLES --- */
         :root {
-            --bg: #0e0e0e;
-            --surface: #161616;
-            --text-main: #ffffff;
-            --text-sec: #888888;
-            --accent: #ffffff; /* Stark white accent */
-            --border: rgba(255, 255, 255, 0.08);
-            --font-main: 'Inter', sans-serif;
-            --font-serif: 'Playfair Display', serif;
+            --bg: #050505;
+            --text: #e0e0e0;
+            --gold: #d4af37; /* Premium Gold */
+            --font-display: 'Italiana', serif;
+            --font-body: 'Manrope', sans-serif;
+            --cursor-size: 80px;
         }
 
-        /* --- 2. RESET & BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        html { scroll-behavior: smooth; }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+
         body {
             background-color: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow: hidden; /* We hijack scroll for the smooth effect */
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
-
-        /* --- 3. LAYOUT GRID (The Professional Split) --- */
-        .layout {
-            display: grid;
-            grid-template-columns: 400px 1fr; /* Fixed Left, Fluid Right */
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        /* --- 4. LEFT SIDE (Sticky Header) --- */
-        .sidebar {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            padding: 80px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border-right: 1px solid var(--border);
-        }
-
-        .brand h1 {
-            font-family: var(--font-serif);
-            font-size: 3rem;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-        .brand p {
-            font-size: 1rem;
-            color: var(--text-sec);
-            font-weight: 300;
-        }
-
-        .nav-menu { margin-top: -60px; }
-        .nav-item {
-            display: block;
-            color: var(--text-sec);
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nav-item:hover, .nav-item.active {
-            color: var(--text-main);
-            padding-left: 10px; /* Slide effect */
-        }
-        .nav-item::before {
-            content: ''; display: block; width: 0px; height: 1px; background: white; transition: 0.3s;
-        }
-        .nav-item.active::before { width: 30px; }
-
-        .socials { display: flex; gap: 20px; }
-        .social-link { font-size: 1.2rem; opacity: 0.5; }
-        .social-link:hover { opacity: 1; transform: translateY(-2px); }
-
-        /* --- 5. RIGHT SIDE (Scrolling Content) --- */
-        .content {
-            padding: 80px 60px;
-        }
-
-        section {
-            margin-bottom: 150px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        section.visible { opacity: 1; transform: translateY(0); }
-
-        .section-tag {
-            font-family: var(--font-code);
-            color: var(--text-sec);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            display: block;
-        }
-
-        /* Hero Text in Content */
-        .lead-text {
-            font-size: 2rem;
-            font-weight: 300;
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-        .lead-text b { font-weight: 600; color: white; }
-
-        /* Stats Grid (Minimal) */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 30px 0;
-        }
-        .stat h3 { font-size: 2.5rem; font-weight: 300; line-height: 1; }
-        .stat span { font-size: 0.8rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Project Cards (Clean & Sharp) */
-        .project-card {
-            display: block;
-            margin-bottom: 60px;
-            group: cursor;
+        /* --- 2. CUSTOM CURSOR (The "Lens") --- */
+        #cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: var(--cursor-size); height: var(--cursor-size);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference; /* THE MAGIC: Inverts colors */
+            background: white; 
         }
         
-        .card-image {
+        /* Cursor interaction state */
+        body:hover #cursor.hovered {
+            width: 120px; height: 120px;
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* Ambient Noise Texture */
+        .noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)" opacity="0.04"/%3E%3C/svg%3E');
+            pointer-events: none; z-index: 50;
+        }
+
+        /* --- 3. SCROLL CONTAINER --- */
+        .scroll-container {
+            position: fixed;
+            top: 0; left: 0;
             width: 100%;
-            height: 350px;
-            background: #222;
-            margin-bottom: 25px;
-            overflow: hidden;
-            border-radius: 4px;
+            will-change: transform; /* Performance optimization */
+        }
+
+        /* --- 4. SECTIONS --- */
+        section {
+            padding: 100px 10vw;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* HEADER */
+        .header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 40px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference; /* Ensures visibility on white cursor */
+        }
+        .logo { font-family: var(--font-display); font-size: 1.5rem; color: white; text-decoration: none; text-transform: uppercase;}
+        .menu-btn { font-family: var(--font-body); font-size: 0.9rem; color: white; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* TYPOGRAPHY */
+        h1.hero-title {
+            font-family: var(--font-display);
+            font-size: 10vw; /* Responsive massive text */
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.7); /* Outline effect */
+            transition: 0.5s;
+        }
+        h1.hero-title:hover { -webkit-text-stroke: 0; color: var(--gold); }
+
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin-left: auto;
+            color: #888;
+            line-height: 1.8;
+        }
+
+        /* PROJECT LIST (The "Menu" style) */
+        .project-item {
             position: relative;
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
         }
-        .card-image img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.7s ease;
-            opacity: 0.8;
-        }
-        .project-card:hover .card-image img { transform: scale(1.05); opacity: 1; }
-
-        .project-info h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; font-family: var(--font-serif); }
-        .project-info p { color: var(--text-sec); font-size: 0.9rem; max-width: 500px; margin-bottom: 15px;}
-        .tech-tags span {
-            font-size: 0.75rem; padding: 5px 10px; border: 1px solid var(--border);
-            border-radius: 20px; margin-right: 5px; color: var(--text-sec);
+        .project-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
+        .project-link {
+            display: flex; justify-content: space-between; align-items: baseline;
+            text-decoration: none; color: var(--text);
         }
 
-        /* Contact Section */
-        .email-link {
-            font-size: 4vw;
-            font-family: var(--font-serif);
-            font-style: italic;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-        .email-link:hover { border-color: white; }
+        .p-title { font-family: var(--font-display); font-size: 4vw; transition: 0.4s; }
+        .p-cat { font-family: var(--font-body); font-size: 1rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+        
+        .project-item:hover .p-title { color: var(--gold); padding-left: 20px; }
+        .project-item:hover { background: rgba(255,255,255,0.02); }
 
-        /* Mobile Responsive */
-        @media (max-width: 900px) {
-            .layout { grid-template-columns: 1fr; }
-            .sidebar { 
-                position: relative; height: auto; padding: 40px 20px; border-right: none; border-bottom: 1px solid var(--border);
-            }
-            .nav-menu { display: none; } /* Hide sticky nav on mobile */
-            .content { padding: 40px 20px; }
-            .stats-grid { grid-template-columns: 1fr; gap: 40px;}
-            .email-link { font-size: 2rem; }
+        /* IMAGE REVEAL (Hidden image shows on hover) */
+        .hover-reveal {
+            position: fixed;
+            width: 300px; height: 400px;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            filter: grayscale(100%);
+        }
+        .project-item:hover .hover-reveal {
+            opacity: 0.6;
+            transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+        }
+
+        /* STATS */
+        .stats-row {
+            display: flex; gap: 50px; margin-top: 50px;
+        }
+        .stat-box h3 { font-family: var(--font-display); font-size: 3rem; color: var(--gold); }
+        .stat-box p { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+
+        /* CONTACT */
+        .contact-section { min-height: 60vh; }
+        .big-link {
+            font-family: var(--font-display);
+            font-size: 6vw;
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .big-link:hover { color: var(--gold); border-bottom: 1px solid var(--gold); }
+
+        /* FOOTER */
+        .footer {
+            padding: 40px 60px;
+            display: flex; justify-content: space-between;
+            font-size: 0.8rem; color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            h1.hero-title { font-size: 15vw; }
+            .p-title { font-size: 8vw; }
+            .stats-row { flex-direction: column; gap: 20px; }
+            #cursor { display: none; } /* Disable custom cursor on touch */
+            * { cursor: auto; }
         }
 
     </style>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="layout">
+    <div class="noise"></div>
+    <div id="cursor"></div>
+
+    <nav class="header">
+        <a href="/" class="logo" data-hover>The Carlos</a>
+        <div class="menu-btn" data-hover>System Online</div>
+    </nav>
+
+    <div class="scroll-container" id="scroll-container">
         
-        <aside class="sidebar">
-            <div class="brand">
-                <h1>Carlos.</h1>
-                <p>Full Stack Engineer</p>
-                <p style="color: #444; margin-top: 5px;">Based in Kerala, IN</p>
+        <section>
+            <h1 class="hero-title">Digital<br>Architect</h1>
+            <div class="subtitle">
+                I build digital ecosystems that merge logic with luxury.<br>
+                Full Stack Engineering & AI Integration.
             </div>
-
-            <nav class="nav-menu">
-                <a href="#about" class="nav-item active">01 About</a>
-                <a href="#projects" class="nav-item">02 Selected Works</a>
-                <a href="#expertise" class="nav-item">03 Expertise</a>
-                <a href="#contact" class="nav-item">04 Contact</a>
-            </nav>
-
-            <div class="socials">
-                <a href="https://github.com" class="social-link">GH</a>
-                <a href="https://twitter.com" class="social-link">TW</a>
-                <a href="https://linkedin.com" class="social-link">LN</a>
-                <a href="/" class="social-link" style="font-size:0.8rem; border:1px solid #333; padding: 5px 10px; border-radius: 4px;">EXIT PORTFOLIO</a>
-            </div>
-        </aside>
-
-        <main class="content">
             
-            <section id="about">
-                <span class="section-tag">/ INTRODUCTION</span>
-                <p class="lead-text">
-                    
-[!!!!!PORTFOLIO UPDATE UNDER PROGRESS. STRUGGLING TO CHOOSE A OPT DESIGN.NOT FINAL!!!!]
-I build accessible, pixel-perfect, performant web experiences. 
-                    Currently focused on <b>Affiliate Systems</b> and <b>AI Integration</b>.
-                </p>
-                <p style="color: var(--text-sec); max-width: 500px; margin-bottom: 40px;">
-                    With a background in full-stack development, I bridge the gap between complex backend logic and silky-smooth frontend interactions.
-                </p>
-                
-                <div class="stats-grid">
-                    <div class="stat">
-                        <h3>03+</h3>
-                        <span>Years Exp.</span>
-                    </div>
-                    <div class="stat">
-                        <h3>12+</h3>
-                        <span>Projects</span>
-                    </div>
-                    <div class="stat">
-                        <h3>100%</h3>
-                        <span>Commitment</span>
-                    </div>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h3>35%</h3>
+                    <p>JavaScript Core</p>
                 </div>
-            </section>
-
-            <section id="projects">
-                <span class="section-tag">/ SELECTED WORKS</span>
-                
-                <a href="/affiliate/" class="project-card">
-                    <div class="card-image">
-                        <div style="width:100%; height:100%; background: linear-gradient(45deg, #1a1a1a, #2a2a2a); display:flex; align-items:center; justify-content:center; color:#333; font-size:2rem;">JB</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>Janatha Bazar Affiliate</h3>
-                        <p>A comprehensive tracking system built with Supabase and React. Features real-time dashboard analytics and commission logic.</p>
-                        <div class="tech-tags">
-                            <span>React</span>
-                            <span>Supabase</span>
-                            <span>Tailwind</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="#" class="project-card">
-                    <div class="card-image">
-                        <div style="width:100%; height:100%; background: linear-gradient(45deg, #0f172a, #1e293b); display:flex; align-items:center; justify-content:center; color:#333; font-size:2rem;">AI</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>The Carlos OS</h3>
-                        <p>An experimental web-based operating system UI exploring spatial navigation and 3D web technologies.</p>
-                        <div class="tech-tags">
-                            <span>Vanilla JS</span>
-                            <span>CSS Grid</span>
-                            <span>AI API</span>
-                        </div>
-                    </div>
-                </a>
-
-            </section>
-
-            <section id="expertise">
-                <span class="section-tag">/ TECHNICAL ARSENAL</span>
-                <div style="display: flex; flex-wrap: wrap; gap: 40px;">
-                    <div>
-                        <h4 style="margin-bottom: 20px; font-weight: 500;">Frontend</h4>
-                        <ul style="color: var(--text-sec); line-height: 2;">
-                            <li>JavaScript (ES6+)</li>
-                            <li>React.js / Next.js</li>
-                            <li>Tailwind CSS</li>
-                            <li>HTML5 & CSS3</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 20px; font-weight: 500;">Backend</h4>
-                        <ul style="color: var(--text-sec); line-height: 2;">
-                            <li>Node.js</li>
-                            <li>Python</li>
-                            <li>Supabase / PostgreSQL</li>
-                            <li>REST APIs</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 20px; font-weight: 500;">Design & AI</h4>
-                        <ul style="color: var(--text-sec); line-height: 2;">
-                            <li>Figma</li>
-                            <li>UI/UX Prototyping</li>
-                            <li>LLM Integration</li>
-                            <li>Prompt Engineering</li>
-                        </ul>
-                    </div>
+                <div class="stat-box">
+                    <h3>AI</h3>
+                    <p>LLM Integration</p>
                 </div>
-            </section>
+                <div class="stat-box">
+                    <h3>JB</h3>
+                    <p>Affiliate Systems</p>
+                </div>
+            </div>
+        </section>
 
-            <section id="contact" style="padding-bottom: 100px;">
-                <span class="section-tag">/ GET IN TOUCH</span>
-                <h2 style="font-size: 2rem; margin-bottom: 40px; font-weight: 300;">Interested in working together?</h2>
-                <a href="mailto:contact@thecarlos.in" class="email-link">contact@thecarlos.in</a>
-            </section>
+        <section>
+            <div style="margin-bottom: 60px; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: #666;">/ Selected Works</div>
+            
+            <div class="project-item">
+                <a href="/affiliate/" class="project-link" data-hover>
+                    <span class="p-title">Janatha Bazar</span>
+                    <span class="p-cat">Affiliate Logic / Supabase</span>
+                </a>
+                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #111, #333);">
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">JB PROJECT</div>
+                </div>
+            </div>
 
-        </main>
+            <div class="project-item">
+                <a href="#" class="project-link" data-hover>
+                    <span class="p-title">Neural Chat</span>
+                    <span class="p-cat">AI / Python / API</span>
+                </a>
+                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #000, #1a1a1a);">
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">AI CHAT</div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <a href="#" class="project-link" data-hover>
+                    <span class="p-title">Carlos OS</span>
+                    <span class="p-cat">Spatial UI / WebGL</span>
+                </a>
+                <div class="hover-reveal" style="background-image: linear-gradient(45deg, #222, #444);">
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:white; font-family:var(--font-display); font-size:2rem;">SYSTEM</div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="contact-section">
+            <div style="margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: #666;">/ Collaboration</div>
+            <h2 style="font-family: var(--font-display); font-size: 3rem; margin-bottom: 20px;">Ready to initiate?</h2>
+            <a href="mailto:contact@thecarlos.in" class="big-link" data-hover>contact@thecarlos.in</a>
+        </section>
+
+        <div class="footer">
+            <span>© 2024 THE CARLOS</span>
+            <span>KERALA, INDIA</span>
+            <a href="/" style="text-decoration:none; color:#555;" data-hover>EXIT PORTFOLIO</a>
+        </div>
+
     </div>
 
     <script>
-        // --- SCROLL OBSERVER ---
-        // This adds the "fade up" animation when elements come into view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        // --- 1. SMOOTH SCROLL LOGIC (Momentum + Skew) ---
+        const container = document.getElementById('scroll-container');
+        
+        // Config
+        let currentY = 0;
+        let targetY = 0;
+        let skew = 0;
+        const ease = 0.08; // The "smoothness" (lower is slower/heavier)
+        
+        // Set body height to match container so we can scroll
+        function setHeight() {
+            document.body.style.height = `${container.getBoundingClientRect().height}px`;
+        }
+        window.addEventListener('resize', setHeight);
+        // Delay slightly to ensure fonts loaded
+        setTimeout(setHeight, 500); 
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
+        // Animation Loop
+        function animateScroll() {
+            // Lerp (Linear Interpolation) formula
+            let diff = targetY - currentY;
+            currentY += diff * ease;
+            
+            // Calculate Skew based on speed
+            skew = diff * 0.15; 
+            // Clamp skew to avoid dizziness
+            skew = Math.min(Math.max(skew, -10), 10);
 
-        // --- ACTIVE NAV LINK ---
-        // Highlights the sidebar link based on scroll position
-        const sections = document.querySelectorAll('section');
-        const navLi = document.querySelectorAll('.nav-item');
+            // Apply transform
+            // 'translate3d' triggers hardware acceleration
+            container.style.transform = `translate3d(0, -${currentY}px, 0) skewY(${skew}deg)`;
 
+            requestAnimationFrame(animateScroll);
+        }
+        animateScroll();
+
+        // Listen for real scroll
         window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLi.forEach(li => {
-                li.classList.remove('active');
-                if (li.getAttribute('href').includes(current)) {
-                    li.classList.add('active');
-                }
-            });
+            targetY = window.scrollY;
         });
+
+
+        // --- 2. CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        
+        // Track mouse
+        window.addEventListener('mousemove', (e) => {
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+        });
+
+        // Hover Effect
+        const hoverables = document.querySelectorAll('[data-hover]');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
     </script>
 </body>
 </html>
