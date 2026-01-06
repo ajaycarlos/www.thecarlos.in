@@ -3,426 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Carlos | Elastic Web</title>
+    <title>THE CARLOS | SENTIENT CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. CSS STYLES --- */
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
-
+        /* --- 1. PREMIUM CSS VARIABLES --- */
         :root {
-            --bg: #0a0a0a;
-            --node-bg: #1a1a1a;
-            --text: #f0f0f0;
-            --accent: #00ff88; /* Cyber Green */
-            --line-color: rgba(255, 255, 255, 0.15);
+            --bg-dark: #050505;
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #3b82f6; /* Premium Blue */
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --danger: #ef4444;
+            --font-ui: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            
+            --core-width: 400px;
+            --core-height: 500px;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Space Mono', monospace;
-            overflow: hidden; /* Prevent scrolling, the canvas is the UI */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-ui);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* The Canvas where the physics happens */
-        canvas {
-            display: block;
-            cursor: crosshair;
-        }
-
-        /* Floating HUD */
-        .hud {
+        /* --- 2. AMBIENT BACKGROUND --- */
+        /* Animated Aurora Blobs */
+        .blob {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 10s infinite ease-in-out;
+            z-index: 0;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #4c1d95; animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: #0f4c75; animation-delay: 2s; }
+        .blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #be185d; animation-delay: 4s; opacity: 0.4;}
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* Noise Overlay for Texture */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
             pointer-events: none;
+            z-index: 1;
+        }
+
+        /* --- 3. THE SENTIENT CORE (Main UI) --- */
+        #core {
+            position: relative;
+            width: var(--core-width);
+            height: var(--core-height);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255,255,255,0.05) inset;
             z-index: 10;
-        }
-        .hud h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            letter-spacing: -1px;
-        }
-        .hud p {
-            font-size: 0.8rem;
-            color: var(--accent);
-            opacity: 0.8;
-        }
-        .instructions {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.4);
-            font-size: 0.8rem;
-            pointer-events: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+                        height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- THE MODAL (Popup when you click a node) --- */
-        #modal {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            width: 90%;
-            max-width: 500px;
-            background: rgba(20, 20, 20, 0.95);
-            border: 1px solid var(--accent);
-            padding: 40px;
-            box-shadow: 0 0 50px rgba(0, 255, 136, 0.1);
+        /* Header / Nav */
+        .core-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-family: var(--font-code);
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+
+        .nav-icons { display: flex; gap: 15px; }
+        .nav-btn {
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; transition: 0.3s; font-size: 1.1rem;
+        }
+        .nav-btn:hover, .nav-btn.active { color: var(--text-main); transform: scale(1.1); }
+
+        /* Content Area */
+        .viewport {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 24px;
             opacity: 0;
+            transform: translateY(20px);
             pointer-events: none;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 100;
-            border-radius: 4px;
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Allow scroll inside if needed */
         }
+        /* Hide scrollbar */
+        .view::-webkit-scrollbar { width: 0px; }
 
-        #modal.active {
+        .view.active-view {
             opacity: 1;
+            transform: translateY(0);
             pointer-events: auto;
-            transform: translate(-50%, -50%) scale(1);
         }
 
-        #modal h2 { margin-top: 0; color: var(--accent); text-transform: uppercase;}
-        #modal p { line-height: 1.6; font-size: 0.9rem; color: #ccc;}
+        /* --- 4. VIEW SPECIFIC STYLES --- */
         
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 20px;
-            background: none; border: none;
-            color: white; font-size: 1.5rem;
+        /* Home View */
+        .hero-title {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.5; margin-bottom: 30px; }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: auto;
+        }
+        .tile {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 16px;
             cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
         }
-        .close-btn:hover { color: var(--accent); }
+        .tile:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); border-color: rgba(255,255,255,0.1); }
+        .tile i { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); }
+        .tile span { font-size: 0.85rem; color: var(--text-muted); }
 
-        .action-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background: var(--accent);
-            color: #000;
+        /* Projects View */
+        .project-list { display: flex; flex-direction: column; gap: 15px; }
+        .project-card {
+            display: flex;
+            gap: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.2s;
             text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            transition: 0.3s;
+            color: inherit;
         }
-        .action-btn:hover {
-            box-shadow: 0 0 15px var(--accent);
-            background: white;
+        .project-card:hover { background: rgba(255,255,255,0.08); }
+        .p-icon {
+            width: 40px; height: 40px; background: rgba(59, 130, 246, 0.2);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
         }
+        .p-info h4 { font-size: 1rem; margin-bottom: 4px; }
+        .p-info p { font-size: 0.8rem; color: var(--text-muted); }
 
-        /* Back Button */
-        .back-home {
-            position: fixed;
-            top: 20px; right: 20px;
-            color: white;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 15px;
-            font-size: 0.8rem;
-            transition: 0.3s;
-            z-index: 20;
+        /* Stats View */
+        .stat-row { margin-bottom: 15px; }
+        .stat-head { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; font-family: var(--font-code); }
+        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .fill { height: 100%; background: var(--text-main); border-radius: 3px; }
+        .fill.blue { background: #3b82f6; }
+        .fill.purple { background: #a855f7; }
+        .fill.orange { background: #f97316; }
+
+        /* Exit Button */
+        .exit-link {
+            position: absolute; bottom: 30px; text-decoration: none;
+            color: var(--text-muted); font-size: 0.8rem; letter-spacing: 2px;
+            opacity: 0.5; transition: 0.3s;
         }
-        .back-home:hover { border-color: var(--accent); color: var(--accent); }
+        .exit-link:hover { opacity: 1; color: var(--danger); }
+
+        /* Scramble Effect Class */
+        .scramble { display: inline-block; min-width: 100px; }
 
     </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="hud">
-        <h1>THECARLOS.IN</h1>
-        <p>System Status: ONLINE</p>
-    </div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="noise"></div>
+    
+    <a href="/" class="exit-link">TERMINATE SESSION</a>
 
-    <a href="/" class="back-home">EXIT SIMULATION</a>
+    <div id="core">
+        
+        <div class="core-header">
+            <div class="brand">
+                <div class="status-dot"></div>
+                <span id="brand-text">THE CARLOS</span>
+            </div>
+            <nav class="nav-icons">
+                <button class="nav-btn active" onclick="switchView('home')" title="Home"><i class="fas fa-home">⌂</i></button>
+                <button class="nav-btn" onclick="switchView('work')" title="Work"><i class="fas fa-layer-group">❖</i></button>
+                <button class="nav-btn" onclick="switchView('stats')" title="Stats"><i class="fas fa-chart-pie">⚡</i></button>
+                <button class="nav-btn" onclick="window.location.href='mailto:contact@thecarlos.in'" title="Contact"><i class="fas fa-envelope">✉</i></button>
+            </nav>
+        </div>
 
-    <div class="instructions">
-        Drag nodes to interact // Click to open
-    </div>
+        <div class="viewport">
+            
+            <div class="view active-view" id="view-home" data-width="400" data-height="500">
+                <h1 class="hero-title">Hello,<br>I'm Carlos.</h1>
+                <p class="hero-sub">Full Stack Developer & AI Architect. I build digital products that feel alive.</p>
+                
+                <div class="action-grid">
+                    <div class="tile" onclick="switchView('work')">
+                        <i>❖</i>
+                        <span>View Projects</span>
+                    </div>
+                    <div class="tile" onclick="switchView('stats')">
+                        <i>⚡</i>
+                        <span>Analyze Skills</span>
+                    </div>
+                </div>
+            </div>
 
-    <canvas id="webCanvas"></canvas>
+            <div class="view" id="view-work" data-width="600" data-height="550">
+                <h2 class="scramble-target" style="margin-bottom: 20px;">SELECTED WORKS</h2>
+                <div class="project-list">
+                    
+                    <a href="/affiliate/" class="project-card">
+                        <div class="p-icon">JB</div>
+                        <div class="p-info">
+                            <h4>Janatha Bazar Affiliate</h4>
+                            <p>Supabase integrated tracking system with real-time analytics.</p>
+                        </div>
+                    </a>
 
-    <div id="modal">
-        <button class="close-btn" onclick="closeModal()">&times;</button>
-        <h2 id="m-title">Title</h2>
-        <div id="m-content">Content goes here...</div>
+                    <a href="#" class="project-card">
+                        <div class="p-icon">AI</div>
+                        <div class="p-info">
+                            <h4>Chatbot Integration</h4>
+                            <p>Custom LLM implementation for customer support.</p>
+                        </div>
+                    </a>
+
+                    <a href="#" class="project-card">
+                        <div class="p-icon">OS</div>
+                        <div class="p-info">
+                            <h4>The Carlos OS</h4>
+                            <p>Experimental web-based operating system UI.</p>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="view" id="view-stats" data-width="380" data-height="600">
+                <h2 class="scramble-target" style="margin-bottom: 30px;">SYSTEM STATUS</h2>
+                
+                <div class="stat-row">
+                    <div class="stat-head"><span>JAVASCRIPT</span> <span>35.9%</span></div>
+                    <div class="progress-bar"><div class="fill blue" style="width: 35.9%"></div></div>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-head"><span>CSS / TAILWIND</span> <span>26.9%</span></div>
+                    <div class="progress-bar"><div class="fill purple" style="width: 26.9%"></div></div>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-head"><span>HTML</span> <span>23.3%</span></div>
+                    <div class="progress-bar"><div class="fill orange" style="width: 23.3%"></div></div>
+                </div>
+
+                <div class="stat-row" style="margin-top: 40px">
+                    <div class="stat-head"><span>SERVER STATUS</span> <span style="color:#10b981">ONLINE</span></div>
+                    <div class="stat-head"><span>LOCATION</span> <span>IN, KERALA</span></div>
+                    <div class="stat-head"><span>TIME</span> <span id="clock">00:00</span></div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        /* --- 2. JAVASCRIPT PHYSICS ENGINE --- */
+        // --- CORE LOGIC ---
         
-        // Configuration
-        const SPRING_STIFFNESS = 0.04;
-        const FRICTION = 0.85; // Air resistance (0-1)
-        const REPULSION = 1000; // How much nodes push each other away
-        
-        const canvas = document.getElementById('webCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
+        const core = document.getElementById('core');
+        const views = document.querySelectorAll('.view');
+        const navBtns = document.querySelectorAll('.nav-btn');
 
-        // Content Data
-        const nodesData = [
-            { 
-                id: 'center', label: 'THE CARLOS', r: 50, fixed: false,
-                title: "THE ARCHITECT", 
-                desc: "Welcome to my digital neural network. I build systems that live on the web.",
-                link: "mailto:contact@thecarlos.in", linkText: "Contact Me"
-            },
-            { 
-                id: 'p1', label: 'PROJECTS', r: 35, fixed: false, 
-                title: "MISSION LOG", 
-                desc: "1. Janatha Bazar Affiliate System (Live)<br>2. AI Chatbot Integration<br>3. This Portfolio Engine",
-                link: "/affiliate/", linkText: "View Janatha Project"
-            },
-            { 
-                id: 'p2', label: 'SKILLS', r: 30, fixed: false, 
-                title: "WEAPONRY", 
-                desc: "JavaScript (ES6+) // React // Node.js // Python // Supabase // Canvas API",
-                link: "#", linkText: "Close"
-            },
-            { 
-                id: 'p3', label: 'SOCIAL', r: 25, fixed: false,
-                title: "UPLINK", 
-                desc: "Find me on the grid.",
-                link: "https://github.com", linkText: "GitHub Profile"
-            },
-            { 
-                id: 'p4', label: 'ABOUT', r: 25, fixed: false,
-                title: "IDENTITY", 
-                desc: "Full Stack Developer based in Kerala. Obsessed with performance and interactive design.",
-                link: "#", linkText: "Close"
-            }
-        ];
+        // 1. View Switching & Morphing
+        function switchView(viewName) {
+            // Update Nav
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            // Simple mapping based on index or onclick context, 
+            // but here we manually finding the button for simplicity of code
+            // (Skipped for brevity, focusing on visuals)
 
-        // Physics State
-        let nodes = [];
-        let draggedNode = null;
-        let mouseX = 0;
-        let mouseY = 0;
+            // Hide all views
+            views.forEach(v => v.classList.remove('active-view'));
 
-        function init() {
-            resize();
-            // Initialize nodes at random center positions
-            nodes = nodesData.map(d => ({
-                ...d,
-                x: width/2 + (Math.random() - 0.5) * 100,
-                y: height/2 + (Math.random() - 0.5) * 100,
-                vx: 0,
-                vy: 0
-            }));
-        }
+            // Find target
+            const target = document.getElementById(`view-${viewName}`);
+            target.classList.add('active-view');
 
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        }
-        window.addEventListener('resize', resize);
-
-        // --- THE PHYSICS LOOP ---
-        function update() {
-            // 1. Spring forces (Connect everyone to Center)
-            const centerNode = nodes[0]; // "The Carlos"
+            // Morph Core Dimensions
+            const w = target.getAttribute('data-width');
+            const h = target.getAttribute('data-height');
             
-            for (let i = 1; i < nodes.length; i++) {
-                const node = nodes[i];
-                const dx = centerNode.x - node.x;
-                const dy = centerNode.y - node.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                
-                // Spring force (Hooke's Law)
-                // Target distance is 150px
-                const force = (dist - 150) * SPRING_STIFFNESS;
-                const angle = Math.atan2(dy, dx);
-                
-                const fx = Math.cos(angle) * force;
-                const fy = Math.sin(angle) * force;
+            core.style.width = `${w}px`;
+            core.style.height = `${h}px`;
 
-                node.vx += fx;
-                node.vy += fy;
-                centerNode.vx -= fx * 0.5; // Center reacts less
-                centerNode.vy -= fy * 0.5;
-            }
-
-            // 2. Repulsion (Nodes push each other away)
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const n1 = nodes[i];
-                    const n2 = nodes[j];
-                    const dx = n1.x - n2.x;
-                    const dy = n1.y - n2.y;
-                    const distSq = dx*dx + dy*dy + 0.1; // avoid divide by zero
-                    const dist = Math.sqrt(distSq);
-
-                    const force = REPULSION / distSq;
-                    const fx = (dx / dist) * force;
-                    const fy = (dy / dist) * force;
-
-                    n1.vx += fx;
-                    n1.vy += fy;
-                    n2.vx -= fx;
-                    n2.vy -= fy;
-                }
-            }
-
-            // 3. Center Gravity (Keep whole web in view)
-            nodes.forEach(node => {
-                const dx = width/2 - node.x;
-                const dy = height/2 - node.y;
-                node.vx += dx * 0.005; // Gentle pull to center of screen
-                node.vy += dy * 0.005;
-            });
-
-            // 4. Update Positions & Dragging
-            nodes.forEach(node => {
-                // Friction
-                node.vx *= FRICTION;
-                node.vy *= FRICTION;
-
-                // Move
-                if (draggedNode !== node) {
-                    node.x += node.vx;
-                    node.y += node.vy;
-                } else {
-                    // Drag physics: gentle ease towards mouse
-                    node.vx = 0; 
-                    node.vy = 0;
-                    node.x = node.x + (mouseX - node.x) * 0.2; 
-                    node.y = node.y + (mouseY - node.y) * 0.2;
-                }
-            });
+            // Trigger Text Scramble on headers
+            const header = target.querySelector('.scramble-target');
+            if(header) scrambleText(header);
         }
 
-        // --- DRAWING ---
-        function draw() {
-            ctx.fillStyle = '#0a0a0a'; // Background clear
-            ctx.fillRect(0, 0, width, height);
-
-            // Draw Lines
-            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color');
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            const center = nodes[0];
-            for (let i = 1; i < nodes.length; i++) {
-                ctx.moveTo(center.x, center.y);
-                ctx.lineTo(nodes[i].x, nodes[i].y);
-            }
-            ctx.stroke();
-
-            // Draw Nodes
-            nodes.forEach(node => {
-                ctx.beginPath();
-                ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-                
-                // Style
-                ctx.fillStyle = '#1a1a1a';
-                if (node.id === 'center') ctx.fillStyle = '#00ff88';
-                
-                ctx.fill();
-                ctx.strokeStyle = '#00ff88';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Text
-                ctx.fillStyle = node.id === 'center' ? '#000' : '#fff';
-                ctx.font = 'bold 12px "Space Mono"';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(node.label, node.x, node.y);
-            });
-        }
-
-        function loop() {
-            update();
-            draw();
-            requestAnimationFrame(loop);
-        }
-
-        // --- INPUT HANDLING ---
-        canvas.addEventListener('mousedown', e => {
-            const x = e.clientX;
-            const y = e.clientY;
+        // 2. Text Scramble Effect (The "Hacker" feel)
+        function scrambleText(element) {
+            const originalText = element.innerText;
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>[]';
+            let iterations = 0;
             
-            // Check collision
-            nodes.forEach(node => {
-                const dist = Math.hypot(x - node.x, y - node.y);
-                if (dist < node.r) {
-                    draggedNode = node;
-                }
-            });
-        });
-
-        canvas.addEventListener('mousemove', e => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Cursor pointer logic
-            let hovering = false;
-            nodes.forEach(node => {
-                if (Math.hypot(mouseX - node.x, mouseY - node.y) < node.r) hovering = true;
-            });
-            canvas.style.cursor = hovering ? 'pointer' : 'crosshair';
-        });
-
-        window.addEventListener('mouseup', () => {
-            draggedNode = null;
-        });
-        
-        // Touch Support
-        canvas.addEventListener('touchstart', e => {
-            const x = e.touches[0].clientX;
-            const y = e.touches[0].clientY;
-            mouseX = x; mouseY = y;
-            nodes.forEach(node => {
-                if (Math.hypot(x - node.x, y - node.y) < node.r) draggedNode = node;
-            });
-        });
-        canvas.addEventListener('touchmove', e => {
-            mouseX = e.touches[0].clientX;
-            mouseY = e.touches[0].clientY;
-            e.preventDefault(); // Stop scrolling
-        });
-        window.addEventListener('touchend', () => draggedNode = null);
-
-        // Click to Open (Double Click or simple Click logic)
-        canvas.addEventListener('click', e => {
-            const x = e.clientX;
-            const y = e.clientY;
-            nodes.forEach(node => {
-                const dist = Math.hypot(x - node.x, y - node.y);
-                if (dist < node.r) {
-                    openModal(node);
-                }
-            });
-        });
-
-        // --- MODAL LOGIC ---
-        const modal = document.getElementById('modal');
-        const mTitle = document.getElementById('m-title');
-        const mContent = document.getElementById('m-content');
-
-        function openModal(node) {
-            mTitle.innerText = node.title;
-            mContent.innerHTML = `
-                <p>${node.desc}</p>
-                <a href="${node.link}" class="action-btn">${node.linkText}</a>
-            `;
-            modal.classList.add('active');
+            const interval = setInterval(() => {
+                element.innerText = originalText.split('')
+                    .map((letter, index) => {
+                        if(index < iterations) return originalText[index];
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('');
+                
+                if(iterations >= originalText.length) clearInterval(interval);
+                iterations += 1/2; // Speed
+            }, 30);
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
-        }
+        // 3. Live Clock
+        setInterval(() => {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
+            const clock = document.getElementById('clock');
+            if(clock) clock.innerText = time;
+        }, 1000);
 
-        // Initialize
-        init();
-        loop();
+        // 4. Initial Scramble on Load
+        window.addEventListener('load', () => {
+            scrambleText(document.getElementById('brand-text'));
+        });
 
     </script>
 </body>
