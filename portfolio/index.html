@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | EDITORIAL</title>
+    <title>THE CARLOS | ONYX</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. PREMIUM RESET --- */
+        /* --- 1. CORE STYLING --- */
         :root {
-            --bg: #0a0a0a;
-            --text: #e1e1e1;
-            --accent: #d4af37; /* Subtle Gold */
-            --easing: cubic-bezier(0.165, 0.84, 0.44, 1); /* "Quart" Ease */
+            --bg: #050505;
+            --text: #e0e0e0;
+            --accent: #ffffff;
+            --gold: #d4af37;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,325 +21,242 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Manrope', sans-serif;
-            overflow: hidden; /* We handle scroll via JS */
-            height: 100vh;
-            width: 100vw;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            cursor: default;
         }
 
-        /* --- 2. VIRTUAL SCROLL CONTAINER --- */
-        .viewport {
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+
+        /* --- 2. SPOTLIGHT EFFECT --- */
+        /* This creates the "Flashlight" texture revealing effect */
+        .spotlight {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(
+                600px circle at var(--x, 50%) var(--y, 50%), 
+                rgba(255, 255, 255, 0.03), 
+                transparent 40%
+            );
+            /* Add grain texture */
+            opacity: 1;
+        }
+        .noise {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.05"/%3E%3C/svg%3E');
+            pointer-events: none; z-index: 0;
         }
 
-        .scroll-container {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            will-change: transform; /* GPU Acceleration */
-        }
-
-        /* --- 3. TYPOGRAPHY & LAYOUT --- */
-        .section {
-            padding: 15vh 10vw;
+        /* --- 3. LAYOUT & SECTIONS --- */
+        .container {
             position: relative;
+            z-index: 2; /* Above spotlight */
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5vw;
         }
 
-        /* Reveal Masks */
-        .reveal-text {
-            overflow: hidden;
-            display: block;
-            line-height: 1.1;
+        header {
+            padding: 40px 0;
+            display: flex; justify-content: space-between; align-items: center;
+            mix-blend-mode: difference;
         }
-        .reveal-text span {
-            display: block;
-            transform: translateY(100%);
-            transition: transform 1.5s var(--easing);
-        }
-        .in-view .reveal-text span { transform: translateY(0); }
+        .logo { font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
+        .status { font-size: 0.8rem; opacity: 0.6; }
 
-        /* HERO */
-        .hero {
-            height: 90vh;
+        section {
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 9vw;
-            font-weight: 400;
-            line-height: 1;
-            letter-spacing: -0.02em;
-            color: #fff;
-            mix-blend-mode: difference;
-            z-index: 2;
-        }
-        .hero p {
-            margin-top: 40px;
-            font-size: 1.2rem;
-            max-width: 400px;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 100px 0;
         }
 
-        /* IMAGES (Parallax Wrapper) */
-        .parallax-wrapper {
-            position: relative;
+        /* --- 4. TYPOGRAPHY ANIMATIONS --- */
+        /* Text is hidden by default and slides up when .active is added */
+        .reveal-wrap {
             overflow: hidden;
-            width: 100%;
-            height: 60vh;
-            margin: 50px 0;
+            display: block;
+            line-height: 1.1;
+            margin-bottom: 10px;
         }
-        .parallax-img {
-            position: absolute;
-            top: -20%; left: 0;
-            width: 100%; height: 140%; /* Taller for parallax room */
-            object-fit: cover;
-            opacity: 0.6;
-            transition: opacity 0.5s;
-            filter: grayscale(100%);
-        }
-        .parallax-wrapper:hover .parallax-img {
-            opacity: 1;
-            filter: grayscale(0%);
+        
+        .reveal-text {
+            display: block;
+            transform: translateY(110%); /* Pushed down 110% */
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
         }
 
-        /* PROJECTS LIST */
-        .project-row {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 60px 0;
+        /* The class JS will add */
+        .active .reveal-text {
+            transform: translateY(0);
+        }
+
+        /* FONT STYLES */
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 10vw;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+        .hero-title em { font-style: italic; color: #888; }
+
+        .subtitle {
+            font-size: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            color: #888;
+            opacity: 0; /* Simple fade for subtitle */
+            transform: translateY(20px);
+            transition: 1s ease 0.5s; /* Delay */
+        }
+        .active .subtitle { opacity: 1; transform: translateY(0); }
+
+        /* --- 5. PROJECT LIST --- */
+        .project-item {
             display: flex;
+            align-items: baseline;
             justify-content: space-between;
-            align-items: center;
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
             transition: 0.3s;
             cursor: pointer;
         }
-        .project-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .project-row:hover { padding-left: 20px; background: rgba(255,255,255,0.02); }
+        .project-item:hover {
+            padding-left: 20px;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .p-name { font-size: 4vw; font-family: 'Playfair Display'; color: #fff; }
+        .p-meta { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: #666; }
 
-        .p-index { font-size: 0.9rem; opacity: 0.5; font-family: 'Playfair Display'; }
-        .p-title { font-size: 4vw; margin-left: 40px; }
-        .p-tags { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
-
-        /* FOOTER */
-        .footer { padding-bottom: 10vh; }
-        .big-link {
-            font-family: 'Playfair Display';
+        /* --- 6. FOOTER --- */
+        .footer-link {
             font-size: 8vw;
-            text-decoration: none;
-            color: #fff;
-            border-bottom: 1px solid transparent;
+            font-family: 'Playfair Display';
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 20px;
+            display: inline-block;
             transition: 0.3s;
         }
-        .big-link:hover { opacity: 0.7; }
+        .footer-link:hover { color: var(--gold); border-color: var(--gold); }
 
-        /* NAV */
-        .nav {
-            position: fixed;
-            top: 40px; left: 40px; right: 40px;
-            display: flex; justify-content: space-between;
-            z-index: 100;
-            mix-blend-mode: difference;
-        }
-        .nav-logo { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
-        .nav-status { font-size: 0.8rem; opacity: 0.8; }
-
-        /* Custom Scrollbar Progress */
-        .scroll-bar {
-            position: fixed; top: 0; right: 0;
-            width: 4px; height: 100vh;
-            background: rgba(255,255,255,0.05);
-            z-index: 100;
-        }
-        .scroll-thumb {
-            width: 100%; height: 0%;
-            background: var(--accent);
+        /* Mobile */
+        @media(max-width: 768px) {
+            .hero-title { font-size: 15vw; }
+            .p-name { font-size: 8vw; }
+            .subtitle { font-size: 1rem; }
         }
 
     </style>
 </head>
 <body>
 
-    <nav class="nav">
-        <div class="nav-logo">The Carlos.</div>
-        <div class="nav-status">Folio '25</div>
-    </nav>
+    <div class="noise"></div>
+    <div class="spotlight" id="spotlight"></div>
 
-    <div class="scroll-bar"><div class="scroll-thumb" id="thumb"></div></div>
+    <div class="container">
+        
+        <header>
+            <a href="/" class="logo">The Carlos.in</a>
+            <div class="status">System Online</div>
+        </header>
 
-    <div class="viewport">
-        <div class="scroll-container" id="scroller">
+        <section id="hero">
+            <h1 class="hero-title">
+                <span class="reveal-wrap"><span class="reveal-text">Digital</span></span>
+                <span class="reveal-wrap"><span class="reveal-text"><em>Architect</em> &</span></span>
+                <span class="reveal-wrap"><span class="reveal-text">Engineer.</span></span>
+            </h1>
+            <div class="subtitle">
+                Merging complex backend logic with cinematic frontend experiences.
+            </div>
+        </section>
+
+        <section id="work">
+            <div style="margin-bottom:60px; font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5;">Selected Works</div>
             
-            <section class="section hero">
-                <div class="reveal-text"><span>Full Stack</span></div>
-                <div class="reveal-text"><span><i>Engineer</i></span></div>
-                <div class="reveal-text"><span>& AI Architect</span></div>
-                
-                <p class="reveal-text" style="transition-delay: 0.2s">
-                    <span>Constructing digital excellence<br>through code and aesthetics.</span>
-                </p>
-            </section>
+            <a href="/affiliate/" class="project-item">
+                <span class="p-name">Janatha Bazar</span>
+                <span class="p-meta">Affiliate Logic // 2024</span>
+            </a>
 
-            <section class="section" style="padding-top: 0;">
-                <div class="parallax-wrapper">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop" class="parallax-img" data-speed="0.1">
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-top:20px; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">
-                    <span>Case Study 01</span>
-                    <span>Corporate / System</span>
-                </div>
-            </section>
+            <a href="#" class="project-item">
+                <span class="p-name">Neural Chat</span>
+                <span class="p-meta">AI Integration // 2025</span>
+            </a>
 
-            <section class="section">
-                <div style="margin-bottom: 60px; font-size: 0.8rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5;">Selected Works</div>
-                
-                <div class="project-row" onclick="window.location.href='/affiliate/'">
-                    <div style="display:flex; align-items:baseline;">
-                        <span class="p-index">01</span>
-                        <span class="p-title">Janatha Bazar</span>
-                    </div>
-                    <span class="p-tags">Affiliate System / Supabase</span>
-                </div>
+            <a href="#" class="project-item">
+                <span class="p-name">Carlos OS</span>
+                <span class="p-meta">Spatial Web // Exp.</span>
+            </a>
+        </section>
 
-                <div class="project-row">
-                    <div style="display:flex; align-items:baseline;">
-                        <span class="p-index">02</span>
-                        <span class="p-title">Neural Chat</span>
-                    </div>
-                    <span class="p-tags">Python / LLM API</span>
+        <section id="about" style="align-items: flex-start;">
+            <div class="reveal-wrap"><span class="reveal-text" style="font-size:2rem;">The Stack</span></div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; margin-top:40px; width:100%;">
+                <div>
+                    <div style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:10px;">JavaScript</div>
+                    <div style="font-size:3rem; font-family:'Playfair Display';">35%</div>
                 </div>
+                <div>
+                    <div style="border-bottom:1px solid #333; padding-bottom:10px; margin-bottom:10px;">CSS / Design</div>
+                    <div style="font-size:3rem; font-family:'Playfair Display';">27%</div>
+                </div>
+            </div>
+        </section>
 
-                <div class="project-row">
-                    <div style="display:flex; align-items:baseline;">
-                        <span class="p-index">03</span>
-                        <span class="p-title">Portfolio OS</span>
-                    </div>
-                    <span class="p-tags">Creative Dev / WebGL</span>
-                </div>
-            </section>
+        <section style="min-height: 60vh;">
+            <div class="reveal-wrap">
+                <span class="reveal-text">
+                    <a href="mailto:contact@thecarlos.in" class="footer-link">Let's Talk.</a>
+                </span>
+            </div>
+            <div style="margin-top: 50px; display:flex; gap:20px; font-size:0.9rem;">
+                <a href="/">Back to Dashboard</a>
+                <span style="opacity:0.3">//</span>
+                <a href="#">LinkedIn</a>
+                <span style="opacity:0.3">//</span>
+                <a href="#">GitHub</a>
+            </div>
+        </section>
 
-            <section class="section" style="display:grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-                <div class="parallax-wrapper" style="height: 50vh;">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" class="parallax-img" data-speed="0.15">
-                </div>
-                <div style="padding-top: 100px;">
-                    <div class="reveal-text"><span><i>Technical</i></span></div>
-                    <div class="reveal-text"><span>Proficiency</span></div>
-                    <p style="margin-top:30px; line-height:1.6; color:#999; font-size:0.9rem;">
-                        Specializing in <b>JavaScript (35.9%)</b> and scalable backend architecture. 
-                        My approach merges rigorous logic with fluid user interaction.
-                    </p>
-                </div>
-            </section>
-
-            <section class="section footer">
-                <div style="margin-bottom: 40px; font-size: 0.8rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5;">Contact</div>
-                <a href="mailto:contact@thecarlos.in" class="big-link">Get in Touch</a>
-                <div style="margin-top: 100px; display:flex; justify-content:space-between; opacity:0.3; font-size:0.8rem;">
-                    <span>&copy; 2025 THE CARLOS</span>
-                    <a href="/" style="color:white; text-decoration:none;">BACK TO DASHBOARD</a>
-                </div>
-            </section>
-
-        </div>
     </div>
 
     <script>
-        // --- LUXURY INERTIA SCROLL ENGINE ---
-        
-        const scroller = document.getElementById('scroller');
-        const thumb = document.getElementById('thumb');
-        
-        // Physics State
-        let scrollY = 0; // Current actual scroll position
-        let currentY = 0; // Softened "Laggy" scroll position
-        
-        // Config
-        const ease = 0.07; // Lower = Smoother/Heavier feel
-        
-        // Pre-calculation
-        let maxScroll = 0;
-        
-        function onResize() {
-            maxScroll = scroller.getBoundingClientRect().height - window.innerHeight;
-            document.body.style.height = `${scroller.getBoundingClientRect().height}px`; // Fake body height for native scrollbar feel
-        }
-        window.addEventListener('resize', onResize);
-        
-        // Wait for images to load to calculate height correctly
-        window.addEventListener('load', () => {
-            onResize();
-            // Trigger initial reveals
-            checkReveals();
-        });
+        // --- 1. ANIMATION OBSERVER (The "Slide Up" Logic) ---
+        // This watches elements. When they appear on screen, it adds the class "active".
+        // CSS then handles the sliding animation.
+        const observerOptions = {
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        };
 
-        // 1. Listen to native scroll
-        window.addEventListener('scroll', () => {
-            scrollY = window.scrollY;
-        });
-
-        // 2. Animation Loop
-        function animate() {
-            // Linear Interpolation (Lerp)
-            const diff = scrollY - currentY;
-            currentY += diff * ease;
-
-            // Apply transform (Virtual Scroll)
-            scroller.style.transform = `translate3d(0, -${currentY}px, 0)`;
-
-            // Update Progress Bar
-            const progress = currentY / maxScroll;
-            thumb.style.height = `${progress * 100}%`;
-
-            // Parallax Effects
-            handleParallax();
-            
-            // Check Reveals
-            checkReveals();
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // 3. Parallax Logic (High-End Image Lag)
-        const parallaxImages = document.querySelectorAll('.parallax-img');
-        
-        function handleParallax() {
-            parallaxImages.forEach(img => {
-                const speed = parseFloat(img.getAttribute('data-speed'));
-                const rect = img.parentElement.getBoundingClientRect(); // Parent container position
-                
-                // Calculate distance from center of screen
-                const distFromCenter = rect.top + (rect.height / 2) - (window.innerHeight / 2);
-                
-                // Apply offset based on scroll position relative to viewport
-                img.style.transform = `translateY(${distFromCenter * speed}px)`;
-            });
-        }
-
-        // 4. Reveal Logic (Intersection Observer alternative for Virtual Scroll)
-        const sections = document.querySelectorAll('.section');
-        
-        function checkReveals() {
-            sections.forEach(sec => {
-                // Get virtual position
-                // Since we translate the container UP, the element's top relative to viewport is:
-                // El.offsetTop - currentY
-                const offsetTop = sec.offsetTop;
-                const virtualTop = offsetTop - currentY;
-                
-                if (virtualTop < window.innerHeight * 0.8) {
-                    sec.classList.add('in-view');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
             });
-        }
+        }, observerOptions);
+
+        // Tell observer to watch the Hero and Sections
+        document.querySelectorAll('section').forEach(el => observer.observe(el));
+        
+        // --- 2. SPOTLIGHT MOUSE TRACKING ---
+        // Moves the gradient light with your cursor
+        const spotlight = document.getElementById('spotlight');
+        
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            
+            spotlight.style.setProperty('--x', `${x}%`);
+            spotlight.style.setProperty('--y', `${y}%`);
+        });
 
     </script>
 </body>
