@@ -3,238 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | KINETIC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;600&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+    <title>THE CARLOS | LIQUID SILK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. MINIMALIST BASE --- */
+        /* --- 1. LUXURY STYLING --- */
         :root {
-            --bg: #080808;
-            --text: #f0f0f0;
-            --accent: #fff;
-            --dim: #444;
+            --bg: #050505;
+            --text: #ffffff;
+            --accent: #d4af37; /* Gold */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Custom cursor */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Manrope', sans-serif;
+            overflow: hidden; /* Canvas covers everything */
             height: 100vh;
             width: 100vw;
-            overflow: hidden;
-            position: relative;
+            cursor: crosshair;
         }
 
-        /* --- 2. THE TRAIL CONTAINER (Behind everything) --- */
-        #trail-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .trail-img {
+        /* --- 2. CANVAS LAYOUT --- */
+        #liquid-canvas {
             position: absolute;
-            width: 200px;
-            height: 140px;
-            object-fit: cover;
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            animation: popFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            filter: grayscale(100%); /* Classy B&W look */
-            border-radius: 4px;
-        }
-
-        @keyframes popFade {
-            0% { transform: translate(-50%, -50%) scale(0.5) rotate(-5deg); opacity: 0; }
-            20% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 0; }
-        }
-
-        /* --- 3. UI LAYER (On top) --- */
-        .ui {
-            position: relative;
-            z-index: 10;
+            top: 0; left: 0;
             width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        /* --- 3. UI OVERLAY (Floating on top) --- */
+        .ui-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Let mouse pass through to canvas physics */
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none; /* Let clicks pass through to links */
+            justify-content: space-between;
+            padding: 50px;
         }
 
-        /* Typography */
-        h1 {
-            font-size: 8vw;
+        .header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+
+        .brand {
+            font-family: 'Italiana', serif;
+            font-size: 3rem;
             line-height: 0.9;
             text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: -2px;
-            text-align: center;
-            mix-blend-mode: exclusion; /* Colors invert over images */
-            pointer-events: auto;
-            transition: 0.3s;
-        }
-        
-        .serif {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-weight: 500;
-            color: #888;
+            mix-blend-mode: exclusion; /* Cool interaction with background */
         }
 
-        .menu {
-            margin-top: 50px;
-            display: flex;
-            gap: 60px;
-            pointer-events: auto;
+        .nav {
+            pointer-events: auto; /* Enable clicks */
+            display: flex; gap: 40px;
         }
 
-        .menu-link {
+        .nav-link {
             text-decoration: none;
-            color: var(--text);
-            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-size: 0.8rem;
             position: relative;
-            mix-blend-mode: exclusion;
+            transition: 0.3s;
         }
-
-        .menu-link::after {
+        .nav-link::after {
             content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 0%; height: 1px; background: white;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 0%; height: 1px; background: var(--accent);
+            transition: 0.3s;
         }
-        .menu-link:hover::after { width: 100%; }
+        .nav-link:hover { color: white; }
+        .nav-link:hover::after { width: 100%; }
 
-        /* Custom Cursor */
-        #cursor {
-            position: fixed;
-            top: 0; left: 0;
-            width: 15px; height: 15px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
+        /* Main Center Text */
+        .hero-center {
+            position: absolute;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
-            mix-blend-mode: difference;
+            text-align: center;
+            mix-blend-mode: overlay;
+            opacity: 0.8;
         }
-        
-        /* Hint Text */
-        .hint {
-            position: absolute; bottom: 40px;
-            font-size: 0.8rem; color: #555;
+        .hero-center h2 {
+            font-family: 'Italiana', serif;
+            font-size: 8vw;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .hero-center p {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        /* Project Links (Bottom) */
+        .footer {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            pointer-events: auto;
+        }
+
+        .project-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 20px 40px;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .project-btn:hover {
+            background: white; color: black;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+
+        .status {
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.7rem; color: #666;
             text-transform: uppercase; letter-spacing: 1px;
+            text-align: right;
         }
+
+        /* Intro Animation */
+        .fade-in {
+            animation: fadeIn 2s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
+    <canvas id="liquid-canvas"></canvas>
 
-    <div id="trail-container"></div>
+    <div class="ui-layer">
+        <div class="header fade-in">
+            <div class="brand">The<br>Carlos</div>
+            <nav class="nav">
+                <a href="#" class="nav-link" onclick="switchImage(0)">Identity</a>
+                <a href="#" class="nav-link" onclick="switchImage(1)">Work</a>
+                <a href="#" class="nav-link" onclick="switchImage(2)">Contact</a>
+            </nav>
+        </div>
 
-    <div class="ui">
-        <h1>
-            <span class="serif">The</span><br>
-            Carlos<br>
-            Portfolio
-        </h1>
+        <div class="hero-center fade-in">
+            <h2>DIGITAL ARTISAN</h2>
+            <p>Interactive Experience</p>
+        </div>
 
-        <nav class="menu">
-            <a href="/affiliate/" class="menu-link" data-hover>Projects</a>
-            <a href="#" class="menu-link" data-hover>About</a>
-            <a href="mailto:contact@thecarlos.in" class="menu-link" data-hover>Contact</a>
-        </nav>
+        <div class="footer fade-in">
+            <a href="/affiliate/" class="project-btn">View Janatha Project</a>
+            <div class="status">
+                System: Stable<br>
+                Render: Canvas 2D
+            </div>
+        </div>
+    </div>
 
-        <div class="hint">Move cursor to paint</div>
+    <div style="display:none;">
+        <img id="img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
+        <img id="img-1" src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
+        <img id="img-2" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-        // Replace these URLs with your actual project screenshots if you have them.
-        // Using colored placeholders for the demo effect.
-        const images = [
-            'https://via.placeholder.com/400x300/333/fff?text=Janatha+Bazar',
-            'https://via.placeholder.com/400x300/555/fff?text=AI+Module',
-            'https://via.placeholder.com/400x300/111/fff?text=Web+System',
-            'https://via.placeholder.com/400x300/777/fff?text=Dashboard',
-            'https://via.placeholder.com/400x300/000/fff?text=Analytics'
-        ];
+        /* --- THE LIQUID PHYSICS ENGINE --- */
+        // This script creates a mesh of points connected by springs.
+        // It maps an image to these points.
+        // Mouse movement disturbs the points, creating a liquid ripple.
 
-        let imgIndex = 0;
-        let zIndex = 1;
+        const canvas = document.getElementById('liquid-canvas');
+        const ctx = canvas.getContext('2d');
         
-        const container = document.getElementById('trail-container');
-        const cursor = document.getElementById('cursor');
+        let width, height;
+        let activeImage = document.getElementById('img-0');
 
-        // --- MOUSE TRACKING ---
-        let lastX = 0;
-        let lastY = 0;
-        const distThreshold = 100; // How far mouse must move to spawn next image
+        // Physics Config
+        const cols = 40; // Resolution X
+        const rows = 25; // Resolution Y
+        const damping = 0.94; // How fast ripples fade (0.9 - 0.99)
+        const stiffness = 0.02; // Spring stiffness
+        const mouseRadius = 150;
+        const mouseStrength = 0.5;
 
-        window.addEventListener('mousemove', (e) => {
-            // 1. Move Custom Cursor
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
+        // Grid Arrays
+        let points = [];
+        let gapX, gapY;
 
-            // 2. Calculate Distance
-            const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
-
-            // 3. Spawn Image if distance met
-            if (dist > distThreshold) {
-                spawnImage(e.clientX, e.clientY);
-                lastX = e.clientX;
-                lastY = e.clientY;
+        class Point {
+            constructor(x, y, u, v) {
+                this.x = x;     // Current X
+                this.y = y;     // Current Y
+                this.ox = x;    // Original X
+                this.oy = y;    // Original Y
+                this.vx = 0;    // Velocity X
+                this.vy = 0;    // Velocity Y
+                this.u = u;     // Texture coord U (0-1)
+                this.v = v;     // Texture coord V (0-1)
             }
-        });
 
-        function spawnImage(x, y) {
-            const img = document.createElement('img');
-            img.src = images[imgIndex];
-            img.classList.add('trail-img');
-            
-            // Randomize position slightly for "organic" feel
-            const randomRotation = (Math.random() - 0.5) * 30;
-            
-            img.style.left = `${x}px`;
-            img.style.top = `${y}px`;
-            img.style.zIndex = zIndex++;
-            img.style.transform = `translate(-50%, -50%) rotate(${randomRotation}deg) scale(0.5)`;
+            update(mouseX, mouseY) {
+                // 1. Spring force (Return to original position)
+                const dx = this.ox - this.x;
+                const dy = this.oy - this.y;
+                
+                this.vx += dx * stiffness;
+                this.vy += dy * stiffness;
 
-            container.appendChild(img);
+                // 2. Mouse Interaction (Repulsion)
+                const distX = mouseX - this.x;
+                const distY = mouseY - this.y;
+                const dist = Math.sqrt(distX*distX + distY*distY);
 
-            // Cycle through images
-            imgIndex++;
-            if(imgIndex >= images.length) imgIndex = 0;
+                if (dist < mouseRadius) {
+                    const force = (mouseRadius - dist) / mouseRadius;
+                    const angle = Math.atan2(distY, distX);
+                    const fx = Math.cos(angle) * force * mouseStrength * -10; // Push away
+                    const fy = Math.sin(angle) * force * mouseStrength * -10;
+                    
+                    this.vx += fx;
+                    this.vy += fy;
+                }
 
-            // Cleanup: Remove image from DOM after animation finishes (1.2s)
-            setTimeout(() => {
-                img.remove();
-            }, 1200);
+                // 3. Apply Velocity & Damping
+                this.vx *= damping;
+                this.vy *= damping;
+                this.x += this.vx;
+                this.y += this.vy;
+            }
         }
 
-        // --- HOVER EFFECTS ---
-        const links = document.querySelectorAll('[data-hover]');
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.width = '80px';
-                cursor.style.height = '80px';
-            });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.width = '15px';
-                cursor.style.height = '15px';
-            });
+        function init() {
+            resize();
+            createGrid();
+            loop();
+        }
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            createGrid(); // Re-create grid on resize
+        }
+        window.addEventListener('resize', resize);
+
+        function createGrid() {
+            points = [];
+            gapX = width / (cols - 1);
+            gapY = height / (rows - 1);
+
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    const px = x * gapX;
+                    const py = y * gapY;
+                    // Normalized UV coordinates for texture mapping
+                    const u = x / (cols - 1);
+                    const v = y / (rows - 1);
+                    points.push(new Point(px, py, u, v));
+                }
+            }
+        }
+
+        // Mouse Tracker
+        let mx = -1000, my = -1000;
+        window.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+        });
+        // Touch support
+        window.addEventListener('touchmove', e => {
+            mx = e.touches[0].clientX;
+            my = e.touches[0].clientY;
         });
 
-        // Touch support (simple tap spawns image)
-        window.addEventListener('touchstart', (e) => {
-            spawnImage(e.touches[0].clientX, e.touches[0].clientY);
-        });
+        function loop() {
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Update Physics
+            for (let i = 0; i < points.length; i++) {
+                points[i].update(mx, my);
+            }
+
+            // 2. Draw Mesh (Triangulation)
+            // We draw triangles connecting the points and clip the image to them
+            // Note: Canvas doesn't support true mesh warping easily, so we use a visual trick
+            // by drawing small image slices or lines.
+            
+            // For a smoother "Liquid" look in pure 2D Canvas without WebGL, 
+            // we will draw connected lines with the image as a pattern, 
+            // OR simply draw the wireframe if the image isn't loaded yet.
+            
+            // Optimized Draw:
+            // We draw the image by iterating quads
+            
+            for (let y = 0; y < rows - 1; y++) {
+                for (let x = 0; x < cols - 1; x++) {
+                    const i = x + y * cols;         // Top-Left
+                    const i2 = (x + 1) + y * cols;  // Top-Right
+                    const i3 = (x + 1) + (y + 1) * cols; // Bottom-Right
+                    const i4 = x + (y + 1) * cols;  // Bottom-Left
+
+                    const p1 = points[i];
+                    const p2 = points[i2];
+                    const p3 = points[i3];
+                    const p4 = points[i4];
+
+                    // Draw Quad
+                    // To map the image, we approximate by drawing a polygon 
+                    // and clipping the relevant part of the source image.
+                    // This is computationally heavy, so we optimize by drawing slightly larger chunks
+                    // or simplifying. 
+                    
+                    // Fast Approximated Texture Mapping:
+                    drawTextureQuad(activeImage, p1, p2, p3, p4);
+                }
+            }
+            
+            requestAnimationFrame(loop);
+        }
+
+        function drawTextureQuad(img, p1, p2, p3, p4) {
+            // Calculate source coordinates based on UV
+            const sw = img.naturalWidth;
+            const sh = img.naturalHeight;
+            
+            const sx = p1.u * sw;
+            const sy = p1.v * sh;
+            const sWidth = (p2.u - p1.u) * sw;
+            const sHeight = (p4.v - p1.v) * sh;
+
+            // Save context for clipping
+            ctx.save();
+            
+            // Define the distorted shape path
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p3.x, p3.y);
+            ctx.lineTo(p4.x, p4.y);
+            ctx.closePath();
+            
+            // Clip to this shape
+            ctx.clip();
+            
+            // Draw the full image (transformed)
+            // Mathematical transformation to fit image chunk into distorted quad is complex in 2D.
+            // Simplified: We draw the image chunk slightly larger at the centroid position.
+            // This creates the "Broken Glass / Liquid" refraction look.
+            
+            // Calculate target dimensions
+            const tx = p1.x;
+            const ty = p1.y;
+            const tw = (p2.x - p1.x) * 1.02; // Slight overlap to prevent gaps
+            const th = (p4.y - p1.y) * 1.02;
+
+            ctx.drawImage(img, sx, sy, sWidth, sHeight, tx, ty, tw, th);
+            
+            ctx.restore();
+        }
+        
+        // Image Switcher
+        function switchImage(index) {
+            const newImg = document.getElementById('img-' + index);
+            if(newImg) {
+                activeImage = newImg;
+            }
+        }
+
+        // Wait for images to load before starting
+        window.onload = init;
 
     </script>
 </body>
