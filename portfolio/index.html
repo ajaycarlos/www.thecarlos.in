@@ -3,277 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | WARP SPEED</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    
+    <title>The Carlos | Elastic Web</title>
     <style>
-        /* --- CSS STYLES --- */
+        /* --- 1. CSS STYLES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
         :root {
-            --bg: #000000;
-            --primary: #00f3ff; /* Cyan Neon */
-            --secondary: #ff0055; /* Cyber Red */
-            --font-head: 'Orbitron', sans-serif;
-            --font-body: 'Rajdhani', sans-serif;
+            --bg: #0a0a0a;
+            --node-bg: #1a1a1a;
+            --text: #f0f0f0;
+            --accent: #00ff88; /* Cyber Green */
+            --line-color: rgba(255, 255, 255, 0.15);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: var(--bg);
-            color: white;
-            height: 100vh;
-            overflow: hidden; /* We hijack the scroll */
-            font-family: var(--font-body);
-        }
-
-        /* Starfield Canvas Background */
-        #starfield {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* The Viewport (Camera) */
-        #viewport {
-            height: 100vh;
-            width: 100vw;
-            perspective: 1000px; /* Creates the 3D depth */
-            overflow: hidden;
-            position: fixed;
-            top: 0; left: 0;
-            z-index: 10;
-        }
-
-        /* The World (The object moving towards camera) */
-        #world {
+        body, html {
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
-            position: absolute;
-            top: 0; left: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Mono', monospace;
+            overflow: hidden; /* Prevent scrolling, the canvas is the UI */
         }
 
-        /* The Layers (Sections) */
-        .layer {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            /* Initially hidden to prevent the "stacking" look */
-            opacity: 0; 
+        /* The Canvas where the physics happens */
+        canvas {
+            display: block;
+            cursor: crosshair;
         }
 
-        /* --- CONTENT STYLING --- */
-        h1 {
-            font-family: var(--font-head);
-            font-size: 8vw;
-            text-transform: uppercase;
-            text-shadow: 0 0 20px var(--primary);
-            letter-spacing: 10px;
-            margin: 0;
-            line-height: 1;
-        }
-
-        h2 {
-            font-family: var(--font-head);
-            font-size: 4rem;
-            margin-bottom: 30px;
-            color: var(--secondary);
-        }
-
-        p { font-size: 1.5rem; max-width: 600px; line-height: 1.6; margin-bottom: 10px;}
-
-        .highlight { color: var(--primary); font-weight: bold; }
-
-        .btn {
-            margin-top: 40px;
-            padding: 15px 40px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            font-family: var(--font-head);
-            font-size: 1.2rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            cursor: pointer;
-            pointer-events: auto; /* Ensure clickable */
-        }
-
-        .btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 30px var(--primary);
-        }
-
-        /* Project Card Styling */
-        .project-box {
-            background: rgba(10, 10, 10, 0.9);
-            border: 1px solid var(--secondary);
-            padding: 50px;
-            max-width: 800px;
-            box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
-            transform: rotateY(10deg); /* Slight 3D tilt */
-        }
-
-        .project-tag {
-            background: var(--secondary);
-            color: white;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        /* Skills Styling */
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-top: 30px;
-        }
-        .skill-item {
-            font-size: 2rem;
-            font-family: var(--font-head);
-            color: rgba(255,255,255,0.7);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 20px;
-        }
-
-        /* --- HUD OVERLAY (Fixed on screen) --- */
+        /* Floating HUD */
         .hud {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Let clicks pass through */
-            z-index: 100;
-            padding: 40px;
-            display: flex;
-            justify-content: space-between;
-            flex-direction: column;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            pointer-events: none;
+            z-index: 10;
         }
-
-        .hud-top { display: flex; justify-content: space-between; }
-        .hud-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
-
-        .hud-text {
-            font-family: var(--font-head);
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+        .hud h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+        }
+        .hud p {
+            font-size: 0.8rem;
+            color: var(--accent);
+            opacity: 0.8;
+        }
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            pointer-events: none;
+            text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        .depth-meter {
-            font-size: 1.5rem;
-            color: var(--primary);
+        /* --- THE MODAL (Popup when you click a node) --- */
+        #modal {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 500px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid var(--accent);
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            border-radius: 4px;
         }
 
-        .scroll-hint {
-            position: absolute;
-            bottom: 40px; left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            animation: pulse 2s infinite;
-        }
-        
-        .back-btn {
+        #modal.active {
+            opacity: 1;
             pointer-events: auto;
-            color: white;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #modal h2 { margin-top: 0; color: var(--accent); text-transform: uppercase;}
+        #modal p { line-height: 1.6; font-size: 0.9rem; color: #ccc;}
+        
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none; border: none;
+            color: white; font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .close-btn:hover { color: var(--accent); }
+
+        .action-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: var(--accent);
+            color: #000;
             text-decoration: none;
-            border: 1px solid white;
-            padding: 10px 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
             transition: 0.3s;
         }
-        .back-btn:hover { background: white; color: black; }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
-            50% { opacity: 1; transform: translateX(-50%) translateY(10px); }
-            100% { opacity: 0.5; transform: translateX(-50%) translateY(0); }
+        .action-btn:hover {
+            box-shadow: 0 0 15px var(--accent);
+            background: white;
         }
+
+        /* Back Button */
+        .back-home {
+            position: fixed;
+            top: 20px; right: 20px;
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            z-index: 20;
+        }
+        .back-home:hover { border-color: var(--accent); color: var(--accent); }
 
     </style>
 </head>
 <body>
 
-    <canvas id="starfield"></canvas>
-
     <div class="hud">
-        <div class="hud-top">
-            <div class="hud-text">THE CARLOS OS // V2.0</div>
-            <div class="hud-text depth-meter">DEPTH: <span id="depth-val">0</span> u</div>
-        </div>
-        
-        <div class="scroll-hint hud-text">
-            SCROLL TO DIVE
-            <br>▼
-        </div>
-
-        <div class="hud-bottom">
-            <div class="hud-text">LOCATION: KERALA, IN</div>
-            <a href="/" class="back-btn hud-text">ABORT MISSION</a>
-        </div>
+        <h1>THECARLOS.IN</h1>
+        <p>System Status: ONLINE</p>
     </div>
 
-    <div id="viewport">
-        <div id="world">
-            
-            <div class="layer" data-z="0">
-                <h1>THE CARLOS</h1>
-                <p class="highlight">FULL STACK DEVELOPER & AI ARCHITECT</p>
-            </div>
+    <a href="/" class="back-home">EXIT SIMULATION</a>
 
-            <div class="layer" data-z="-1500">
-                <h2>THE MISSION</h2>
-                <p>I don't just build websites.</p>
-                <p>I engineer <span class="highlight">digital experiences</span> that merge human creativity with artificial intelligence.</p>
-            </div>
+    <div class="instructions">
+        Drag nodes to interact // Click to open
+    </div>
 
-            <div class="layer" data-z="-3000">
-                <div class="project-box">
-                    <span class="project-tag">FEATURED PROJECT</span>
-                    <h2>JANATHA BAZAR</h2>
-                    <p>A next-generation affiliate system powered by Supabase logic.</p>
-                    <p>Real-time tracking. Seamless integration.</p>
-                    <a href="/affiliate/" class="btn">INITIALIZE SYSTEM</a>
-                </div>
-            </div>
+    <canvas id="webCanvas"></canvas>
 
-            <div class="layer" data-z="-4500">
-                <h2>WEAPONRY</h2>
-                <div class="skill-grid">
-                    <div class="skill-item">JS</div>
-                    <div class="skill-item">REACT</div>
-                    <div class="skill-item">NODE</div>
-                    <div class="skill-item">AI</div>
-                    <div class="skill-item">PYTHON</div>
-                    <div class="skill-item">DB</div>
-                </div>
-            </div>
-
-            <div class="layer" data-z="-6000">
-                <h2>ESTABLISH UPLINK</h2>
-                <p>Are you ready to collaborate?</p>
-                <a href="mailto:contact@thecarlos.in" class="btn">SEND SIGNAL</a>
-            </div>
-
-        </div>
+    <div id="modal">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <h2 id="m-title">Title</h2>
+        <div id="m-content">Content goes here...</div>
     </div>
 
     <script>
-        /* --- STARFIELD LOGIC --- */
-        const canvas = document.getElementById('starfield');
+        /* --- 2. JAVASCRIPT PHYSICS ENGINE --- */
+        
+        // Configuration
+        const SPRING_STIFFNESS = 0.04;
+        const FRICTION = 0.85; // Air resistance (0-1)
+        const REPULSION = 1000; // How much nodes push each other away
+        
+        const canvas = document.getElementById('webCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
-        let stars = [];
+
+        // Content Data
+        const nodesData = [
+            { 
+                id: 'center', label: 'THE CARLOS', r: 50, fixed: false,
+                title: "THE ARCHITECT", 
+                desc: "Welcome to my digital neural network. I build systems that live on the web.",
+                link: "mailto:contact@thecarlos.in", linkText: "Contact Me"
+            },
+            { 
+                id: 'p1', label: 'PROJECTS', r: 35, fixed: false, 
+                title: "MISSION LOG", 
+                desc: "1. Janatha Bazar Affiliate System (Live)<br>2. AI Chatbot Integration<br>3. This Portfolio Engine",
+                link: "/affiliate/", linkText: "View Janatha Project"
+            },
+            { 
+                id: 'p2', label: 'SKILLS', r: 30, fixed: false, 
+                title: "WEAPONRY", 
+                desc: "JavaScript (ES6+) // React // Node.js // Python // Supabase // Canvas API",
+                link: "#", linkText: "Close"
+            },
+            { 
+                id: 'p3', label: 'SOCIAL', r: 25, fixed: false,
+                title: "UPLINK", 
+                desc: "Find me on the grid.",
+                link: "https://github.com", linkText: "GitHub Profile"
+            },
+            { 
+                id: 'p4', label: 'ABOUT', r: 25, fixed: false,
+                title: "IDENTITY", 
+                desc: "Full Stack Developer based in Kerala. Obsessed with performance and interactive design.",
+                link: "#", linkText: "Close"
+            }
+        ];
+
+        // Physics State
+        let nodes = [];
+        let draggedNode = null;
+        let mouseX = 0;
+        let mouseY = 0;
+
+        function init() {
+            resize();
+            // Initialize nodes at random center positions
+            nodes = nodesData.map(d => ({
+                ...d,
+                x: width/2 + (Math.random() - 0.5) * 100,
+                y: height/2 + (Math.random() - 0.5) * 100,
+                vx: 0,
+                vy: 0
+            }));
+        }
 
         function resize() {
             width = window.innerWidth;
@@ -282,122 +224,205 @@
             canvas.height = height;
         }
         window.addEventListener('resize', resize);
-        resize();
 
-        // Create random stars
-        for(let i=0; i<400; i++) {
-            stars.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                z: Math.random() * 2 // Speed factor
+        // --- THE PHYSICS LOOP ---
+        function update() {
+            // 1. Spring forces (Connect everyone to Center)
+            const centerNode = nodes[0]; // "The Carlos"
+            
+            for (let i = 1; i < nodes.length; i++) {
+                const node = nodes[i];
+                const dx = centerNode.x - node.x;
+                const dy = centerNode.y - node.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                // Spring force (Hooke's Law)
+                // Target distance is 150px
+                const force = (dist - 150) * SPRING_STIFFNESS;
+                const angle = Math.atan2(dy, dx);
+                
+                const fx = Math.cos(angle) * force;
+                const fy = Math.sin(angle) * force;
+
+                node.vx += fx;
+                node.vy += fy;
+                centerNode.vx -= fx * 0.5; // Center reacts less
+                centerNode.vy -= fy * 0.5;
+            }
+
+            // 2. Repulsion (Nodes push each other away)
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const n1 = nodes[i];
+                    const n2 = nodes[j];
+                    const dx = n1.x - n2.x;
+                    const dy = n1.y - n2.y;
+                    const distSq = dx*dx + dy*dy + 0.1; // avoid divide by zero
+                    const dist = Math.sqrt(distSq);
+
+                    const force = REPULSION / distSq;
+                    const fx = (dx / dist) * force;
+                    const fy = (dy / dist) * force;
+
+                    n1.vx += fx;
+                    n1.vy += fy;
+                    n2.vx -= fx;
+                    n2.vy -= fy;
+                }
+            }
+
+            // 3. Center Gravity (Keep whole web in view)
+            nodes.forEach(node => {
+                const dx = width/2 - node.x;
+                const dy = height/2 - node.y;
+                node.vx += dx * 0.005; // Gentle pull to center of screen
+                node.vy += dy * 0.005;
+            });
+
+            // 4. Update Positions & Dragging
+            nodes.forEach(node => {
+                // Friction
+                node.vx *= FRICTION;
+                node.vy *= FRICTION;
+
+                // Move
+                if (draggedNode !== node) {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                } else {
+                    // Drag physics: gentle ease towards mouse
+                    node.vx = 0; 
+                    node.vy = 0;
+                    node.x = node.x + (mouseX - node.x) * 0.2; 
+                    node.y = node.y + (mouseY - node.y) * 0.2;
+                }
             });
         }
 
-        function drawStars() {
-            ctx.fillStyle = "black";
+        // --- DRAWING ---
+        function draw() {
+            ctx.fillStyle = '#0a0a0a'; // Background clear
             ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = "white";
-            
-            stars.forEach(star => {
+
+            // Draw Lines
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color');
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            const center = nodes[0];
+            for (let i = 1; i < nodes.length; i++) {
+                ctx.moveTo(center.x, center.y);
+                ctx.lineTo(nodes[i].x, nodes[i].y);
+            }
+            ctx.stroke();
+
+            // Draw Nodes
+            nodes.forEach(node => {
                 ctx.beginPath();
-                ctx.arc(star.x, star.y, star.z * 0.8, 0, Math.PI * 2);
+                ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+                
+                // Style
+                ctx.fillStyle = '#1a1a1a';
+                if (node.id === 'center') ctx.fillStyle = '#00ff88';
+                
                 ctx.fill();
-                
-                // Move star to create warp effect
-                star.x -= (star.x - width/2) * 0.005 * speedFactor;
-                star.y -= (star.y - height/2) * 0.005 * speedFactor;
-                
-                // Reset if out of bounds (simplified warp loop)
-                if(star.x < 0 || star.x > width || star.y < 0 || star.y > height) {
-                    star.x = Math.random() * width;
-                    star.y = Math.random() * height;
+                ctx.strokeStyle = '#00ff88';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Text
+                ctx.fillStyle = node.id === 'center' ? '#000' : '#fff';
+                ctx.font = 'bold 12px "Space Mono"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.label, node.x, node.y);
+            });
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        // --- INPUT HANDLING ---
+        canvas.addEventListener('mousedown', e => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Check collision
+            nodes.forEach(node => {
+                const dist = Math.hypot(x - node.x, y - node.y);
+                if (dist < node.r) {
+                    draggedNode = node;
                 }
             });
-            requestAnimationFrame(drawStars);
-        }
-        
-        let speedFactor = 1; // Increases when scrolling
-        drawStars();
-
-
-        /* --- 3D SCROLL LOGIC --- */
-        const world = document.getElementById('world');
-        const layers = document.querySelectorAll('.layer');
-        const depthDisplay = document.getElementById('depth-val');
-        
-        let currentZ = 0;
-        let targetZ = 0;
-        const SPEED = 3.5;
-        const MAX_DEPTH = 6500;
-
-        // 1. Position Initial Layers
-        layers.forEach(layer => {
-            const zVal = layer.getAttribute('data-z');
-            layer.style.transform = `translate(-50%, -50%) translateZ(${zVal}px)`;
         });
 
-        // 2. Animation Loop
-        function animateScroll() {
-            // Smooth easing
-            currentZ += (targetZ - currentZ) * 0.08;
+        canvas.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
             
-            // Move world
-            world.style.transform = `translateZ(${currentZ}px)`;
-            
-            // Update HUD
-            depthDisplay.innerText = Math.round(currentZ);
-
-            // Warp Speed Effect on stars based on movement
-            const diff = Math.abs(targetZ - currentZ);
-            speedFactor = 1 + (diff * 0.05);
-
-            // Visibility Logic (Fade in/out)
-            layers.forEach(layer => {
-                const itemZ = parseInt(layer.getAttribute('data-z')); 
-                const distance = itemZ + currentZ; // Distance from camera
-
-                // Visible range: -1000 (behind) to 1000 (ahead)
-                // Peak visibility is at 0
-                let opacity = 0;
-                
-                if (distance > -500 && distance < 800) {
-                    // Calculate fade
-                    opacity = 1 - (Math.abs(distance) / 800);
-                    // Boost opacity in the sweet spot
-                    if(opacity > 1) opacity = 1;
-                }
-
-                layer.style.opacity = Math.max(0, opacity);
-                
-                // Optimization: don't render invisible layers
-                layer.style.display = opacity < 0.05 ? 'none' : 'flex';
+            // Cursor pointer logic
+            let hovering = false;
+            nodes.forEach(node => {
+                if (Math.hypot(mouseX - node.x, mouseY - node.y) < node.r) hovering = true;
             });
+            canvas.style.cursor = hovering ? 'pointer' : 'crosshair';
+        });
 
-            requestAnimationFrame(animateScroll);
+        window.addEventListener('mouseup', () => {
+            draggedNode = null;
+        });
+        
+        // Touch Support
+        canvas.addEventListener('touchstart', e => {
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+            mouseX = x; mouseY = y;
+            nodes.forEach(node => {
+                if (Math.hypot(x - node.x, y - node.y) < node.r) draggedNode = node;
+            });
+        });
+        canvas.addEventListener('touchmove', e => {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+            e.preventDefault(); // Stop scrolling
+        });
+        window.addEventListener('touchend', () => draggedNode = null);
+
+        // Click to Open (Double Click or simple Click logic)
+        canvas.addEventListener('click', e => {
+            const x = e.clientX;
+            const y = e.clientY;
+            nodes.forEach(node => {
+                const dist = Math.hypot(x - node.x, y - node.y);
+                if (dist < node.r) {
+                    openModal(node);
+                }
+            });
+        });
+
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('modal');
+        const mTitle = document.getElementById('m-title');
+        const mContent = document.getElementById('m-content');
+
+        function openModal(node) {
+            mTitle.innerText = node.title;
+            mContent.innerHTML = `
+                <p>${node.desc}</p>
+                <a href="${node.link}" class="action-btn">${node.linkText}</a>
+            `;
+            modal.classList.add('active');
         }
-        animateScroll();
 
-        // 3. Scroll Event Listeners
-        window.addEventListener('wheel', (e) => {
-            targetZ += e.deltaY * SPEED;
-            
-            // Clamp values
-            if (targetZ < 0) targetZ = 0;
-            if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
-        });
+        function closeModal() {
+            modal.classList.remove('active');
+        }
 
-        // Touch support for mobile
-        let touchStart = 0;
-        window.addEventListener('touchstart', e => touchStart = e.touches[0].clientY);
-        window.addEventListener('touchmove', e => {
-            const touchY = e.touches[0].clientY;
-            const delta = (touchStart - touchY) * 4; // Multiplier for speed
-            targetZ += delta;
-            touchStart = touchY;
-
-            if (targetZ < 0) targetZ = 0;
-            if (targetZ > MAX_DEPTH) targetZ = MAX_DEPTH;
-        });
+        // Initialize
+        init();
+        loop();
 
     </script>
 </body>
