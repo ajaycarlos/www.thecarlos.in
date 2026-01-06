@@ -3,365 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | X-RAY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <title>THE CARLOS | DUALITY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS VARIABLES --- */
-        :root {
-            --bg-blueprint: #0a0f18;
-            --line-blueprint: rgba(56, 189, 248, 0.3); /* Cyan lines */
-            --text-blueprint: rgba(56, 189, 248, 0.7);
-            
-            --bg-real: #ffffff;
-            --text-real: #000000;
-            --accent: #2563eb;
-            
-            --lens-size: 300px;
-        }
+        /* --- CSS RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Custom cursor */ }
+        body, html { width: 100%; height: 100%; overflow: hidden; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
-
-        body {
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        /* --- 1. LAYER SETUP --- */
-        .layer {
+        /* --- 1. THE ARCHITECT LAYER (Background / Code) --- */
+        .layer-architect {
             position: absolute;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- 2. BOTTOM LAYER: BLUEPRINT (The Structure) --- */
-        #layer-blueprint {
-            background-color: var(--bg-blueprint);
-            color: var(--text-blueprint);
-            z-index: 1;
-            /* Grid Pattern */
-            background-image: 
-                linear-gradient(var(--line-blueprint) 1px, transparent 1px),
-                linear-gradient(90deg, var(--line-blueprint) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Wireframe Styling */
-        #layer-blueprint .element {
-            border: 1px solid var(--line-blueprint);
-            background: rgba(56, 189, 248, 0.05);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #050505;
+            color: #00ff41; /* Terminal Green */
             font-family: 'JetBrains Mono', monospace;
-            position: relative;
+            overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; padding: 10vw;
+            z-index: 1;
+            /* Technical Grid Pattern */
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
-        /* Measurement Markers */
-        #layer-blueprint .element::after {
-            content: attr(data-dims);
-            position: absolute;
-            top: -15px; left: 0;
-            font-size: 0.6rem;
-            color: var(--line-blueprint);
-        }
-        #layer-blueprint h1 { -webkit-text-stroke: 1px var(--line-blueprint); color: transparent; }
-        #layer-blueprint p { opacity: 0.7; border-left: 2px solid var(--line-blueprint); padding-left: 10px; }
-        #layer-blueprint .btn { border: 1px dashed var(--line-blueprint); color: var(--text-blueprint); }
 
-        /* --- 3. TOP LAYER: REALITY (The Render) --- */
-        #layer-real {
-            background-color: var(--bg-real);
-            color: var(--text-real);
+        .layer-architect h1 { font-size: 6vw; text-transform: uppercase; letter-spacing: -5px; opacity: 0.8; }
+        .layer-architect p { font-size: 1rem; margin-top: 20px; max-width: 500px; line-height: 1.6; opacity: 0.6; }
+        .code-tag { color: #555; font-size: 0.8rem; display: block; margin-bottom: 5px; }
+        
+        /* Raw technical details decor */
+        .tech-specs {
+            position: absolute; bottom: 50px; right: 50px; text-align: right;
+            font-size: 0.7rem; color: #333;
+        }
+
+        /* --- 2. THE VISIONARY LAYER (Foreground / Design) --- */
+        .layer-visionary {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #f0f0f0;
+            color: #111;
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center; padding: 10vw;
             z-index: 2;
             
-            /* THE MAGIC: Masking the top layer */
-            /* We start with a 0% circle (hidden) */
-            mask-image: radial-gradient(circle var(--lens-size) at var(--x) var(--y), black 100%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle var(--lens-size) at var(--x) var(--y), black 100%, transparent 100%);
+            /* THE MAGIC: Initial Clip Path (Updated by JS) */
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+            transition: clip-path 0.1s linear; /* Smoothness for mouse lag */
         }
 
-        /* Real Styling */
-        #layer-real .content-wrapper { filter: drop-shadow(0 20px 50px rgba(0,0,0,0.2)); }
-        #layer-real h1 { color: #000; font-weight: 700; }
-        #layer-real p { color: #555; border-left: 2px solid var(--accent); padding-left: 10px; }
-        #layer-real .btn { 
-            background: var(--accent); color: white; border: none; 
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        /* --- 4. SHARED CONTENT LAYOUT --- */
-        .content-wrapper {
-            width: 80%;
-            max-width: 1000px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            padding: 50px;
-        }
-
-        .text-col { display: flex; flex-direction: column; gap: 30px; }
+        .layer-visionary h1 { font-size: 6vw; text-transform: uppercase; letter-spacing: 10px; font-weight: 700; color: #000; }
+        .layer-visionary p { font-size: 1.2rem; margin-top: 20px; max-width: 500px; line-height: 1.4; font-weight: 600; font-family: sans-serif; letter-spacing: 1px;}
         
-        h1 { font-size: 5rem; line-height: 0.9; text-transform: uppercase; margin-bottom: 20px; }
-        h3 { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
-        p { font-size: 1.1rem; line-height: 1.6; max-width: 400px; }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            width: fit-content;
-            text-decoration: none;
-            display: inline-block;
+        /* Visionary Decor */
+        .art-element {
+            position: absolute; top: 10%; right: 10%;
+            font-size: 10rem; opacity: 0.05; font-weight: bold; pointer-events: none;
         }
 
-        .img-col {
-            position: relative;
-            height: 500px;
-            width: 100%;
-            display: flex;
-            align-items: center; justify-content: center;
-        }
-
-        /* Image Styling Differences */
-        #layer-blueprint .img-placeholder {
-            width: 100%; height: 100%;
-            border: 1px solid var(--line-blueprint);
-            display: flex; align-items: center; justify-content: center;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(56, 189, 248, 0.05) 10px, rgba(56, 189, 248, 0.05) 20px);
+        /* --- 3. THE SPLIT LINE (Slider UI) --- */
+        .split-line {
+            position: absolute;
+            top: 0; bottom: 0; left: 50%;
+            width: 2px;
+            background: #fff;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
         }
         
-        #layer-real .project-card {
-            width: 100%; height: 100%;
-            background: #f3f4f6;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-        #layer-real .project-card img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        #layer-real .card-overlay {
-            position: absolute; bottom: 30px; left: 30px;
-            background: white; padding: 15px 25px; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        /* --- 5. CUSTOM CURSOR --- */
-        .cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
-            width: var(--lens-size); height: var(--lens-size);
+        .split-handle {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px; height: 40px;
             border: 2px solid white;
             border-radius: 50%;
-            pointer-events: none;
-            z-index: 100;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 50px rgba(255,255,255,0.2);
-        }
-        
-        .cursor-center {
-            position: fixed;
-            top: 0; left: 0;
-            width: 10px; height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 101;
-            transform: translate(-50%, -50%);
+            background: black;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 12px;
+            z-index: 11;
+            box-shadow: 0 0 30px rgba(255,255,255,0.8);
         }
 
-        /* Hint */
-        .hint {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            color: var(--text-blueprint); font-family: 'JetBrains Mono'; font-size: 0.8rem;
-            z-index: 50; text-transform: uppercase; letter-spacing: 2px;
-            pointer-events: none;
-        }
-
-        /* Navigation Dots */
+        /* --- 4. CONTENT NAVIGATION (Shared) --- */
         .nav-dots {
             position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
             display: flex; flex-direction: column; gap: 20px; z-index: 100;
         }
         .dot {
-            width: 10px; height: 10px; background: rgba(56, 189, 248, 0.3);
-            border-radius: 50%; cursor: pointer; transition: 0.3s;
+            width: 6px; height: 6px; background: #888; border-radius: 50%; cursor: pointer; transition: 0.3s;
         }
-        .dot.active { background: var(--accent); transform: scale(1.5); }
+        .dot.active { transform: scale(2); background: #f00; }
+
+        /* CTA Button (Changes style based on layer) */
+        .btn {
+            margin-top: 40px; padding: 15px 40px; display: inline-block; text-decoration: none; width: fit-content;
+            transition: 0.3s;
+        }
+        /* Architect Button Style */
+        .layer-architect .btn {
+            border: 1px dashed #00ff41; color: #00ff41; font-family: 'JetBrains Mono';
+        }
+        .layer-architect .btn:hover { background: rgba(0,255,65,0.1); }
+        
+        /* Visionary Button Style */
+        .layer-visionary .btn {
+            background: #000; color: #fff; font-family: sans-serif; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .layer-visionary .btn:hover { background: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 
     </style>
 </head>
 <body>
 
-    <div class="cursor-ring" id="cursor-ring"></div>
-    <div class="cursor-center" id="cursor-center"></div>
-    <div class="hint">Scope Enabled // Move to Render</div>
+    <div class="split-line" id="split-line"></div>
+    <div class="split-handle" id="split-handle">< ></div>
 
     <div class="nav-dots">
-        <div class="dot active" onclick="setProject(0)"></div>
-        <div class="dot" onclick="setProject(1)"></div>
-        <div class="dot" onclick="setProject(2)"></div>
+        <div class="dot active" onclick="setSlide(0)"></div>
+        <div class="dot" onclick="setSlide(1)"></div>
+        <div class="dot" onclick="setSlide(2)"></div>
     </div>
 
-    <div class="layer" id="layer-blueprint">
-        <div class="content-wrapper element" data-dims="1200px x 800px">
-            
-            <div class="text-col">
-                <h3 class="element" data-dims="font: mono-12">System.Type: Identity</h3>
-                <h1 class="element" data-dims="h1: bold-80">The<br>Architect</h1>
-                <p class="element" data-dims="p: 400px">
-                    // Defining structural integrity.<br>
-                    // Merging backend logic with frontend aesthetics.<br>
-                    // Status: Online.
-                </p>
-                <a href="#" class="btn element" data-dims="btn: 180x50">Execute_Contact()</a>
-            </div>
+    <div class="layer-architect" id="arch-container">
+        <span class="code-tag">&lt;h1&gt;</span>
+        <h1 id="arch-title">THE<br>STRUCTURE</h1>
+        <span class="code-tag">&lt;/h1&gt;</span>
+        
+        <span class="code-tag">&lt;p&gt;</span>
+        <p id="arch-desc">
+            // LOGIC CORE<br>
+            // Executing backend architecture.<br>
+            // Optimizing database queries.<br>
+            // Status: 200 OK.
+        </p>
+        <span class="code-tag">&lt;/p&gt;</span>
 
-            <div class="img-col">
-                <div class="img-placeholder element" data-dims="img: 500x500">
-                    [ IMG_SLOT_01: NULL ]
-                </div>
-            </div>
+        <a href="#" class="btn" id="arch-btn">init_contact()</a>
 
+        <div class="tech-specs">
+            RENDER: DOM_VIRTUAL<br>
+            FPS: 60<br>
+            LANG: JS/CSS
         </div>
     </div>
 
-    <div class="layer" id="layer-real">
-        <div class="content-wrapper">
-            
-            <div class="text-col">
-                <h3 style="color: var(--accent);">Full Stack Developer</h3>
-                <h1>Carlos<br>Portfolio</h1>
-                <p>
-                    I turn complex problems into elegant, user-centric interfaces. 
-                    From database architecture to pixel-perfect animation.
-                </p>
-                <a href="mailto:contact@thecarlos.in" class="btn">Start a Project</a>
-            </div>
-
-            <div class="img-col">
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1481487484168-9b930d55236e?q=80&w=1000&auto=format&fit=crop" alt="Project">
-                    <div class="card-overlay">
-                        <strong style="display:block; font-size:1.2rem;">Janatha Bazar</strong>
-                        <span style="font-size:0.9rem; color:#666;">Affiliate System</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+    <div class="layer-visionary" id="vis-container">
+        <div class="art-element">01</div>
+        <h1 id="vis-title">The<br>Beauty</h1>
+        <p id="vis-desc">
+            Crafting digital experiences that captivate and inspire. 
+            Where pixel-perfect design meets seamless motion.
+        </p>
+        <a href="mailto:contact@thecarlos.in" class="btn" id="vis-btn">Start Project</a>
     </div>
 
     <script>
-        // --- 1. MOUSE TRACKING & MASKING ---
-        const layerReal = document.getElementById('layer-real');
-        const cursorRing = document.getElementById('cursor-ring');
-        const cursorCenter = document.getElementById('cursor-center');
+        // --- 1. DUALITY ENGINE (Mouse Tracking) ---
+        const splitLine = document.getElementById('split-line');
+        const splitHandle = document.getElementById('split-handle');
+        const visContainer = document.getElementById('vis-container');
         
         let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
 
-        // Smooth follow variables
-        let cursorX = mouseX;
-        let cursorY = mouseY;
-
-        document.addEventListener('mousemove', (e) => {
+        window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
-            mouseY = e.clientY;
+            updateReality();
         });
 
-        // Loop for smooth animation
-        function animate() {
-            // Linear interpolation for smoothness
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
+        window.addEventListener('touchmove', (e) => {
+            mouseX = e.touches[0].clientX;
+            updateReality();
+        });
 
-            // Update CSS variables for the Mask
-            layerReal.style.setProperty('--x', cursorX + 'px');
-            layerReal.style.setProperty('--y', cursorY + 'px');
+        function updateReality() {
+            // Move the line
+            splitLine.style.left = mouseX + 'px';
+            splitHandle.style.left = mouseX + 'px';
 
-            // Move the visible cursor elements
-            cursorRing.style.left = cursorX + 'px';
-            cursorRing.style.top = cursorY + 'px';
+            // Crop the Visionary Layer (The Right Side)
+            // We show everything to the RIGHT of the mouse
+            // The Architect Layer is behind it, showing everything to the LEFT (by default)
             
-            cursorCenter.style.left = mouseX + 'px'; // Center dot is instant
-            cursorCenter.style.top = mouseY + 'px';
-
-            requestAnimationFrame(animate);
+            // Polygon points: Top-Left (at mouseX), Top-Right, Bottom-Right, Bottom-Left (at mouseX)
+            const percent = (mouseX / window.innerWidth) * 100;
+            visContainer.style.clipPath = `polygon(${percent}% 0, 100% 0, 100% 100%, ${percent}% 100%)`;
         }
-        animate();
+        
+        // Initial Position
+        updateReality();
 
-        // --- 2. PROJECT SWITCHING (Data Handling) ---
-        const projects = [
+
+        // --- 2. SLIDE CONTENT MANAGER ---
+        const content = [
             {
-                type: "Identity", typeReal: "Full Stack Developer",
-                title: "The<br>Architect", titleReal: "Carlos<br>Portfolio",
-                desc: "// Defining structural integrity.<br>// Merging backend logic.<br>// Status: Online.",
-                descReal: "I turn complex problems into elegant, user-centric interfaces. From database architecture to pixel-perfect animation.",
-                btn: "Execute_Contact()", btnReal: "Start a Project",
-                link: "mailto:contact@thecarlos.in",
-                img: "https://images.unsplash.com/photo-1481487484168-9b930d55236e?q=80&w=1000&auto=format&fit=crop",
-                projName: "Latest Build", projCat: "Identity"
+                // Slide 1: Identity
+                arch: {
+                    title: "THE<br>BUILDER",
+                    desc: "// CLASS: FULL_STACK<br>// SKILLS: [JS, NODE, PY]<br>// LOC: KERALA, IN",
+                    btn: "func_viewWork()"
+                },
+                vis: {
+                    title: "The<br>Artist",
+                    desc: "I am Carlos. I transform abstract ideas into tangible, interactive realities on the web.",
+                    btn: "View Portfolio"
+                }
             },
             {
-                type: "Module_01", typeReal: "Featured Project",
-                title: "Affiliate<br>Core", titleReal: "Janatha<br>Bazar",
-                desc: "// Supabase Integration.<br>// Real-time analytics engine.<br>// ROI: Optimized.",
-                descReal: "A comprehensive affiliate tracking system. Features real-time dashboards, commission logic, and seamless payouts.",
-                btn: "Init_System()", btnReal: "View Case Study",
-                link: "/affiliate/",
-                img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
-                projName: "Janatha Bazar", projCat: "Web App"
+                // Slide 2: Project (Janatha)
+                arch: {
+                    title: "PROJECT<br>CORE",
+                    desc: "// MODULE: JANATHA_BAZAR<br>// TYPE: AFFILIATE_SYS<br>// DB: SUPABASE_PG",
+                    btn: "link_openSource()"
+                },
+                vis: {
+                    title: "Janatha<br>Bazar",
+                    desc: "A revolutionary affiliate tracking platform. Seamless commissions, real-time analytics, and pure speed.",
+                    btn: "Launch App"
+                }
             },
             {
-                type: "Module_02", typeReal: "Experimental",
-                title: "Neural<br>Net", titleReal: "AI Chat<br>Bot",
-                desc: "// LLM API Connectivity.<br>// Python Backend processing.<br>// Latency: <100ms.",
-                descReal: "Bridging human intent with machine intelligence. A custom trained LLM specifically for customer support.",
-                btn: "Ping_Server()", btnReal: "Test Demo",
-                link: "#",
-                img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop",
-                projName: "AI Assistant", projCat: "Python/API"
+                // Slide 3: Contact
+                arch: {
+                    title: "INPUT<br>SIGNAL",
+                    desc: "// STATUS: LISTENING...<br>// PORT: 8080<br>// PROTOCOL: MAILTO",
+                    btn: "exec_send()"
+                },
+                vis: {
+                    title: "Let's<br>Talk",
+                    desc: "Ready to create something that has never been seen before? I am available for select commissions.",
+                    btn: "Email Me"
+                }
             }
         ];
 
-        const blueLayer = document.querySelector('#layer-blueprint .content-wrapper');
-        const realLayer = document.querySelector('#layer-real .content-wrapper');
         const dots = document.querySelectorAll('.dot');
+        const archTitle = document.getElementById('arch-title');
+        const archDesc = document.getElementById('arch-desc');
+        const archBtn = document.getElementById('arch-btn');
+        const visTitle = document.getElementById('vis-title');
+        const visDesc = document.getElementById('vis-desc');
+        const visBtn = document.getElementById('vis-btn');
 
-        function setProject(index) {
-            const p = projects[index];
-            
-            // Update UI
+        function setSlide(index) {
+            // Update Active Dot
             dots.forEach((d, i) => d.classList.toggle('active', i === index));
 
-            // BLUEPRINT UPDATE
-            blueLayer.querySelector('h3').innerText = `System.Type: ${p.type}`;
-            blueLayer.querySelector('h1').innerHTML = p.title;
-            blueLayer.querySelector('p').innerHTML = p.desc;
-            blueLayer.querySelector('.btn').innerText = p.btn;
-            
-            // REAL UPDATE
-            realLayer.querySelector('h3').innerText = p.typeReal;
-            realLayer.querySelector('h1').innerHTML = p.titleReal;
-            realLayer.querySelector('p').innerHTML = p.descReal;
-            realLayer.querySelector('.btn').innerText = p.btnReal;
-            realLayer.querySelector('.btn').href = p.link;
-            realLayer.querySelector('img').src = p.img;
-            realLayer.querySelector('.card-overlay strong').innerText = p.projName;
-            realLayer.querySelector('.card-overlay span').innerText = p.projCat;
-        }
+            const c = content[index];
 
-        // Add Click events to Blueprint buttons too
-        document.querySelector('#layer-blueprint .btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            // Trigger the click on the real button
-            document.querySelector('#layer-real .btn').click();
-        });
+            // Animate Out
+            document.body.style.pointerEvents = 'none'; // Lock during transition
+            
+            // Swap Text (Simple fade simulation)
+            archTitle.style.opacity = 0; visTitle.style.opacity = 0;
+            
+            setTimeout(() => {
+                // Update Logic (Architect)
+                archTitle.innerHTML = c.arch.title;
+                archDesc.innerHTML = c.arch.desc;
+                archBtn.innerText = c.arch.btn;
+
+                // Update Visuals (Visionary)
+                visTitle.innerHTML = c.vis.title;
+                visDesc.innerHTML = c.vis.desc;
+                visBtn.innerText = c.vis.btn;
+                
+                // Link logic for Janatha Bazar
+                if(index === 1) {
+                    visBtn.href = "/affiliate/";
+                    archBtn.href = "/affiliate/";
+                } else if (index === 2) {
+                    visBtn.href = "mailto:contact@thecarlos.in";
+                    archBtn.href = "mailto:contact@thecarlos.in";
+                }
+
+                // Animate In
+                archTitle.style.opacity = 0.8; visTitle.style.opacity = 1;
+                document.body.style.pointerEvents = 'auto';
+            }, 300);
+        }
 
     </script>
 </body>
