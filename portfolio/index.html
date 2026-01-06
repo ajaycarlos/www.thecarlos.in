@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | BLUEPRINT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>THE CARLOS | HYPER-CUBE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. SYSTEM STYLING --- */
+        /* --- 1. PREMIUM AESTHETICS --- */
         :root {
-            --bg: #0f0f11;
-            --grid-line: rgba(255, 255, 255, 0.04);
-            --card-bg: #18181b;
+            --bg: #050505;
+            --face-bg: #101010;
             --text-main: #ffffff;
-            --text-muted: #71717a;
-            --accent: #3b82f6; /* Technical Blue */
-            --accent-glow: rgba(59, 130, 246, 0.2);
-            --border: rgba(255, 255, 255, 0.1);
-            
-            --font-ui: 'Space Grotesk', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
+            --text-muted: #666;
+            --accent: #ffffff;
+            --glow: rgba(255, 255, 255, 0.05);
+            --cube-size: 600px; /* Base size */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,424 +22,315 @@
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-family: var(--font-ui);
-            width: 100vw; height: 100vh;
-            overflow: hidden; /* Canvas controls scroll */
-            cursor: grab;
-        }
-        body:active { cursor: grabbing; }
-
-        /* --- 2. INFINITE CANVAS WRAPPER --- */
-        #viewport {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            perspective: 1000px;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px; /* The Camera Lens */
         }
 
-        #world {
+        /* Ambient Lighting / Floor Reflection */
+        .floor {
             position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0; /* Centered origin */
-            transform-origin: 0 0;
-            will-change: transform;
-        }
-
-        /* The Grid Pattern */
-        .grid-bg {
-            position: absolute;
-            top: -5000px; left: -5000px;
-            width: 10000px; height: 10000px;
-            background-image: 
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
+            bottom: -200px;
+            width: 2000px; height: 2000px;
+            background: radial-gradient(#222, #000 60%);
+            transform: rotateX(90deg);
             z-index: -1;
-        }
-        /* Dotted secondary grid */
-        .grid-bg::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(var(--grid-line) 1px, transparent 0);
-            background-size: 250px 250px;
+            opacity: 0.5;
         }
 
-        /* --- 3. CANVAS ELEMENTS (Cards) --- */
-        .node {
+        /* --- 2. THE 3D SCENE --- */
+        .scene {
+            width: var(--cube-size);
+            height: var(--cube-size);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* The Cube Itself */
+        .cube {
+            width: 100%;
+            height: 100%;
             position: absolute;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-            display: flex; flex-direction: column;
-            backface-visibility: hidden;
-        }
-        
-        .node:hover {
-            border-color: var(--accent);
-            box-shadow: 0 20px 60px var(--accent-glow);
-            z-index: 10; /* Pop to front */
+            transform-style: preserve-3d;
+            /* Default Rotation */
+            transform: translateZ(calc(var(--cube-size) / -2));
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Element Types */
-        .node.hero {
-            width: 500px; height: 300px;
-            top: -150px; left: -250px; /* Centered */
-            justify-content: center; align-items: center; text-align: center;
-            background: linear-gradient(145deg, #1f1f23, #18181b);
-        }
-        
-        .node.project { width: 350px; height: 400px; }
-        .node.stat { width: 250px; height: 250px; }
-        .node.contact { width: 400px; height: 200px; }
-
-        /* Typography inside nodes */
-        h1 { font-size: 3.5rem; line-height: 1; letter-spacing: -1px; margin-bottom: 10px; }
-        h2 { font-size: 1.5rem; font-weight: 500; margin-bottom: 15px; }
-        h3 { font-family: var(--font-code); font-size: 0.8rem; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; }
-        p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-        
-        .tag-pill {
-            display: inline-block; padding: 4px 10px; border-radius: 4px;
-            background: rgba(255,255,255,0.05); color: var(--text-muted);
-            font-family: var(--font-code); font-size: 0.7rem; margin-right: 5px;
-            border: 1px solid transparent;
+        /* --- 3. THE FACES --- */
+        .face {
+            position: absolute;
+            width: var(--cube-size);
+            height: var(--cube-size);
+            background: var(--face-bg);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            backface-visibility: hidden; /* Hide back for performance */
+            box-shadow: 0 0 100px rgba(0,0,0,0.8) inset; /* Inner vignette */
         }
 
-        /* Project Image Area */
-        .p-image {
-            width: 100%; height: 180px;
-            background: #000;
+        /* Face Positioning mathematics */
+        .front  { transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2)); }
+        .right  { transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2)); }
+        .back   { transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2)); }
+        .left   { transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2)); }
+
+        /* --- 4. CONTENT STYLING --- */
+        h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 4rem;
+            letter-spacing: -2px;
+            line-height: 1;
             margin-bottom: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-code); color: #333; font-size: 2rem;
-            position: relative;
-        }
-        .p-image img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
-        .node:hover .p-image img { opacity: 1; transform: scale(1.05); }
-
-        /* Connectors (SVG Lines) */
-        svg.connections {
-            position: absolute; top: -5000px; left: -5000px;
-            width: 10000px; height: 10000px;
-            pointer-events: none;
-            z-index: -1;
-            overflow: visible;
-        }
-        path.connector {
-            fill: none;
-            stroke: var(--border);
-            stroke-width: 2;
-            stroke-dasharray: 10;
-            animation: dash 60s linear infinite;
-        }
-        @keyframes dash { to { stroke-dashoffset: -1000; } }
-
-        /* --- 4. HUD (Heads Up Display) --- */
-        .hud {
-            position: fixed; pointer-events: none;
-            z-index: 100;
-            width: 100%; height: 100%;
-            padding: 30px;
-            display: flex; flex-direction: column; justify-content: space-between;
+            text-transform: uppercase;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .hud-top { display: flex; justify-content: space-between; align-items: center; }
-        .hud-bot { display: flex; justify-content: space-between; align-items: flex-end; }
-
-        .brand-block { font-family: var(--font-code); line-height: 1.4; }
-        .coords { color: var(--accent); }
-
-        .controls {
-            pointer-events: auto;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            display: flex; gap: 10px;
-        }
-        .ctrl-btn {
-            background: rgba(255,255,255,0.1); border: none; color: white;
-            width: 30px; height: 30px; border-radius: 4px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .ctrl-btn:hover { background: var(--accent); }
-
-        .minimap-container {
-            width: 150px; height: 100px;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid var(--border);
-            position: relative;
-            pointer-events: auto;
-        }
-        .minimap-viewport {
-            position: absolute;
-            border: 1px solid var(--accent);
-            background: rgba(59, 130, 246, 0.2);
-            width: 20%; height: 20%; /* Dynamic */
-            top: 40%; left: 40%;
+        h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
         }
 
-        /* Action Buttons */
-        .btn-action {
-            margin-top: auto;
-            display: inline-block;
-            padding: 10px 0;
-            color: var(--text-main);
+        p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.6;
+            max-width: 400px;
+            margin-bottom: 40px;
+        }
+
+        .highlight { color: #fff; font-weight: bold; border-bottom: 1px solid #fff; }
+
+        /* Buttons */
+        .btn-group { display: flex; gap: 20px; }
+        .btn {
+            padding: 15px 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: white;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
             text-decoration: none;
-            border-bottom: 1px solid var(--border);
-            font-family: var(--font-code); font-size: 0.8rem;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+
+        /* Project Grid (Inside Face 2) */
+        .project-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+        .project-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+        }
+        .project-item:hover {
+            background: white;
+            color: black;
+            transform: scale(1.02);
+        }
+        .p-name { font-family: 'Syncopate', sans-serif; font-weight: 700; }
+        .p-tech { font-size: 0.8rem; opacity: 0.7; }
+
+        /* Stats (Face 3) */
+        .stat-huge { font-size: 6rem; font-weight: 700; font-family: 'Syncopate', sans-serif; line-height: 1; }
+        .stat-label { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 30px;}
+
+        /* HUD Navigation (Fixed) */
+        .nav-hud {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .dot {
+            width: 10px; height: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            cursor: pointer;
             transition: 0.3s;
         }
-        .btn-action:hover { color: var(--accent); border-color: var(--accent); }
-        
-        .exit-btn {
-            pointer-events: auto;
-            color: var(--text-muted); text-decoration: none;
-            font-family: var(--font-code); font-size: 0.8rem;
-            border: 1px solid var(--border); padding: 8px 16px;
-        }
-        .exit-btn:hover { color: white; border-color: white; }
+        .dot.active { background: white; transform: scale(1.5); }
 
-        /* Floating particles */
-        .dust {
-            position: absolute;
-            width: 2px; height: 2px; background: white; opacity: 0.3;
-            border-radius: 50%; pointer-events: none;
+        .hint {
+            position: fixed; top: 40px; right: 40px;
+            font-size: 0.7rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 2px;
+            writing-mode: vertical-rl;
+        }
+
+        /* Mobile Responsive */
+        @media(max-width: 768px) {
+            :root { --cube-size: 350px; }
+            h1 { font-size: 2.5rem; }
+            .btn { padding: 10px 20px; font-size: 0.7rem; }
+            .floor { bottom: -100px; }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="hud">
-        <div class="hud-top">
-            <div class="brand-block">
-                <strong>THECARLOS.IN</strong><br>
-                <span style="color:var(--text-muted)">MAP VIEW</span>
-            </div>
-            <div class="brand-block" style="text-align: right;">
-                POS: <span class="coords" id="co-x">0</span>, <span class="coords" id="co-y">0</span><br>
-                ZOOM: <span class="coords" id="co-z">100%</span>
-            </div>
-        </div>
+    <div class="floor"></div>
+    <div class="hint">Scroll to Rotate // Drag to spin</div>
 
-        <div class="hud-bot">
-            <div class="controls">
-                <button class="ctrl-btn" onclick="zoomOut()"><i class="fas fa-minus"></i></button>
-                <button class="ctrl-btn" onclick="resetView()"><i class="fas fa-expand"></i></button>
-                <button class="ctrl-btn" onclick="zoomIn()"><i class="fas fa-plus"></i></button>
+    <div class="scene">
+        <div class="cube" id="cube">
+            
+            <div class="face front">
+                <h2>Identity</h2>
+                <h1>The<br>Carlos.</h1>
+                <p>Full Stack Engineer & AI Architect. Building the bridge between human intent and machine logic.</p>
+                <div class="btn-group">
+                    <button class="btn" onclick="rotateTo(1)">View Work</button>
+                    <button class="btn" onclick="rotateTo(3)">Contact</button>
+                </div>
             </div>
-            <a href="/" class="exit-btn">EXIT BLUEPRINT</a>
+
+            <div class="face right">
+                <h2>Selected Works</h2>
+                <div class="project-row">
+                    <a href="/affiliate/" class="project-item">
+                        <span class="p-name">Janatha Bazar</span>
+                        <span class="p-tech">SUPABASE / REACT</span>
+                    </a>
+                    <a href="#" class="project-item">
+                        <span class="p-name">AI Neural Core</span>
+                        <span class="p-tech">PYTHON / LLM</span>
+                    </a>
+                    <a href="#" class="project-item">
+                        <span class="p-name">Hyper-Cube UI</span>
+                        <span class="p-tech">CSS 3D / JS</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="face back">
+                <h2>System Analytics</h2>
+                <div class="stat-huge">JS</div>
+                <div class="stat-label">35.9% Dominance</div>
+                
+                <div class="stat-huge">AI</div>
+                <div class="stat-label">Neural Architecture</div>
+                
+                <p style="font-size:0.8rem; margin-top:20px;">Based on GitHub Telemetry</p>
+            </div>
+
+            <div class="face left">
+                <h2>Transmission</h2>
+                <h1>Let's<br>Build.</h1>
+                <p>Available for high-impact projects.</p>
+                <a href="mailto:contact@thecarlos.in" class="btn">INITIALIZE EMAIL</a>
+                <br>
+                <a href="/" style="color:#444; font-size:0.8rem; text-decoration:none; margin-top:20px;">[ EXIT TO DASHBOARD ]</a>
+            </div>
+
         </div>
     </div>
 
-    <div id="viewport">
-        <div id="world">
-            
-            <div class="grid-bg"></div>
-            
-            <svg class="connections">
-                <path class="connector" d="M 5000 5150 L 5000 5350" />
-                <path class="connector" d="M 5250 5000 L 5500 5000" />
-                <path class="connector" d="M 4750 5000 L 4500 5000" />
-                <path class="connector" d="M 5000 4850 L 5000 4650" />
-            </svg>
-
-            <div class="node hero" id="node-center">
-                <div style="z-index:2;">
-                    <h3>Identity</h3>
-                    <h1>Carlos.</h1>
-                    <p>Full Stack Engineer & AI Architect</p>
-                    <p style="margin-top:10px; color:var(--text-muted); font-size:0.8rem;">DRAG TO EXPLORE THE SYSTEM</p>
-                </div>
-            </div>
-
-            <div class="node project" style="top: 350px; left: -175px;">
-                <div class="p-image">
-                    JB
-                </div>
-                <h3>Featured Project</h3>
-                <h2>Janatha Bazar</h2>
-                <p>Supabase integrated tracking system with real-time analytics engine.</p>
-                <div style="margin-top: 15px;">
-                    <span class="tag-pill">REACT</span>
-                    <span class="tag-pill">SQL</span>
-                </div>
-                <a href="/affiliate/" class="btn-action">INITIALIZE MODULE -></a>
-            </div>
-
-            <div class="node project" style="top: -200px; left: 500px;">
-                 <div class="p-image" style="background: #111;">
-                    OS
-                </div>
-                <h3>Experiment</h3>
-                <h2>Web OS UI</h2>
-                <p>Spatial operating system interface built with vanilla JS and CSS Grid.</p>
-                <div style="margin-top: 15px;">
-                    <span class="tag-pill">JS</span>
-                    <span class="tag-pill">CSS</span>
-                </div>
-                <a href="#" class="btn-action">VIEW SOURCE -></a>
-            </div>
-
-            <div class="node stat" style="top: -125px; left: -600px;">
-                <h3>Telemetry</h3>
-                <h2>Skills</h2>
-                <div style="margin-top:20px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.8rem;">
-                        <span>JavaScript</span> <span style="color:var(--accent)">35%</span>
-                    </div>
-                    <div style="width:100%; height:4px; background:#333; margin-bottom:15px;"><div style="width:35%; height:100%; background:white;"></div></div>
-                    
-                    <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.8rem;">
-                        <span>CSS</span> <span style="color:var(--accent)">27%</span>
-                    </div>
-                    <div style="width:100%; height:4px; background:#333;"><div style="width:27%; height:100%; background:white;"></div></div>
-                </div>
-            </div>
-
-            <div class="node contact" style="top: -450px; left: -200px; text-align: center;">
-                <h3>Uplink</h3>
-                <h2 style="font-size: 2rem;">Ready to build?</h2>
-                <p>Available for freelance and full-time collaboration.</p>
-                <a href="mailto:contact@thecarlos.in" class="btn-action" style="font-size:1.2rem; margin-top:20px;">contact@thecarlos.in</a>
-            </div>
-
-        </div>
+    <div class="nav-hud">
+        <div class="dot active" onclick="rotateTo(0)"></div>
+        <div class="dot" onclick="rotateTo(1)"></div>
+        <div class="dot" onclick="rotateTo(2)"></div>
+        <div class="dot" onclick="rotateTo(3)"></div>
     </div>
 
     <script>
-        // --- INFINITE CANVAS LOGIC ---
-        const viewport = document.getElementById('viewport');
-        const world = document.getElementById('world');
-        
-        // State
-        let state = {
-            x: 0,
-            y: 0,
-            scale: 1,
-            isDragging: false,
-            startX: 0,
-            startY: 0
-        };
+        // --- 3D ROTATION LOGIC ---
+        const cube = document.getElementById('cube');
+        const dots = document.querySelectorAll('.dot');
+        let currentFace = 0; // 0=Front, 1=Right, 2=Back, 3=Left
+        let isSpinning = false;
 
-        // HUD Elements
-        const elX = document.getElementById('co-x');
-        const elY = document.getElementById('co-y');
-        const elZ = document.getElementById('co-z');
-
-        function updateTransform() {
-            world.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        function updateCube() {
+            const rotation = currentFace * -90;
+            cube.style.transform = `translateZ(calc(var(--cube-size) / -2)) rotateY(${rotation}deg)`;
             
-            // Update HUD
-            elX.innerText = Math.round(state.x);
-            elY.innerText = Math.round(state.y);
-            elZ.innerText = Math.round(state.scale * 100) + '%';
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentFace);
+            });
         }
 
-        // --- MOUSE DRAG ---
-        viewport.addEventListener('mousedown', (e) => {
-            state.isDragging = true;
-            state.startX = e.clientX - state.x;
-            state.startY = e.clientY - state.y;
-            viewport.style.cursor = 'grabbing';
-        });
-
-        window.addEventListener('mouseup', () => {
-            state.isDragging = false;
-            viewport.style.cursor = 'grab';
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!state.isDragging) return;
-            e.preventDefault();
-            state.x = e.clientX - state.startX;
-            state.y = e.clientY - state.startY;
-            requestAnimationFrame(updateTransform);
-        });
-
-        // --- ZOOM (SCROLL) ---
-        viewport.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const zoomSensitivity = 0.001;
-            const delta = -e.deltaY * zoomSensitivity;
-            const newScale = Math.min(Math.max(0.2, state.scale + delta), 3);
-            
-            // Zoom towards mouse pointer logic (simplified for center zoom mostly)
-            // To zoom to mouse, we adjust X/Y based on pointer position relative to world
-            // For stability, we will just zoom center for now to keep code clean and robust
-            
-            state.scale = newScale;
-            requestAnimationFrame(updateTransform);
-        }, { passive: false });
-
-        // --- CONTROLS ---
-        function zoomIn() { state.scale = Math.min(state.scale + 0.2, 3); updateTransform(); }
-        function zoomOut() { state.scale = Math.max(state.scale - 0.2, 0.2); updateTransform(); }
-        function resetView() { 
-            state.x = 0; state.y = 0; state.scale = 1; 
-            updateTransform(); 
+        // Manual Navigation
+        function rotateTo(faceIndex) {
+            currentFace = faceIndex;
+            updateCube();
         }
 
-        // --- TOUCH SUPPORT (Mobile) ---
-        let touchStartDist = 0;
-        
-        viewport.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                state.isDragging = true;
-                state.startX = e.touches[0].clientX - state.x;
-                state.startY = e.touches[0].clientY - state.y;
-            } else if (e.touches.length === 2) {
-                touchStartDist = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
+        // Scroll Navigation
+        let lastScrollTime = 0;
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScrollTime < 800) return; // Debounce fast scrolls
+            lastScrollTime = now;
+
+            if (e.deltaY > 0) {
+                // Scroll Down -> Rotate Right
+                currentFace++;
+                if (currentFace > 3) currentFace = 0;
+            } else {
+                // Scroll Up -> Rotate Left
+                currentFace--;
+                if (currentFace < 0) currentFace = 3;
+            }
+            updateCube();
+        });
+
+        // Touch Swipe Navigation
+        let touchStartX = 0;
+        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        window.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > 50) { // Threshold
+                if (diff > 0) {
+                    currentFace++; // Swipe Left -> Next
+                    if (currentFace > 3) currentFace = 0;
+                } else {
+                    currentFace--; // Swipe Right -> Prev
+                    if (currentFace < 0) currentFace = 3;
+                }
+                updateCube();
             }
         });
 
-        viewport.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            if (e.touches.length === 1 && state.isDragging) {
-                state.x = e.touches[0].clientX - state.startX;
-                state.y = e.touches[0].clientY - state.startY;
-                requestAnimationFrame(updateTransform);
-            } else if (e.touches.length === 2) {
-                const dist = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                const delta = dist - touchStartDist;
-                state.scale = Math.min(Math.max(0.2, state.scale + delta * 0.005), 3);
-                touchStartDist = dist;
-                requestAnimationFrame(updateTransform);
-            }
-        });
-
-        viewport.addEventListener('touchend', () => state.isDragging = false);
-
-        // --- INITIAL ANIMATION ---
+        // Intro Animation
         setTimeout(() => {
-            world.style.transition = 'transform 1s cubic-bezier(0.16, 1, 0.3, 1)';
-            state.scale = 0.8; // Start slightly zoomed out
-            updateTransform();
-            setTimeout(() => { world.style.transition = 'none'; }, 1000); // Remove transition for drag performance
+            cube.style.transition = 'transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         }, 100);
-
-        // --- DUST PARTICLES ---
-        for(let i=0; i<20; i++) {
-            const d = document.createElement('div');
-            d.classList.add('dust');
-            d.style.left = (Math.random() * 2000 - 1000) + 'px';
-            d.style.top = (Math.random() * 2000 - 1000) + 'px';
-            world.appendChild(d);
-        }
 
     </script>
 </body>
