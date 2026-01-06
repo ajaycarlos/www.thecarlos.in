@@ -3,394 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | SENTIENT CORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- 1. PREMIUM CSS VARIABLES --- */
-        :root {
-            --bg-dark: #050505;
-            --glass-bg: rgba(20, 20, 20, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --accent: #3b82f6; /* Premium Blue */
-            --accent-glow: rgba(59, 130, 246, 0.5);
-            --danger: #ef4444;
-            --font-ui: 'Inter', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
-            
-            --core-width: 400px;
-            --core-height: 500px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-ui);
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* --- 2. AMBIENT BACKGROUND --- */
-        /* Animated Aurora Blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: float 10s infinite ease-in-out;
-            z-index: 0;
-        }
-        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #4c1d95; animation-delay: 0s; }
-        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: #0f4c75; animation-delay: 2s; }
-        .blob-3 { top: 40%; left: 40%; width: 300px; height: 300px; background: #be185d; animation-delay: 4s; opacity: 0.4;}
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
-        }
-
-        /* Noise Overlay for Texture */
-        .noise {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* --- 3. THE SENTIENT CORE (Main UI) --- */
-        #core {
-            position: relative;
-            width: var(--core-width);
-            height: var(--core-height);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(255,255,255,0.05) inset;
-            z-index: 10;
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-                        height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header / Nav */
-        .core-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            height: 70px;
-            flex-shrink: 0;
-        }
-
-        .brand {
-            font-family: var(--font-code);
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
-
-        .nav-icons { display: flex; gap: 15px; }
-        .nav-btn {
-            background: none; border: none; color: var(--text-muted);
-            cursor: pointer; transition: 0.3s; font-size: 1.1rem;
-        }
-        .nav-btn:hover, .nav-btn.active { color: var(--text-main); transform: scale(1.1); }
-
-        /* Content Area */
-        .viewport {
-            flex-grow: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .view {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            padding: 24px;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            transition: 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto; /* Allow scroll inside if needed */
-        }
-        /* Hide scrollbar */
-        .view::-webkit-scrollbar { width: 0px; }
-
-        .view.active-view {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        /* --- 4. VIEW SPECIFIC STYLES --- */
-        
-        /* Home View */
-        .hero-title {
-            font-size: 2.5rem;
-            line-height: 1.1;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.5; margin-bottom: 30px; }
-        
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: auto;
-        }
-        .tile {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 120px;
-        }
-        .tile:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); border-color: rgba(255,255,255,0.1); }
-        .tile i { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); }
-        .tile span { font-size: 0.85rem; color: var(--text-muted); }
-
-        /* Projects View */
-        .project-list { display: flex; flex-direction: column; gap: 15px; }
-        .project-card {
-            display: flex;
-            gap: 15px;
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.2s;
-            text-decoration: none;
-            color: inherit;
-        }
-        .project-card:hover { background: rgba(255,255,255,0.08); }
-        .p-icon {
-            width: 40px; height: 40px; background: rgba(59, 130, 246, 0.2);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            color: var(--accent);
-        }
-        .p-info h4 { font-size: 1rem; margin-bottom: 4px; }
-        .p-info p { font-size: 0.8rem; color: var(--text-muted); }
-
-        /* Stats View */
-        .stat-row { margin-bottom: 15px; }
-        .stat-head { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px; font-family: var(--font-code); }
-        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-        .fill { height: 100%; background: var(--text-main); border-radius: 3px; }
-        .fill.blue { background: #3b82f6; }
-        .fill.purple { background: #a855f7; }
-        .fill.orange { background: #f97316; }
-
-        /* Exit Button */
-        .exit-link {
-            position: absolute; bottom: 30px; text-decoration: none;
-            color: var(--text-muted); font-size: 0.8rem; letter-spacing: 2px;
-            opacity: 0.5; transition: 0.3s;
-        }
-        .exit-link:hover { opacity: 1; color: var(--danger); }
-
-        /* Scramble Effect Class */
-        .scramble { display: inline-block; min-width: 100px; }
-
-    </style>
+    <title>Carlos OS | Portfolio Module</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="noise"></div>
-    
-    <a href="/" class="exit-link">TERMINATE SESSION</a>
+    <div class="overlay"></div> <nav class="top-bar fade-in">
+        <a href="/" class="back-link">
+            <span class="bracket">[</span> BACK_TO_ROOT <span class="bracket">]</span>
+        </a>
+        <div class="system-status">
+            <span class="blink">●</span> SYSTEM ONLINE
+        </div>
+    </nav>
 
-    <div id="core">
+    <div class="bento-grid">
         
-        <div class="core-header">
-            <div class="brand">
-                <div class="status-dot"></div>
-                <span id="brand-text">THE CARLOS</span>
+        <div class="card profile" data-tilt>
+            <div class="card-content">
+                <div class="glitch-wrapper">
+                    <h1 class="glitch" data-text="THE CARLOS">THE CARLOS</h1>
+                </div>
+                <p class="role">Full Stack Developer // AI Architect</p>
+                <div class="tags">
+                    <span>DEV</span>
+                    <span>AI</span>
+                    <span>WEB3</span>
+                </div>
             </div>
-            <nav class="nav-icons">
-                <button class="nav-btn active" onclick="switchView('home')" title="Home"><i class="fas fa-home">⌂</i></button>
-                <button class="nav-btn" onclick="switchView('work')" title="Work"><i class="fas fa-layer-group">❖</i></button>
-                <button class="nav-btn" onclick="switchView('stats')" title="Stats"><i class="fas fa-chart-pie">⚡</i></button>
-                <button class="nav-btn" onclick="window.location.href='mailto:contact@thecarlos.in'" title="Contact"><i class="fas fa-envelope">✉</i></button>
-            </nav>
+            <div class="bg-decoration"></div>
         </div>
 
-        <div class="viewport">
-            
-            <div class="view active-view" id="view-home" data-width="400" data-height="500">
-                <h1 class="hero-title">Hello,<br>I'm Carlos.</h1>
-                <p class="hero-sub">Full Stack Developer & AI Architect. I build digital products that feel alive.</p>
-                
-                <div class="action-grid">
-                    <div class="tile" onclick="switchView('work')">
-                        <i>❖</i>
-                        <span>View Projects</span>
-                    </div>
-                    <div class="tile" onclick="switchView('stats')">
-                        <i>⚡</i>
-                        <span>Analyze Skills</span>
-                    </div>
+        <div class="card terminal" data-tilt>
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span>bash — 80x24</span>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <div class="output">Initializing portfolio module...</div>
+                <div class="output">Loading assets... <span class="success">Done.</span></div>
+                <div class="input-line">
+                    <span class="prompt">root@carlos:~$</span>
+                    <span class="typing" id="typewriter"></span><span class="cursor">_</span>
                 </div>
             </div>
-
-            <div class="view" id="view-work" data-width="600" data-height="550">
-                <h2 class="scramble-target" style="margin-bottom: 20px;">SELECTED WORKS</h2>
-                <div class="project-list">
-                    
-                    <a href="/affiliate/" class="project-card">
-                        <div class="p-icon">JB</div>
-                        <div class="p-info">
-                            <h4>Janatha Bazar Affiliate</h4>
-                            <p>Supabase integrated tracking system with real-time analytics.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card">
-                        <div class="p-icon">AI</div>
-                        <div class="p-info">
-                            <h4>Chatbot Integration</h4>
-                            <p>Custom LLM implementation for customer support.</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="project-card">
-                        <div class="p-icon">OS</div>
-                        <div class="p-info">
-                            <h4>The Carlos OS</h4>
-                            <p>Experimental web-based operating system UI.</p>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="view" id="view-stats" data-width="380" data-height="600">
-                <h2 class="scramble-target" style="margin-bottom: 30px;">SYSTEM STATUS</h2>
-                
-                <div class="stat-row">
-                    <div class="stat-head"><span>JAVASCRIPT</span> <span>35.9%</span></div>
-                    <div class="progress-bar"><div class="fill blue" style="width: 35.9%"></div></div>
-                </div>
-
-                <div class="stat-row">
-                    <div class="stat-head"><span>CSS / TAILWIND</span> <span>26.9%</span></div>
-                    <div class="progress-bar"><div class="fill purple" style="width: 26.9%"></div></div>
-                </div>
-
-                <div class="stat-row">
-                    <div class="stat-head"><span>HTML</span> <span>23.3%</span></div>
-                    <div class="progress-bar"><div class="fill orange" style="width: 23.3%"></div></div>
-                </div>
-
-                <div class="stat-row" style="margin-top: 40px">
-                    <div class="stat-head"><span>SERVER STATUS</span> <span style="color:#10b981">ONLINE</span></div>
-                    <div class="stat-head"><span>LOCATION</span> <span>IN, KERALA</span></div>
-                    <div class="stat-head"><span>TIME</span> <span id="clock">00:00</span></div>
-                </div>
-            </div>
-
         </div>
+
+        <div class="card tech-stack" data-tilt>
+            <h3><i class="fas fa-code"></i> Tech_Stack.exe</h3>
+            <div class="progress-wrapper">
+                <div class="skill">
+                    <div class="skill-info">
+                        <span>JavaScript</span>
+                        <span>35.9%</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill js" style="width: 35.9%"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-info">
+                        <span>CSS</span>
+                        <span>26.9%</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill css" style="width: 26.9%"></div></div>
+                </div>
+                <div class="skill">
+                    <div class="skill-info">
+                        <span>HTML</span>
+                        <span>23.3%</span>
+                    </div>
+                    <div class="bar-bg"><div class="bar-fill html" style="width: 23.3%"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project" data-tilt style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/affiliate/Janathabazar-logo.png'); background-size: cover;">
+            <div class="project-details">
+                <div class="badge">FEATURED</div>
+                <h2>Janatha Bazar Affiliate</h2>
+                <p>Advanced affiliate tracking system powered by Supabase.</p>
+                <a href="/affiliate/" class="glow-btn">INITIALIZE APP</a>
+            </div>
+        </div>
+
+        <div class="card widget-time" data-tilt>
+            <div class="clock" id="clock">00:00:00</div>
+            <div class="date" id="date">LOADING DATE</div>
+            <div class="location">IN, KERALA</div>
+        </div>
+
+        <div class="card social" data-tilt>
+            <h3> uplink_connection</h3>
+            <div class="social-grid">
+                <a href="#" class="s-btn github"><i class="fab fa-github"></i> GH</a>
+                <a href="#" class="s-btn twitter"><i class="fab fa-twitter"></i> TW</a>
+                <a href="mailto:contact@thecarlos.in" class="s-btn email">@ MAIL</a>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        // --- CORE LOGIC ---
-        
-        const core = document.getElementById('core');
-        const views = document.querySelectorAll('.view');
-        const navBtns = document.querySelectorAll('.nav-btn');
-
-        // 1. View Switching & Morphing
-        function switchView(viewName) {
-            // Update Nav
-            navBtns.forEach(btn => btn.classList.remove('active'));
-            // Simple mapping based on index or onclick context, 
-            // but here we manually finding the button for simplicity of code
-            // (Skipped for brevity, focusing on visuals)
-
-            // Hide all views
-            views.forEach(v => v.classList.remove('active-view'));
-
-            // Find target
-            const target = document.getElementById(`view-${viewName}`);
-            target.classList.add('active-view');
-
-            // Morph Core Dimensions
-            const w = target.getAttribute('data-width');
-            const h = target.getAttribute('data-height');
-            
-            core.style.width = `${w}px`;
-            core.style.height = `${h}px`;
-
-            // Trigger Text Scramble on headers
-            const header = target.querySelector('.scramble-target');
-            if(header) scrambleText(header);
-        }
-
-        // 2. Text Scramble Effect (The "Hacker" feel)
-        function scrambleText(element) {
-            const originalText = element.innerText;
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>[]';
-            let iterations = 0;
-            
-            const interval = setInterval(() => {
-                element.innerText = originalText.split('')
-                    .map((letter, index) => {
-                        if(index < iterations) return originalText[index];
-                        return chars[Math.floor(Math.random() * chars.length)];
-                    })
-                    .join('');
-                
-                if(iterations >= originalText.length) clearInterval(interval);
-                iterations += 1/2; // Speed
-            }, 30);
-        }
-
-        // 3. Live Clock
-        setInterval(() => {
-            const now = new Date();
-            const time = now.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false});
-            const clock = document.getElementById('clock');
-            if(clock) clock.innerText = time;
-        }, 1000);
-
-        // 4. Initial Scramble on Load
-        window.addEventListener('load', () => {
-            scrambleText(document.getElementById('brand-text'));
-        });
-
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
