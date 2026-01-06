@@ -3,385 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | LIQUID SILK</title>
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;600&display=swap" rel="stylesheet">
+    <title>THE CARLOS | X-RAY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. LUXURY STYLING --- */
+        /* --- CSS VARIABLES --- */
         :root {
-            --bg: #050505;
-            --text: #ffffff;
-            --accent: #d4af37; /* Gold */
+            --bg-blueprint: #0a0f18;
+            --line-blueprint: rgba(56, 189, 248, 0.3); /* Cyan lines */
+            --text-blueprint: rgba(56, 189, 248, 0.7);
+            
+            --bg-real: #ffffff;
+            --text-real: #000000;
+            --accent: #2563eb;
+            
+            --lens-size: 300px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Manrope', sans-serif;
-            overflow: hidden; /* Canvas covers everything */
             height: 100vh;
-            width: 100vw;
-            cursor: crosshair;
+            overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* --- 2. CANVAS LAYOUT --- */
-        #liquid-canvas {
+        /* --- 1. LAYER SETUP --- */
+        .layer {
             position: absolute;
             top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-
-        /* --- 3. UI OVERLAY (Floating on top) --- */
-        .ui-layer {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 10;
-            pointer-events: none; /* Let mouse pass through to canvas physics */
+            width: 100vw; height: 100vh;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 2. BOTTOM LAYER: BLUEPRINT (The Structure) --- */
+        #layer-blueprint {
+            background-color: var(--bg-blueprint);
+            color: var(--text-blueprint);
+            z-index: 1;
+            /* Grid Pattern */
+            background-image: 
+                linear-gradient(var(--line-blueprint) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-blueprint) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Wireframe Styling */
+        #layer-blueprint .element {
+            border: 1px solid var(--line-blueprint);
+            background: rgba(56, 189, 248, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+        /* Measurement Markers */
+        #layer-blueprint .element::after {
+            content: attr(data-dims);
+            position: absolute;
+            top: -15px; left: 0;
+            font-size: 0.6rem;
+            color: var(--line-blueprint);
+        }
+        #layer-blueprint h1 { -webkit-text-stroke: 1px var(--line-blueprint); color: transparent; }
+        #layer-blueprint p { opacity: 0.7; border-left: 2px solid var(--line-blueprint); padding-left: 10px; }
+        #layer-blueprint .btn { border: 1px dashed var(--line-blueprint); color: var(--text-blueprint); }
+
+        /* --- 3. TOP LAYER: REALITY (The Render) --- */
+        #layer-real {
+            background-color: var(--bg-real);
+            color: var(--text-real);
+            z-index: 2;
+            
+            /* THE MAGIC: Masking the top layer */
+            /* We start with a 0% circle (hidden) */
+            mask-image: radial-gradient(circle var(--lens-size) at var(--x) var(--y), black 100%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle var(--lens-size) at var(--x) var(--y), black 100%, transparent 100%);
+        }
+
+        /* Real Styling */
+        #layer-real .content-wrapper { filter: drop-shadow(0 20px 50px rgba(0,0,0,0.2)); }
+        #layer-real h1 { color: #000; font-weight: 700; }
+        #layer-real p { color: #555; border-left: 2px solid var(--accent); padding-left: 10px; }
+        #layer-real .btn { 
+            background: var(--accent); color: white; border: none; 
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* --- 4. SHARED CONTENT LAYOUT --- */
+        .content-wrapper {
+            width: 80%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
             padding: 50px;
         }
 
-        .header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-        }
+        .text-col { display: flex; flex-direction: column; gap: 30px; }
+        
+        h1 { font-size: 5rem; line-height: 0.9; text-transform: uppercase; margin-bottom: 20px; }
+        h3 { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+        p { font-size: 1.1rem; line-height: 1.6; max-width: 400px; }
 
-        .brand {
-            font-family: 'Italiana', serif;
-            font-size: 3rem;
-            line-height: 0.9;
-            text-transform: uppercase;
-            mix-blend-mode: exclusion; /* Cool interaction with background */
-        }
-
-        .nav {
-            pointer-events: auto; /* Enable clicks */
-            display: flex; gap: 40px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: rgba(255,255,255,0.7);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            position: relative;
-            transition: 0.3s;
-        }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 0%; height: 1px; background: var(--accent);
-            transition: 0.3s;
-        }
-        .nav-link:hover { color: white; }
-        .nav-link:hover::after { width: 100%; }
-
-        /* Main Center Text */
-        .hero-center {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            mix-blend-mode: overlay;
-            opacity: 0.8;
-        }
-        .hero-center h2 {
-            font-family: 'Italiana', serif;
-            font-size: 8vw;
-            line-height: 1;
-            white-space: nowrap;
-        }
-        .hero-center p {
+        .btn {
+            padding: 15px 40px;
             font-size: 1rem;
-            letter-spacing: 5px;
             text-transform: uppercase;
-            margin-top: 20px;
-        }
-
-        /* Project Links (Bottom) */
-        .footer {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            pointer-events: auto;
-        }
-
-        .project-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 20px 40px;
-            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            width: fit-content;
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        .project-btn:hover {
-            background: white; color: black;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            display: inline-block;
         }
 
-        .status {
-            font-family: 'Manrope', sans-serif;
-            font-size: 0.7rem; color: #666;
-            text-transform: uppercase; letter-spacing: 1px;
-            text-align: right;
+        .img-col {
+            position: relative;
+            height: 500px;
+            width: 100%;
+            display: flex;
+            align-items: center; justify-content: center;
         }
 
-        /* Intro Animation */
-        .fade-in {
-            animation: fadeIn 2s ease-out forwards;
-            opacity: 0;
+        /* Image Styling Differences */
+        #layer-blueprint .img-placeholder {
+            width: 100%; height: 100%;
+            border: 1px solid var(--line-blueprint);
+            display: flex; align-items: center; justify-content: center;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(56, 189, 248, 0.05) 10px, rgba(56, 189, 248, 0.05) 20px);
         }
-        @keyframes fadeIn { to { opacity: 1; } }
+        
+        #layer-real .project-card {
+            width: 100%; height: 100%;
+            background: #f3f4f6;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        #layer-real .project-card img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        #layer-real .card-overlay {
+            position: absolute; bottom: 30px; left: 30px;
+            background: white; padding: 15px 25px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* --- 5. CUSTOM CURSOR --- */
+        .cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            width: var(--lens-size); height: var(--lens-size);
+            border: 2px solid white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 50px rgba(255,255,255,0.2);
+        }
+        
+        .cursor-center {
+            position: fixed;
+            top: 0; left: 0;
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 101;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Hint */
+        .hint {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            color: var(--text-blueprint); font-family: 'JetBrains Mono'; font-size: 0.8rem;
+            z-index: 50; text-transform: uppercase; letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 20px; z-index: 100;
+        }
+        .dot {
+            width: 10px; height: 10px; background: rgba(56, 189, 248, 0.3);
+            border-radius: 50%; cursor: pointer; transition: 0.3s;
+        }
+        .dot.active { background: var(--accent); transform: scale(1.5); }
 
     </style>
 </head>
 <body>
 
-    <canvas id="liquid-canvas"></canvas>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="cursor-center" id="cursor-center"></div>
+    <div class="hint">Scope Enabled // Move to Render</div>
 
-    <div class="ui-layer">
-        <div class="header fade-in">
-            <div class="brand">The<br>Carlos</div>
-            <nav class="nav">
-                <a href="#" class="nav-link" onclick="switchImage(0)">Identity</a>
-                <a href="#" class="nav-link" onclick="switchImage(1)">Work</a>
-                <a href="#" class="nav-link" onclick="switchImage(2)">Contact</a>
-            </nav>
-        </div>
+    <div class="nav-dots">
+        <div class="dot active" onclick="setProject(0)"></div>
+        <div class="dot" onclick="setProject(1)"></div>
+        <div class="dot" onclick="setProject(2)"></div>
+    </div>
 
-        <div class="hero-center fade-in">
-            <h2>DIGITAL ARTISAN</h2>
-            <p>Interactive Experience</p>
-        </div>
-
-        <div class="footer fade-in">
-            <a href="/affiliate/" class="project-btn">View Janatha Project</a>
-            <div class="status">
-                System: Stable<br>
-                Render: Canvas 2D
+    <div class="layer" id="layer-blueprint">
+        <div class="content-wrapper element" data-dims="1200px x 800px">
+            
+            <div class="text-col">
+                <h3 class="element" data-dims="font: mono-12">System.Type: Identity</h3>
+                <h1 class="element" data-dims="h1: bold-80">The<br>Architect</h1>
+                <p class="element" data-dims="p: 400px">
+                    // Defining structural integrity.<br>
+                    // Merging backend logic with frontend aesthetics.<br>
+                    // Status: Online.
+                </p>
+                <a href="#" class="btn element" data-dims="btn: 180x50">Execute_Contact()</a>
             </div>
+
+            <div class="img-col">
+                <div class="img-placeholder element" data-dims="img: 500x500">
+                    [ IMG_SLOT_01: NULL ]
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div style="display:none;">
-        <img id="img-0" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
-        <img id="img-1" src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
-        <img id="img-2" src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop" crossorigin="anonymous">
+    <div class="layer" id="layer-real">
+        <div class="content-wrapper">
+            
+            <div class="text-col">
+                <h3 style="color: var(--accent);">Full Stack Developer</h3>
+                <h1>Carlos<br>Portfolio</h1>
+                <p>
+                    I turn complex problems into elegant, user-centric interfaces. 
+                    From database architecture to pixel-perfect animation.
+                </p>
+                <a href="mailto:contact@thecarlos.in" class="btn">Start a Project</a>
+            </div>
+
+            <div class="img-col">
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1481487484168-9b930d55236e?q=80&w=1000&auto=format&fit=crop" alt="Project">
+                    <div class="card-overlay">
+                        <strong style="display:block; font-size:1.2rem;">Janatha Bazar</strong>
+                        <span style="font-size:0.9rem; color:#666;">Affiliate System</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        /* --- THE LIQUID PHYSICS ENGINE --- */
-        // This script creates a mesh of points connected by springs.
-        // It maps an image to these points.
-        // Mouse movement disturbs the points, creating a liquid ripple.
-
-        const canvas = document.getElementById('liquid-canvas');
-        const ctx = canvas.getContext('2d');
+        // --- 1. MOUSE TRACKING & MASKING ---
+        const layerReal = document.getElementById('layer-real');
+        const cursorRing = document.getElementById('cursor-ring');
+        const cursorCenter = document.getElementById('cursor-center');
         
-        let width, height;
-        let activeImage = document.getElementById('img-0');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
 
-        // Physics Config
-        const cols = 40; // Resolution X
-        const rows = 25; // Resolution Y
-        const damping = 0.94; // How fast ripples fade (0.9 - 0.99)
-        const stiffness = 0.02; // Spring stiffness
-        const mouseRadius = 150;
-        const mouseStrength = 0.5;
+        // Smooth follow variables
+        let cursorX = mouseX;
+        let cursorY = mouseY;
 
-        // Grid Arrays
-        let points = [];
-        let gapX, gapY;
-
-        class Point {
-            constructor(x, y, u, v) {
-                this.x = x;     // Current X
-                this.y = y;     // Current Y
-                this.ox = x;    // Original X
-                this.oy = y;    // Original Y
-                this.vx = 0;    // Velocity X
-                this.vy = 0;    // Velocity Y
-                this.u = u;     // Texture coord U (0-1)
-                this.v = v;     // Texture coord V (0-1)
-            }
-
-            update(mouseX, mouseY) {
-                // 1. Spring force (Return to original position)
-                const dx = this.ox - this.x;
-                const dy = this.oy - this.y;
-                
-                this.vx += dx * stiffness;
-                this.vy += dy * stiffness;
-
-                // 2. Mouse Interaction (Repulsion)
-                const distX = mouseX - this.x;
-                const distY = mouseY - this.y;
-                const dist = Math.sqrt(distX*distX + distY*distY);
-
-                if (dist < mouseRadius) {
-                    const force = (mouseRadius - dist) / mouseRadius;
-                    const angle = Math.atan2(distY, distX);
-                    const fx = Math.cos(angle) * force * mouseStrength * -10; // Push away
-                    const fy = Math.sin(angle) * force * mouseStrength * -10;
-                    
-                    this.vx += fx;
-                    this.vy += fy;
-                }
-
-                // 3. Apply Velocity & Damping
-                this.vx *= damping;
-                this.vy *= damping;
-                this.x += this.vx;
-                this.y += this.vy;
-            }
-        }
-
-        function init() {
-            resize();
-            createGrid();
-            loop();
-        }
-
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            createGrid(); // Re-create grid on resize
-        }
-        window.addEventListener('resize', resize);
-
-        function createGrid() {
-            points = [];
-            gapX = width / (cols - 1);
-            gapY = height / (rows - 1);
-
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const px = x * gapX;
-                    const py = y * gapY;
-                    // Normalized UV coordinates for texture mapping
-                    const u = x / (cols - 1);
-                    const v = y / (rows - 1);
-                    points.push(new Point(px, py, u, v));
-                }
-            }
-        }
-
-        // Mouse Tracker
-        let mx = -1000, my = -1000;
-        window.addEventListener('mousemove', e => {
-            mx = e.clientX;
-            my = e.clientY;
-        });
-        // Touch support
-        window.addEventListener('touchmove', e => {
-            mx = e.touches[0].clientX;
-            my = e.touches[0].clientY;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        function loop() {
-            ctx.clearRect(0, 0, width, height);
+        // Loop for smooth animation
+        function animate() {
+            // Linear interpolation for smoothness
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
 
-            // 1. Update Physics
-            for (let i = 0; i < points.length; i++) {
-                points[i].update(mx, my);
+            // Update CSS variables for the Mask
+            layerReal.style.setProperty('--x', cursorX + 'px');
+            layerReal.style.setProperty('--y', cursorY + 'px');
+
+            // Move the visible cursor elements
+            cursorRing.style.left = cursorX + 'px';
+            cursorRing.style.top = cursorY + 'px';
+            
+            cursorCenter.style.left = mouseX + 'px'; // Center dot is instant
+            cursorCenter.style.top = mouseY + 'px';
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 2. PROJECT SWITCHING (Data Handling) ---
+        const projects = [
+            {
+                type: "Identity", typeReal: "Full Stack Developer",
+                title: "The<br>Architect", titleReal: "Carlos<br>Portfolio",
+                desc: "// Defining structural integrity.<br>// Merging backend logic.<br>// Status: Online.",
+                descReal: "I turn complex problems into elegant, user-centric interfaces. From database architecture to pixel-perfect animation.",
+                btn: "Execute_Contact()", btnReal: "Start a Project",
+                link: "mailto:contact@thecarlos.in",
+                img: "https://images.unsplash.com/photo-1481487484168-9b930d55236e?q=80&w=1000&auto=format&fit=crop",
+                projName: "Latest Build", projCat: "Identity"
+            },
+            {
+                type: "Module_01", typeReal: "Featured Project",
+                title: "Affiliate<br>Core", titleReal: "Janatha<br>Bazar",
+                desc: "// Supabase Integration.<br>// Real-time analytics engine.<br>// ROI: Optimized.",
+                descReal: "A comprehensive affiliate tracking system. Features real-time dashboards, commission logic, and seamless payouts.",
+                btn: "Init_System()", btnReal: "View Case Study",
+                link: "/affiliate/",
+                img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
+                projName: "Janatha Bazar", projCat: "Web App"
+            },
+            {
+                type: "Module_02", typeReal: "Experimental",
+                title: "Neural<br>Net", titleReal: "AI Chat<br>Bot",
+                desc: "// LLM API Connectivity.<br>// Python Backend processing.<br>// Latency: <100ms.",
+                descReal: "Bridging human intent with machine intelligence. A custom trained LLM specifically for customer support.",
+                btn: "Ping_Server()", btnReal: "Test Demo",
+                link: "#",
+                img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1000&auto=format&fit=crop",
+                projName: "AI Assistant", projCat: "Python/API"
             }
+        ];
 
-            // 2. Draw Mesh (Triangulation)
-            // We draw triangles connecting the points and clip the image to them
-            // Note: Canvas doesn't support true mesh warping easily, so we use a visual trick
-            // by drawing small image slices or lines.
-            
-            // For a smoother "Liquid" look in pure 2D Canvas without WebGL, 
-            // we will draw connected lines with the image as a pattern, 
-            // OR simply draw the wireframe if the image isn't loaded yet.
-            
-            // Optimized Draw:
-            // We draw the image by iterating quads
-            
-            for (let y = 0; y < rows - 1; y++) {
-                for (let x = 0; x < cols - 1; x++) {
-                    const i = x + y * cols;         // Top-Left
-                    const i2 = (x + 1) + y * cols;  // Top-Right
-                    const i3 = (x + 1) + (y + 1) * cols; // Bottom-Right
-                    const i4 = x + (y + 1) * cols;  // Bottom-Left
+        const blueLayer = document.querySelector('#layer-blueprint .content-wrapper');
+        const realLayer = document.querySelector('#layer-real .content-wrapper');
+        const dots = document.querySelectorAll('.dot');
 
-                    const p1 = points[i];
-                    const p2 = points[i2];
-                    const p3 = points[i3];
-                    const p4 = points[i4];
-
-                    // Draw Quad
-                    // To map the image, we approximate by drawing a polygon 
-                    // and clipping the relevant part of the source image.
-                    // This is computationally heavy, so we optimize by drawing slightly larger chunks
-                    // or simplifying. 
-                    
-                    // Fast Approximated Texture Mapping:
-                    drawTextureQuad(activeImage, p1, p2, p3, p4);
-                }
-            }
+        function setProject(index) {
+            const p = projects[index];
             
-            requestAnimationFrame(loop);
+            // Update UI
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+            // BLUEPRINT UPDATE
+            blueLayer.querySelector('h3').innerText = `System.Type: ${p.type}`;
+            blueLayer.querySelector('h1').innerHTML = p.title;
+            blueLayer.querySelector('p').innerHTML = p.desc;
+            blueLayer.querySelector('.btn').innerText = p.btn;
+            
+            // REAL UPDATE
+            realLayer.querySelector('h3').innerText = p.typeReal;
+            realLayer.querySelector('h1').innerHTML = p.titleReal;
+            realLayer.querySelector('p').innerHTML = p.descReal;
+            realLayer.querySelector('.btn').innerText = p.btnReal;
+            realLayer.querySelector('.btn').href = p.link;
+            realLayer.querySelector('img').src = p.img;
+            realLayer.querySelector('.card-overlay strong').innerText = p.projName;
+            realLayer.querySelector('.card-overlay span').innerText = p.projCat;
         }
 
-        function drawTextureQuad(img, p1, p2, p3, p4) {
-            // Calculate source coordinates based on UV
-            const sw = img.naturalWidth;
-            const sh = img.naturalHeight;
-            
-            const sx = p1.u * sw;
-            const sy = p1.v * sh;
-            const sWidth = (p2.u - p1.u) * sw;
-            const sHeight = (p4.v - p1.v) * sh;
-
-            // Save context for clipping
-            ctx.save();
-            
-            // Define the distorted shape path
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.lineTo(p3.x, p3.y);
-            ctx.lineTo(p4.x, p4.y);
-            ctx.closePath();
-            
-            // Clip to this shape
-            ctx.clip();
-            
-            // Draw the full image (transformed)
-            // Mathematical transformation to fit image chunk into distorted quad is complex in 2D.
-            // Simplified: We draw the image chunk slightly larger at the centroid position.
-            // This creates the "Broken Glass / Liquid" refraction look.
-            
-            // Calculate target dimensions
-            const tx = p1.x;
-            const ty = p1.y;
-            const tw = (p2.x - p1.x) * 1.02; // Slight overlap to prevent gaps
-            const th = (p4.y - p1.y) * 1.02;
-
-            ctx.drawImage(img, sx, sy, sWidth, sHeight, tx, ty, tw, th);
-            
-            ctx.restore();
-        }
-        
-        // Image Switcher
-        function switchImage(index) {
-            const newImg = document.getElementById('img-' + index);
-            if(newImg) {
-                activeImage = newImg;
-            }
-        }
-
-        // Wait for images to load before starting
-        window.onload = init;
+        // Add Click events to Blueprint buttons too
+        document.querySelector('#layer-blueprint .btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Trigger the click on the real button
+            document.querySelector('#layer-real .btn').click();
+        });
 
     </script>
 </body>
