@@ -3,286 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE CARLOS | DUALITY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <title>THE CARLOS | EDITORIAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS RESET --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Custom cursor */ }
-        body, html { width: 100%; height: 100%; overflow: hidden; }
-
-        /* --- 1. THE ARCHITECT LAYER (Background / Code) --- */
-        .layer-architect {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #050505;
-            color: #00ff41; /* Terminal Green */
-            font-family: 'JetBrains Mono', monospace;
-            overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; padding: 10vw;
-            z-index: 1;
-            /* Technical Grid Pattern */
-            background-image: 
-                linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
+        /* --- 1. PREMIUM RESET --- */
+        :root {
+            --bg: #0a0a0a;
+            --text: #e1e1e1;
+            --accent: #d4af37; /* Subtle Gold */
+            --easing: cubic-bezier(0.165, 0.84, 0.44, 1); /* "Quart" Ease */
         }
 
-        .layer-architect h1 { font-size: 6vw; text-transform: uppercase; letter-spacing: -5px; opacity: 0.8; }
-        .layer-architect p { font-size: 1rem; margin-top: 20px; max-width: 500px; line-height: 1.6; opacity: 0.6; }
-        .code-tag { color: #555; font-size: 0.8rem; display: block; margin-bottom: 5px; }
-        
-        /* Raw technical details decor */
-        .tech-specs {
-            position: absolute; bottom: 50px; right: 50px; text-align: right;
-            font-size: 0.7rem; color: #333;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Manrope', sans-serif;
+            overflow: hidden; /* We handle scroll via JS */
+            height: 100vh;
+            width: 100vw;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 2. THE VISIONARY LAYER (Foreground / Design) --- */
-        .layer-visionary {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #f0f0f0;
-            color: #111;
-            font-family: 'Cinzel', serif;
+        /* --- 2. VIRTUAL SCROLL CONTAINER --- */
+        .viewport {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center; padding: 10vw;
+        }
+
+        .scroll-container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            will-change: transform; /* GPU Acceleration */
+        }
+
+        /* --- 3. TYPOGRAPHY & LAYOUT --- */
+        .section {
+            padding: 15vh 10vw;
+            position: relative;
+        }
+
+        /* Reveal Masks */
+        .reveal-text {
+            overflow: hidden;
+            display: block;
+            line-height: 1.1;
+        }
+        .reveal-text span {
+            display: block;
+            transform: translateY(100%);
+            transition: transform 1.5s var(--easing);
+        }
+        .in-view .reveal-text span { transform: translateY(0); }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 9vw;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: #fff;
+            mix-blend-mode: difference;
             z-index: 2;
-            
-            /* THE MAGIC: Initial Clip Path (Updated by JS) */
-            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
-            transition: clip-path 0.1s linear; /* Smoothness for mouse lag */
+        }
+        .hero p {
+            margin-top: 40px;
+            font-size: 1.2rem;
+            max-width: 400px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
         }
 
-        .layer-visionary h1 { font-size: 6vw; text-transform: uppercase; letter-spacing: 10px; font-weight: 700; color: #000; }
-        .layer-visionary p { font-size: 1.2rem; margin-top: 20px; max-width: 500px; line-height: 1.4; font-weight: 600; font-family: sans-serif; letter-spacing: 1px;}
-        
-        /* Visionary Decor */
-        .art-element {
-            position: absolute; top: 10%; right: 10%;
-            font-size: 10rem; opacity: 0.05; font-weight: bold; pointer-events: none;
+        /* IMAGES (Parallax Wrapper) */
+        .parallax-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 60vh;
+            margin: 50px 0;
         }
-
-        /* --- 3. THE SPLIT LINE (Slider UI) --- */
-        .split-line {
+        .parallax-img {
             position: absolute;
-            top: 0; bottom: 0; left: 50%;
-            width: 2px;
-            background: #fff;
-            z-index: 10;
-            pointer-events: none;
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+            top: -20%; left: 0;
+            width: 100%; height: 140%; /* Taller for parallax room */
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.5s;
+            filter: grayscale(100%);
         }
-        
-        .split-handle {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px; height: 40px;
-            border: 2px solid white;
-            border-radius: 50%;
-            background: black;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 12px;
-            z-index: 11;
-            box-shadow: 0 0 30px rgba(255,255,255,0.8);
+        .parallax-wrapper:hover .parallax-img {
+            opacity: 1;
+            filter: grayscale(0%);
         }
 
-        /* --- 4. CONTENT NAVIGATION (Shared) --- */
-        .nav-dots {
-            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 20px; z-index: 100;
+        /* PROJECTS LIST */
+        .project-row {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 60px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+            cursor: pointer;
         }
-        .dot {
-            width: 6px; height: 6px; background: #888; border-radius: 50%; cursor: pointer; transition: 0.3s;
-        }
-        .dot.active { transform: scale(2); background: #f00; }
+        .project-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .project-row:hover { padding-left: 20px; background: rgba(255,255,255,0.02); }
 
-        /* CTA Button (Changes style based on layer) */
-        .btn {
-            margin-top: 40px; padding: 15px 40px; display: inline-block; text-decoration: none; width: fit-content;
+        .p-index { font-size: 0.9rem; opacity: 0.5; font-family: 'Playfair Display'; }
+        .p-title { font-size: 4vw; margin-left: 40px; }
+        .p-tags { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+
+        /* FOOTER */
+        .footer { padding-bottom: 10vh; }
+        .big-link {
+            font-family: 'Playfair Display';
+            font-size: 8vw;
+            text-decoration: none;
+            color: #fff;
+            border-bottom: 1px solid transparent;
             transition: 0.3s;
         }
-        /* Architect Button Style */
-        .layer-architect .btn {
-            border: 1px dashed #00ff41; color: #00ff41; font-family: 'JetBrains Mono';
+        .big-link:hover { opacity: 0.7; }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px; left: 40px; right: 40px;
+            display: flex; justify-content: space-between;
+            z-index: 100;
+            mix-blend-mode: difference;
         }
-        .layer-architect .btn:hover { background: rgba(0,255,65,0.1); }
-        
-        /* Visionary Button Style */
-        .layer-visionary .btn {
-            background: #000; color: #fff; font-family: sans-serif; letter-spacing: 2px; text-transform: uppercase;
+        .nav-logo { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+        .nav-status { font-size: 0.8rem; opacity: 0.8; }
+
+        /* Custom Scrollbar Progress */
+        .scroll-bar {
+            position: fixed; top: 0; right: 0;
+            width: 4px; height: 100vh;
+            background: rgba(255,255,255,0.05);
+            z-index: 100;
         }
-        .layer-visionary .btn:hover { background: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .scroll-thumb {
+            width: 100%; height: 0%;
+            background: var(--accent);
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="split-line" id="split-line"></div>
-    <div class="split-handle" id="split-handle">< ></div>
+    <nav class="nav">
+        <div class="nav-logo">The Carlos.</div>
+        <div class="nav-status">Folio '25</div>
+    </nav>
 
-    <div class="nav-dots">
-        <div class="dot active" onclick="setSlide(0)"></div>
-        <div class="dot" onclick="setSlide(1)"></div>
-        <div class="dot" onclick="setSlide(2)"></div>
-    </div>
+    <div class="scroll-bar"><div class="scroll-thumb" id="thumb"></div></div>
 
-    <div class="layer-architect" id="arch-container">
-        <span class="code-tag">&lt;h1&gt;</span>
-        <h1 id="arch-title">THE<br>STRUCTURE</h1>
-        <span class="code-tag">&lt;/h1&gt;</span>
-        
-        <span class="code-tag">&lt;p&gt;</span>
-        <p id="arch-desc">
-            // LOGIC CORE<br>
-            // Executing backend architecture.<br>
-            // Optimizing database queries.<br>
-            // Status: 200 OK.
-        </p>
-        <span class="code-tag">&lt;/p&gt;</span>
+    <div class="viewport">
+        <div class="scroll-container" id="scroller">
+            
+            <section class="section hero">
+                <div class="reveal-text"><span>Full Stack</span></div>
+                <div class="reveal-text"><span><i>Engineer</i></span></div>
+                <div class="reveal-text"><span>& AI Architect</span></div>
+                
+                <p class="reveal-text" style="transition-delay: 0.2s">
+                    <span>Constructing digital excellence<br>through code and aesthetics.</span>
+                </p>
+            </section>
 
-        <a href="#" class="btn" id="arch-btn">init_contact()</a>
+            <section class="section" style="padding-top: 0;">
+                <div class="parallax-wrapper">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop" class="parallax-img" data-speed="0.1">
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-top:20px; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6;">
+                    <span>Case Study 01</span>
+                    <span>Corporate / System</span>
+                </div>
+            </section>
 
-        <div class="tech-specs">
-            RENDER: DOM_VIRTUAL<br>
-            FPS: 60<br>
-            LANG: JS/CSS
+            <section class="section">
+                <div style="margin-bottom: 60px; font-size: 0.8rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5;">Selected Works</div>
+                
+                <div class="project-row" onclick="window.location.href='/affiliate/'">
+                    <div style="display:flex; align-items:baseline;">
+                        <span class="p-index">01</span>
+                        <span class="p-title">Janatha Bazar</span>
+                    </div>
+                    <span class="p-tags">Affiliate System / Supabase</span>
+                </div>
+
+                <div class="project-row">
+                    <div style="display:flex; align-items:baseline;">
+                        <span class="p-index">02</span>
+                        <span class="p-title">Neural Chat</span>
+                    </div>
+                    <span class="p-tags">Python / LLM API</span>
+                </div>
+
+                <div class="project-row">
+                    <div style="display:flex; align-items:baseline;">
+                        <span class="p-index">03</span>
+                        <span class="p-title">Portfolio OS</span>
+                    </div>
+                    <span class="p-tags">Creative Dev / WebGL</span>
+                </div>
+            </section>
+
+            <section class="section" style="display:grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div class="parallax-wrapper" style="height: 50vh;">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop" class="parallax-img" data-speed="0.15">
+                </div>
+                <div style="padding-top: 100px;">
+                    <div class="reveal-text"><span><i>Technical</i></span></div>
+                    <div class="reveal-text"><span>Proficiency</span></div>
+                    <p style="margin-top:30px; line-height:1.6; color:#999; font-size:0.9rem;">
+                        Specializing in <b>JavaScript (35.9%)</b> and scalable backend architecture. 
+                        My approach merges rigorous logic with fluid user interaction.
+                    </p>
+                </div>
+            </section>
+
+            <section class="section footer">
+                <div style="margin-bottom: 40px; font-size: 0.8rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5;">Contact</div>
+                <a href="mailto:contact@thecarlos.in" class="big-link">Get in Touch</a>
+                <div style="margin-top: 100px; display:flex; justify-content:space-between; opacity:0.3; font-size:0.8rem;">
+                    <span>&copy; 2025 THE CARLOS</span>
+                    <a href="/" style="color:white; text-decoration:none;">BACK TO DASHBOARD</a>
+                </div>
+            </section>
+
         </div>
     </div>
 
-    <div class="layer-visionary" id="vis-container">
-        <div class="art-element">01</div>
-        <h1 id="vis-title">The<br>Beauty</h1>
-        <p id="vis-desc">
-            Crafting digital experiences that captivate and inspire. 
-            Where pixel-perfect design meets seamless motion.
-        </p>
-        <a href="mailto:contact@thecarlos.in" class="btn" id="vis-btn">Start Project</a>
-    </div>
-
     <script>
-        // --- 1. DUALITY ENGINE (Mouse Tracking) ---
-        const splitLine = document.getElementById('split-line');
-        const splitHandle = document.getElementById('split-handle');
-        const visContainer = document.getElementById('vis-container');
+        // --- LUXURY INERTIA SCROLL ENGINE ---
         
-        let mouseX = window.innerWidth / 2;
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            updateReality();
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            mouseX = e.touches[0].clientX;
-            updateReality();
-        });
-
-        function updateReality() {
-            // Move the line
-            splitLine.style.left = mouseX + 'px';
-            splitHandle.style.left = mouseX + 'px';
-
-            // Crop the Visionary Layer (The Right Side)
-            // We show everything to the RIGHT of the mouse
-            // The Architect Layer is behind it, showing everything to the LEFT (by default)
-            
-            // Polygon points: Top-Left (at mouseX), Top-Right, Bottom-Right, Bottom-Left (at mouseX)
-            const percent = (mouseX / window.innerWidth) * 100;
-            visContainer.style.clipPath = `polygon(${percent}% 0, 100% 0, 100% 100%, ${percent}% 100%)`;
+        const scroller = document.getElementById('scroller');
+        const thumb = document.getElementById('thumb');
+        
+        // Physics State
+        let scrollY = 0; // Current actual scroll position
+        let currentY = 0; // Softened "Laggy" scroll position
+        
+        // Config
+        const ease = 0.07; // Lower = Smoother/Heavier feel
+        
+        // Pre-calculation
+        let maxScroll = 0;
+        
+        function onResize() {
+            maxScroll = scroller.getBoundingClientRect().height - window.innerHeight;
+            document.body.style.height = `${scroller.getBoundingClientRect().height}px`; // Fake body height for native scrollbar feel
         }
+        window.addEventListener('resize', onResize);
         
-        // Initial Position
-        updateReality();
+        // Wait for images to load to calculate height correctly
+        window.addEventListener('load', () => {
+            onResize();
+            // Trigger initial reveals
+            checkReveals();
+        });
 
+        // 1. Listen to native scroll
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+        });
 
-        // --- 2. SLIDE CONTENT MANAGER ---
-        const content = [
-            {
-                // Slide 1: Identity
-                arch: {
-                    title: "THE<br>BUILDER",
-                    desc: "// CLASS: FULL_STACK<br>// SKILLS: [JS, NODE, PY]<br>// LOC: KERALA, IN",
-                    btn: "func_viewWork()"
-                },
-                vis: {
-                    title: "The<br>Artist",
-                    desc: "I am Carlos. I transform abstract ideas into tangible, interactive realities on the web.",
-                    btn: "View Portfolio"
-                }
-            },
-            {
-                // Slide 2: Project (Janatha)
-                arch: {
-                    title: "PROJECT<br>CORE",
-                    desc: "// MODULE: JANATHA_BAZAR<br>// TYPE: AFFILIATE_SYS<br>// DB: SUPABASE_PG",
-                    btn: "link_openSource()"
-                },
-                vis: {
-                    title: "Janatha<br>Bazar",
-                    desc: "A revolutionary affiliate tracking platform. Seamless commissions, real-time analytics, and pure speed.",
-                    btn: "Launch App"
-                }
-            },
-            {
-                // Slide 3: Contact
-                arch: {
-                    title: "INPUT<br>SIGNAL",
-                    desc: "// STATUS: LISTENING...<br>// PORT: 8080<br>// PROTOCOL: MAILTO",
-                    btn: "exec_send()"
-                },
-                vis: {
-                    title: "Let's<br>Talk",
-                    desc: "Ready to create something that has never been seen before? I am available for select commissions.",
-                    btn: "Email Me"
-                }
-            }
-        ];
+        // 2. Animation Loop
+        function animate() {
+            // Linear Interpolation (Lerp)
+            const diff = scrollY - currentY;
+            currentY += diff * ease;
 
-        const dots = document.querySelectorAll('.dot');
-        const archTitle = document.getElementById('arch-title');
-        const archDesc = document.getElementById('arch-desc');
-        const archBtn = document.getElementById('arch-btn');
-        const visTitle = document.getElementById('vis-title');
-        const visDesc = document.getElementById('vis-desc');
-        const visBtn = document.getElementById('vis-btn');
+            // Apply transform (Virtual Scroll)
+            scroller.style.transform = `translate3d(0, -${currentY}px, 0)`;
 
-        function setSlide(index) {
-            // Update Active Dot
-            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            // Update Progress Bar
+            const progress = currentY / maxScroll;
+            thumb.style.height = `${progress * 100}%`;
 
-            const c = content[index];
-
-            // Animate Out
-            document.body.style.pointerEvents = 'none'; // Lock during transition
+            // Parallax Effects
+            handleParallax();
             
-            // Swap Text (Simple fade simulation)
-            archTitle.style.opacity = 0; visTitle.style.opacity = 0;
-            
-            setTimeout(() => {
-                // Update Logic (Architect)
-                archTitle.innerHTML = c.arch.title;
-                archDesc.innerHTML = c.arch.desc;
-                archBtn.innerText = c.arch.btn;
+            // Check Reveals
+            checkReveals();
 
-                // Update Visuals (Visionary)
-                visTitle.innerHTML = c.vis.title;
-                visDesc.innerHTML = c.vis.desc;
-                visBtn.innerText = c.vis.btn;
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 3. Parallax Logic (High-End Image Lag)
+        const parallaxImages = document.querySelectorAll('.parallax-img');
+        
+        function handleParallax() {
+            parallaxImages.forEach(img => {
+                const speed = parseFloat(img.getAttribute('data-speed'));
+                const rect = img.parentElement.getBoundingClientRect(); // Parent container position
                 
-                // Link logic for Janatha Bazar
-                if(index === 1) {
-                    visBtn.href = "/affiliate/";
-                    archBtn.href = "/affiliate/";
-                } else if (index === 2) {
-                    visBtn.href = "mailto:contact@thecarlos.in";
-                    archBtn.href = "mailto:contact@thecarlos.in";
-                }
+                // Calculate distance from center of screen
+                const distFromCenter = rect.top + (rect.height / 2) - (window.innerHeight / 2);
+                
+                // Apply offset based on scroll position relative to viewport
+                img.style.transform = `translateY(${distFromCenter * speed}px)`;
+            });
+        }
 
-                // Animate In
-                archTitle.style.opacity = 0.8; visTitle.style.opacity = 1;
-                document.body.style.pointerEvents = 'auto';
-            }, 300);
+        // 4. Reveal Logic (Intersection Observer alternative for Virtual Scroll)
+        const sections = document.querySelectorAll('.section');
+        
+        function checkReveals() {
+            sections.forEach(sec => {
+                // Get virtual position
+                // Since we translate the container UP, the element's top relative to viewport is:
+                // El.offsetTop - currentY
+                const offsetTop = sec.offsetTop;
+                const virtualTop = offsetTop - currentY;
+                
+                if (virtualTop < window.innerHeight * 0.8) {
+                    sec.classList.add('in-view');
+                }
+            });
         }
 
     </script>
