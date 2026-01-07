@@ -173,7 +173,8 @@ h3 {
 }
 
 .about strong { 
-    color: var(--accent); 
+    color: #FFBD44; /* macOS Minimize Yellow */
+    font-weight: 700;
 }
 
 /* 6. Chat Link */
