@@ -44,22 +44,6 @@ body {
 
 .nav-btn:hover { color: var(--text-main); }
 
-.status-indicator {
-    font-family: var(--font-head);
-    font-size: 0.8rem;
-    color: #4cd964;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.status-indicator .dot {
-    width: 8px;
-    height: 8px;
-    background: #4cd964;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #4cd964;
-}
 
 /* Bento Grid Layout */
 .bento-container {
