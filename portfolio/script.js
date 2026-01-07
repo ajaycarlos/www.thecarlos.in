@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const finalLine = document.createElement('div');
                     finalLine.className = 'terminal-line typing-cursor';
-                    finalLine.innerHTML = '<span style="color: #ff5f56;">ajay@portfolio</span> <span style="color: #ffbd2e;">~$</span> echo \'welcome to my portfolio\'';
+                    finalLine.innerHTML = '<span style="color: #ff5f56;">root@production</span> <span style="color: #ffbd2e;">~$</span> echo \'welcome to my portfolio\'';
                     terminalOutput.appendChild(finalLine);
                     terminalOutput.scrollTop = terminalOutput.scrollHeight;
                 }, 400);
