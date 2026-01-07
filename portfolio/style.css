@@ -3,8 +3,8 @@
     --card-bg: #161616;
     --text-main: #ffffff;
     --text-muted: #a1a1a1;
-    --accent: #FFD700; /* Gold/Yellow accent */
-    --accent-glow: rgba(255, 215, 0, 0.2);
+    --accent: #4cd964; /* Matching my System Online dot */
+    --accent-glow: rgba(76, 217, 100, 0.25);
     --font-head: 'JetBrains Mono', monospace;
     --font-body: 'Inter', sans-serif;
     
@@ -447,7 +447,7 @@ h3 {
     font-weight: 800;
     letter-spacing: -1px;
     margin: 10px 0;
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.15); /* Soft Gold Glow */
+    text-shadow: 0 0 20px rgba(76, 217, 100, 0.3)
 }
 
 /* 3. Typewriter Text Styling */
