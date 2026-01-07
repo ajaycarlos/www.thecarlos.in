@@ -1,105 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Carlos</title>
-  <meta name="description" content="The C.A.R.L.O.S Project - An interactive collection of fascinating facts about science, technology, and the universe.">
-  <link rel="stylesheet" href="style.css?v=1.0">
-  <link rel="icon" href="logo.png" type="image/png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "3ae2ca7df2a347278657c9f7241868c9"}'></script>
-  </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Ajay Pulikkal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
 <body>
-  
-  <div id="starfield">
-    <div class="stars" id="stars1"></div>
-    <div class="stars" id="stars2"></div>
-    <div class="stars" id="stars3"></div>
-  </div>
 
-  <div id="theme-switcher" title="Toggle Theme">
-    <div class="icon-sun"></div>
-    <div class="icon-moon"></div>
-  </div>
-
-  <div id="explore-sidebar">
-    <div class="sidebar-header">
-      <h2>Explore</h2>
-      <div id="sidebar-close-button">&times;</div>
-    </div>
-    <nav>
-      <a href="index.html" class="nav-link">KnowledgeBit</a>
-      <a href="chat.html" class="nav-link" id="nav-carlos-chat">C.A.R.L.O.S<sup>ai</sup></a>
-      <a href="affiliate/index.html" class="nav-link">Affiliates</a>
-      <a href="/portfolio/" class="dashboard-link">View Portfolio</a>
+    <nav class="top-nav">
+        <a href="/" class="nav-btn">← Return to Dashboard</a>
+        <div class="status-indicator">
+            <span class="dot"></span> Online
+        </div>
     </nav>
-  </div>
 
-  <div id="video-container">
-    <video id="intro-video" autoplay muted playsinline>
-      <source src="logo.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div id="tap-to-enter">Tap to Enter</div>
-  </div>
+    <div class="bento-container">
+        <div class="card hero">
+            <div class="hero-content">
+                <h5>Hello, I'm</h5>
+                <h1>AJAY <span class="highlight">PULIKKAL</span></h1>
+                <p>Self-Taught Developer & Creative Technologist.</p>
+                <button class="cta-btn" onclick="window.location.href='mailto:contact@ajaypulikkal.in'">Initialize Contact</button>
+            </div>
+        </div>
 
-  <div id="menu-button" title="Explore">
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
+        <div class="card terminal-card">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="terminal-title">ajay -- -zsh</div>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                </div>
+        </div>
 
-  <img id="logo" src="logo.png" alt="Carlos Logo">
-  <div id="since-logo-text">Since 2025</div>
-  <div id="since-text">C.A.R.L.O.S</div>
+        <div class="card project-main">
+            <div class="card-header">
+                <h3>Main Project</h3>
+                <span class="tag">Live</span>
+            </div>
+            <h2>Janatha Bazar Affiliate</h2>
+            <p>An integrated affiliate system built with Supabase logic.</p>
+            <div class="card-footer">
+                <a href="/affiliate/" class="link-btn">Launch Module ↗</a>
+            </div>
+        </div>
 
-  <div id="main-content-container">
-    <div id="knowledge-box">
-      <span id="knowledge-bit-text"></span>
-      <p id="knowledge-explanation"></p>
+        <div class="card social">
+            <h3>Connect</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon">GitHub</a>
+                <a href="#" class="social-icon">Twitter / X</a>
+                <a href="#" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+
+        <div class="card about">
+            <h3>Who Am I?</h3>
+            <p>
+                I am a developer who learned by building. I combine technical precision with creative intuition—often called <strong>"vibe coding"</strong>—to craft digital experiences that feel alive. I don't just write code; I orchestrate logic to solve real problems.
+            </p>
+        </div>
+
+         <div class="card chat-link">
+            <h3>Ask Carlos AI</h3>
+            <p>Interact with the assistant.</p>
+            <a href="/chat.html" class="circle-btn">?</a>
+        </div>
     </div>
-    <div id="refresh-button">&#8635;</div>
-    <div id="share-button">&#10148;</div>
-  </div>
 
-  <div id="ask-carlos-trigger">Have a doubt? Ask <span class="carlos-ai-font">CARLOS<sup>ai</sup></span></div>
-
-  <div id="ai-modal">
-    <div id="ai-modal-close-button">&times;</div>
-    <form id="ai-chat-form">
-      <input type="text" id="ai-chat-input" placeholder="Ask a follow-up question..." autocomplete="off">
-      <button type="submit">&#10148;</button>
-    </form>
-    <div id="ai-response-area"></div>
-  </div>
-
-  <div id="live-clock">
-    <div class="time-group">
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-    </div>
-    <div class="separator">:</div>
-    <div class="time-group">
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-    </div>
-    <div class="separator">:</div>
-    <div class="time-group">
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-      <div class="digit-box"><span class="digit-top">0</span><span class="digit-bottom">0</span></div>
-    </div>
-  </div>
-
-  <div id="footer-text">Goal Is Far Beyond</div>
-
-  <script src="script.js?v=2.4"></script>
-  
+    <script src="script.js"></script>
 </body>
 </html>
