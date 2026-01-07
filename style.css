@@ -1,196 +1,242 @@
 :root {
-    --bg: #121212;
-    --card-bg: #1a1a1a;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent: #d4af37; /* Gold accent */
-    --danger: #ff4444;
-    --success: #00C853;
-    --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
-    --font-sans: 'Inter', sans-serif;
+    --bg-color: #0d0d0d;
+    --card-bg: #161616;
+    --text-main: #ffffff;
+    --text-muted: #a1a1a1;
+    --accent: #FFD700; /* Gold/Yellow accent */
+    --accent-glow: rgba(255, 215, 0, 0.2);
+    --font-head: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Language Colors from your image */
+    --js-color: #f1e05a;
+    --css-color: #563d7c;
+    --html-color: #e34c26;
+    --ts-color: #2b7489;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    background-color: var(--bg);
-    color: var(--text-primary);
-    font-family: var(--font-sans);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-body);
     padding: 20px;
     min-height: 100vh;
 }
 
-a { text-decoration: none; color: inherit; }
-
-/* Navigation */
+/* Nav */
 .top-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    max-width: 1200px;
-    margin: 0 auto 40px auto;
+    margin-bottom: 30px;
+    padding: 0 10px;
 }
 
 .nav-btn {
-    color: var(--text-secondary);
+    text-decoration: none;
+    color: var(--text-muted);
+    font-family: var(--font-head);
     font-size: 0.9rem;
-    transition: color 0.3s;
+    transition: 0.3s;
 }
-.nav-btn:hover { color: var(--accent); }
+
+.nav-btn:hover { color: var(--text-main); }
 
 .status-indicator {
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    color: #4cd964;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    border: 1px solid #333;
-    padding: 6px 12px;
-    border-radius: 20px;
 }
-.dot {
-    width: 8px; height: 8px; background: var(--success); border-radius: 50%;
-    box-shadow: 0 0 8px var(--success);
+
+.status-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background: #4cd964;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #4cd964;
 }
 
 /* Bento Grid Layout */
 .bento-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* Fixed row heights to ensure terminal matches size */
-    grid-template-rows: repeat(3, 220px); 
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, minmax(180px, auto));
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* General Card Styles */
+/* Card Styling */
 .card {
     background: var(--card-bg);
     border: 1px solid #2a2a2a;
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 25px;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     border-color: #444;
-    transform: translateY(-3px);
 }
 
 h3 {
     font-size: 0.9rem;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--text-secondary);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    font-family: var(--font-head);
 }
-
-/* === CARD SPECIFIC LAYOUTS === */
 
 /* 1. Hero */
 .hero {
     grid-column: span 2;
     grid-row: span 2;
     justify-content: center;
-    background: linear-gradient(145deg, #1a1a1a, #222);
+    background: radial-gradient(circle at top right, #222, var(--card-bg));
 }
-.hero-content h5 { color: var(--accent); margin-bottom: 10px; font-weight: 400;}
-.hero-content h1 { font-size: 3.5rem; line-height: 1; margin-bottom: 15px; }
-.highlight { color: var(--text-secondary); }
-.hero-content p { color: var(--text-secondary); max-width: 400px; margin-bottom: 30px; }
-.cta-btn {
-    padding: 12px 24px; background: var(--text-primary); color: var(--bg);
-    border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s;
-}
-.cta-btn:hover { background: var(--accent); }
 
-/* 2. TERMINAL (The Replacement Card) */
-.terminal-card {
-    grid-column: span 1;
-    grid-row: span 2;
-    background: #0c0c0c; /* Darker terminal background */
-    border: 1px solid #333;
-    padding: 0; /* Remove padding so header fits snugly */
+.hero h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 10px 0;
+    font-family: var(--font-head);
+}
+
+.highlight { color: var(--accent); }
+
+.cta-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-head);
+}
+
+/* 2. Stats (Languages) */
+.stats {
+    grid-column: span 2;
+}
+
+.lang-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lang-bar {
+    height: 12px;
+    width: 100%;
+    background: #333;
+    border-radius: 6px;
+    display: flex;
     overflow: hidden;
 }
 
-.terminal-header {
-    background: #1c1c1c;
-    padding: 12px 15px;
+.segment { height: 100%; }
+.segment.js { background: var(--js-color); }
+.segment.css { background: var(--css-color); }
+.segment.html { background: var(--html-color); }
+.segment.ts { background: var(--ts-color); }
+
+.lang-legend {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #2a2a2a;
-}
-.terminal-dots { display: flex; gap: 6px; }
-.terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
-.terminal-dots span:nth-child(1) { background: #ff5f56; }
-.terminal-dots span:nth-child(2) { background: #ffbd2e; }
-.terminal-dots span:nth-child(3) { background: #27c93f; }
-.terminal-title { 
-    margin: 0 auto; font-family: var(--font-mono); font-size: 0.8rem; color: #666; 
-    transform: translateX(-18px); /* Center compensate for dots */
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.8rem;
+    font-family: var(--font-head);
 }
 
-.terminal-body {
-    flex-grow: 1;
-    padding: 15px;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: #00ff41; /* Classic Terminal Green */
-    overflow-y: auto; /* Scrollable if needed */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* Text starts at bottom like real term */
-}
-/* Hide scrollbar for sleek look */
-.terminal-body::-webkit-scrollbar { display: none; }
-.terminal-line { margin-bottom: 4px; white-space: nowrap; }
-.prompt-char { color: #555; margin-right: 8px; }
-/* Blinking cursor for the final line */
-.typing-cursor::after { content: '_'; animation: blink 1s infinite; }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.js-dot { background: var(--js-color); }
+.css-dot { background: var(--css-color); }
+.html-dot { background: var(--html-color); }
+.ts-dot { background: var(--ts-color); }
 
 /* 3. Project Main */
-.project-main { grid-column: span 2; background: #141414; }
-.card-header { display: flex; justify-content: space-between; }
-.tag { background: var(--success); color: black; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;}
-.project-main h2 { font-size: 1.8rem; margin-bottom: 10px; }
-.project-main p { color: var(--text-secondary); margin-bottom: 20px; }
-.link-btn { border-bottom: 1px solid var(--accent); padding-bottom: 2px; transition: 0.3s; font-size: 0.9rem;}
-.link-btn:hover { color: var(--accent); }
-
-/* 4. Social */
-.social-links { display: flex; flex-direction: column; gap: 10px; }
-.social-icon {
-    padding: 10px; border: 1px solid #333; border-radius: 8px; text-align: center; font-size: 0.9rem; color: var(--text-secondary); transition: 0.3s;
+.project-main {
+    grid-column: span 2;
 }
-.social-icon:hover { background: #222; color: var(--text-primary); border-color: var(--accent); }
+
+.link-btn {
+    color: var(--text-main);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+}
+
+/* 4. Socials */
+.social {
+    grid-column: span 1;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-icon {
+    color: var(--text-main);
+    text-decoration: none;
+    padding: 8px;
+    background: #222;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.social-icon:hover { background: #333; }
 
 /* 5. About */
-.about p { font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary); }
-.about strong { color: var(--accent); }
+.about {
+    grid-column: span 1;
+}
 
 /* 6. Chat Link */
-.chat-link { flex-direction: row; align-items: center; justify-content: space-between; }
-.chat-link h3 { margin-bottom: 0; }
-.circle-btn {
-    width: 40px; height: 40px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-weight: bold;
+.chat-link {
+    grid-column: span 2; /* Full width on bottom */
+    flex-direction: row;
+    align-items: center;
 }
-.circle-btn:hover { background: var(--accent); color: black; }
 
-/* Responsive */
-@media (max-width: 900px) {
-    .bento-container { grid-template-columns: 1fr; grid-template-rows: auto; }
-    .hero, .terminal-card, .project-main { grid-column: span 1; }
-    /* Ensure terminal has height on mobile */
-    .terminal-card { height: 300px; } 
+.circle-btn {
+    width: 40px;
+    height: 40px;
+    background: var(--text-main);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .bento-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    
+    .hero, .stats, .project-main, .social, .about, .chat-link {
+        grid-column: span 1;
+        grid-row: auto;
+    }
 }

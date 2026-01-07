@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Ajay Pulikkal</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -27,15 +27,22 @@
             </div>
         </div>
 
-        <div class="card terminal-card">
-            <div class="terminal-header">
-                <div class="terminal-dots">
-                    <span></span><span></span><span></span>
+        <div class="card stats">
+            <h3>System Architecture</h3>
+            <div class="lang-bar-container">
+                <div class="lang-bar">
+                    <div class="segment js" style="width: 35.9%"></div>
+                    <div class="segment css" style="width: 26.9%"></div>
+                    <div class="segment html" style="width: 23.3%"></div>
+                    <div class="segment ts" style="width: 13.9%"></div>
                 </div>
-                <div class="terminal-title">ajay -- -zsh</div>
+                <div class="lang-legend">
+                    <div class="legend-item"><span class="dot js-dot"></span> JS 35.9%</div>
+                    <div class="legend-item"><span class="dot css-dot"></span> CSS 26.9%</div>
+                    <div class="legend-item"><span class="dot html-dot"></span> HTML 23.3%</div>
+                    <div class="legend-item"><span class="dot ts-dot"></span> TS 13.9%</div>
+                </div>
             </div>
-            <div class="terminal-body" id="terminal-output">
-                </div>
         </div>
 
         <div class="card project-main">
@@ -67,7 +74,7 @@
         </div>
 
          <div class="card chat-link">
-            <h3>Ask Carlos AI</h3>
+            <h3>Ask Ajay's AI</h3>
             <p>Interact with the assistant.</p>
             <a href="/chat.html" class="circle-btn">?</a>
         </div>
