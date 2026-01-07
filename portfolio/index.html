@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Ajay Pulikkal</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="/" class="nav-btn">← Return to Dashboard</a>
+        <div class="status-indicator">
+            <span class="dot"></span> Online
+        </div>
+    </nav>
+
+    <div class="bento-container">
+        <div class="card hero">
+            <div class="hero-content">
+                <h5>Hello, I'm</h5>
+                <h1>AJAY <span class="highlight">PULIKKAL</span></h1>
+                <p>Self-Taught Developer & Creative Technologist.</p>
+                <button class="cta-btn" onclick="window.location.href='mailto:contact@ajaypulikkal.in'">Initialize Contact</button>
+            </div>
+        </div>
+
+        <div class="card stats">
+            <h3>System Architecture</h3>
+            <div class="lang-bar-container">
+                <div class="lang-bar">
+                    <div class="segment js" style="width: 35.9%"></div>
+                    <div class="segment css" style="width: 26.9%"></div>
+                    <div class="segment html" style="width: 23.3%"></div>
+                    <div class="segment ts" style="width: 13.9%"></div>
+                </div>
+                <div class="lang-legend">
+                    <div class="legend-item"><span class="dot js-dot"></span> JS 35.9%</div>
+                    <div class="legend-item"><span class="dot css-dot"></span> CSS 26.9%</div>
+                    <div class="legend-item"><span class="dot html-dot"></span> HTML 23.3%</div>
+                    <div class="legend-item"><span class="dot ts-dot"></span> TS 13.9%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card project-main">
+            <div class="card-header">
+                <h3>Main Project</h3>
+                <span class="tag">Live</span>
+            </div>
+            <h2>Janatha Bazar Affiliate</h2>
+            <p>An integrated affiliate system built with Supabase logic.</p>
+            <div class="card-footer">
+                <a href="/affiliate/" class="link-btn">Launch Module ↗</a>
+            </div>
+        </div>
+
+        <div class="card social">
+            <h3>Connect</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon">GitHub</a>
+                <a href="#" class="social-icon">Twitter / X</a>
+                <a href="#" class="social-icon">LinkedIn</a>
+            </div>
+        </div>
+
+        <div class="card about">
+            <h3>Who Am I?</h3>
+            <p>
+                I am a developer who learned by building. I combine technical precision with creative intuition—often called <strong>"vibe coding"</strong>—to craft digital experiences that feel alive. I don't just write code; I orchestrate logic to solve real problems.
+            </p>
+        </div>
+
+         <div class="card chat-link">
+            <h3>Ask Ajay's AI</h3>
+            <p>Interact with the assistant.</p>
+            <a href="/chat.html" class="circle-btn">?</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
