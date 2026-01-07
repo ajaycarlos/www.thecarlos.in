@@ -167,7 +167,9 @@ h3 {
 
 /* 5. About */
 .about {
-    grid-column: span 2;
+    grid-column: span 1;
+    justify-content: flex-start; /* Stacks items at the top */
+    gap: 15px; /* Adds a clean, small gap between title and text */
 }
 .about strong { color: var(--accent); }
 
