@@ -1,24 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. HERO TYPING EFFECT (Original) ---
-    const textElement = document.querySelector('.hero p');
+    
+    // --- 1. HERO TYPEWRITER EFFECT (Renovated) ---
+    const textElement = document.getElementById('typewriter');
+    
     if (textElement) {
-        const textToType = textElement.innerText;
-        textElement.innerText = '';
-        
-        let i = 0;
-        const speed = 50; 
+        const phrases = [
+    "Self-Taught Developer.",
+    "Creative Technologist.",
+    "Vibe Coder.",
+    "Problem Solver.",
 
-        function typeWriter() {
-            if (i < textToType.length) {
-                textElement.innerHTML += textToType.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
+    "മലയാളി.",
+    "ലേണർ.",   
+    "കേരളക്കാരൻ.",
+    "ഡെവലപ്പർ.",
+    "മല്ലു.",
+    "സ്റ്റുഡന്റ്.",
+    
+
+    "Proud Mallu.",
+    "From God's Own Country.",
+    "Bug Hunter.",
+    "Open Source Enthusiast.",
+    "Still Learning."
+];
+
+
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                // Deleting text
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50; // Deleting is faster
+            } else {
+                // Typing text
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 100; // Normal typing speed
             }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                // Finished typing whole phrase, pause before deleting
+                isDeleting = true;
+                typeSpeed = 2000; // Wait 2 seconds so people can read it
+            } else if (isDeleting && charIndex === 0) {
+                // Finished deleting, move to next phrase
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Pause briefly before typing new one
+            }
+
+            setTimeout(typeEffect, typeSpeed);
         }
-        setTimeout(typeWriter, 500);
+
+        // Start the loop
+        typeEffect();
     }
 
-    // --- 2. TERMINAL ANIMATION (New) ---
+    // --- 2. TERMINAL ANIMATION (Unchanged) ---
     const terminalOutput = document.getElementById('terminal-output');
     
     if (terminalOutput) {
