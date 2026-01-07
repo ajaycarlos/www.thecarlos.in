@@ -155,6 +155,10 @@ h3 {
 .about {
     grid-column: span 2;
 }
+.about h3 {
+    margin-bottom: 4px;
+}
+
 .about strong { color: var(--accent); }
 
 /* Ask Carlos AI — 1/4 width */
