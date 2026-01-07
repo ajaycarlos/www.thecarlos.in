@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     "Proud Mallu.",
-    "From God's Own Country.",
     "Bug Hunter.",
     "Open Source Enthusiast.",
+    "Ronaldo Admirer.",
     "Still Learning."
 ];
 
