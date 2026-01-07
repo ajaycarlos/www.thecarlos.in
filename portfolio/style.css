@@ -3,12 +3,11 @@
     --card-bg: #161616;
     --text-main: #ffffff;
     --text-muted: #a1a1a1;
-    --accent: #FFD700; /* Gold/Yellow accent */
+    --accent: #FFD700;
     --accent-glow: rgba(255, 215, 0, 0.2);
     --font-head: 'JetBrains Mono', monospace;
     --font-body: 'Inter', sans-serif;
-    
-    /* Language Colors */
+
     --js-color: #f1e05a;
     --css-color: #563d7c;
     --html-color: #e34c26;
@@ -61,7 +60,7 @@ body {
     box-shadow: 0 0 8px #4cd964;
 }
 
-/* Bento Grid Layout */
+/* Bento Grid */
 .bento-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -71,7 +70,7 @@ body {
     margin: 0 auto;
 }
 
-/* Card Styling */
+/* Card Base */
 .card {
     background: var(--card-bg);
     border: 1px solid #2a2a2a;
@@ -98,7 +97,7 @@ h3 {
     font-family: var(--font-head);
 }
 
-/* 1. Hero */
+/* Hero */
 .hero {
     grid-column: span 2;
     grid-row: span 2;
@@ -127,7 +126,7 @@ h3 {
     font-family: var(--font-head);
 }
 
-/* 3. Project Main */
+/* Projects */
 .project-main {
     grid-column: span 2;
 }
@@ -140,10 +139,32 @@ h3 {
 }
 
 .tag {
-    background: #4cd964; color: black; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; float: right;
+    background: #4cd964;
+    color: black;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    float: right;
 }
 
-/* 4. Socials */
+/* ===============================
+   REQUIRED CHANGE STARTS HERE
+   =============================== */
+
+/* Who Am I? — 1/2 width */
+.about {
+    grid-column: span 2;
+}
+.about strong { color: var(--accent); }
+
+/* Ask Carlos AI — 1/4 width */
+.chat-link {
+    grid-column: span 1;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Connect — 1/4 width */
 .social {
     grid-column: span 1;
 }
@@ -165,19 +186,11 @@ h3 {
 
 .social-icon:hover { background: #333; }
 
-/* 5. About */
-.about {
-    grid-column: span 1;
-}
-.about strong { color: var(--accent); }
+/* ===============================
+   REQUIRED CHANGE ENDS HERE
+   =============================== */
 
-/* 6. Chat Link */
-.chat-link {
-    grid-column: span 2;
-    flex-direction: row;
-    align-items: center;
-}
-
+/* Circle Button */
 .circle-btn {
     width: 40px;
     height: 40px;
@@ -192,25 +205,30 @@ h3 {
     font-size: 1.2rem;
 }
 
-/* Mobile Responsive */
+/* Mobile */
 @media (max-width: 768px) {
     .bento-container {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
     }
-    
-    .hero, .stats, .project-main, .social, .about, .chat-link, .terminal-card {
+
+    .hero,
+    .project-main,
+    .social,
+    .about,
+    .chat-link,
+    .terminal-card {
         grid-column: span 1 !important;
         grid-row: auto;
     }
 }
 
-/* --- NEW TERMINAL STYLES (Added) --- */
+/* Terminal */
 .terminal-card {
-    grid-column: span 2; 
+    grid-column: span 2;
     background: #0c0c0c;
     border: 1px solid #333;
-    padding: 0; 
+    padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -226,16 +244,16 @@ h3 {
 
 .terminal-dots { display: flex; gap: 6px; }
 .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
-.terminal-dots span:nth-child(1) { background: #ff5f56; } 
-.terminal-dots span:nth-child(2) { background: #ffbd2e; } 
-.terminal-dots span:nth-child(3) { background: #27c93f; } 
+.terminal-dots span:nth-child(1) { background: #ff5f56; }
+.terminal-dots span:nth-child(2) { background: #ffbd2e; }
+.terminal-dots span:nth-child(3) { background: #27c93f; }
 
-.terminal-title { 
-    margin: 0 auto; 
-    font-family: var(--font-head); 
-    font-size: 0.8rem; 
-    color: #666; 
-    transform: translateX(-18px); 
+.terminal-title {
+    margin: 0 auto;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    color: #666;
+    transform: translateX(-18px);
 }
 
 .terminal-body {
@@ -243,18 +261,23 @@ h3 {
     padding: 15px;
     font-family: var(--font-head);
     font-size: 0.85rem;
-    color: #4cd964; 
+    color: #4cd964;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 }
+
 .terminal-body::-webkit-scrollbar { display: none; }
 
 .terminal-line { margin-bottom: 4px; white-space: nowrap; }
 
-.typing-cursor::after { 
-    content: '_'; 
-    animation: blink 1s infinite; 
+.typing-cursor::after {
+    content: '_';
+    animation: blink 1s infinite;
 }
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
