@@ -168,14 +168,17 @@ h3 {
 /* 5. About */
 .about {
     grid-column: span 1;
-    justify-content: flex-start; /* Stacks items at the top */
-    gap: 15px; /* Adds a clean, small gap between title and text */
+    justify-content: flex-start; /* This fixes the large gap */
+    gap: 15px; /* Adds a small, clean space between title and text */
 }
-.about strong { color: var(--accent); }
+
+.about strong { 
+    color: var(--accent); 
+}
 
 /* 6. Chat Link */
 .chat-link {
-    grid-column: span 1;
+    grid-column: span 2;
     flex-direction: row;
     align-items: center;
 }
