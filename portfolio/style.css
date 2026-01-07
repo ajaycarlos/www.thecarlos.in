@@ -240,3 +240,60 @@ h3 {
         grid-row: auto;
     }
 }
+/* TERMINAL STYLES */
+.terminal-card {
+    grid-column: span 2; /* Maintains your layout */
+    background: #0c0c0c;
+    border: 1px solid #333;
+    padding: 0; /* Override default card padding */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-header {
+    background: #1c1c1c;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.terminal-dots { display: flex; gap: 6px; }
+.terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
+.terminal-dots span:nth-child(1) { background: #ff5f56; } /* Red */
+.terminal-dots span:nth-child(2) { background: #ffbd2e; } /* Yellow */
+.terminal-dots span:nth-child(3) { background: #27c93f; } /* Green */
+
+.terminal-title { 
+    margin: 0 auto; 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 0.8rem; 
+    color: #666; 
+    transform: translateX(-18px); /* Center title visually */
+}
+
+.terminal-body {
+    flex-grow: 1;
+    padding: 15px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #00ff41; /* Hacker Green */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Hide scrollbar */
+.terminal-body::-webkit-scrollbar { display: none; }
+
+.terminal-line { margin-bottom: 4px; white-space: nowrap; }
+
+/* Blinking cursor */
+.typing-cursor::after { 
+    content: '_'; 
+    animation: blink 1s infinite; 
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
