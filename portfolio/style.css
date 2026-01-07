@@ -302,7 +302,7 @@ h3 {
 .carlos-brand sup {
     font-family: 'Minecraft', monospace;
     font-size: 0.5em; /* Smaller 'ai' */
-    color: var(--accent);
+    color: var(--text-main);
     vertical-align: super;
     margin-left: 2px;
 }
