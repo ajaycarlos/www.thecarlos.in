@@ -167,7 +167,7 @@ h3 {
 
 /* 5. About */
 .about {
-    grid-column: span 1;
+    grid-column: span 2;
     justify-content: flex-start; /* This fixes the large gap */
     gap: 15px; /* Adds a small, clean space between title and text */
 }
@@ -178,7 +178,7 @@ h3 {
 
 /* 6. Chat Link */
 .chat-link {
-    grid-column: span 2;
+    grid-column: span 1;
     flex-direction: row;
     align-items: center;
 }
