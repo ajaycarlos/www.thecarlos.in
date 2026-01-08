@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Affiliates | C.A.R.L.O.S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
     <style>
-        /* --- PREMIUM DARK THEME SETUP --- */
-        
-        /* Load your Minecraft Font */
+        /* --- 1. FONTS & RESET --- */
         @font-face {
             font-family: 'Minecraft';
             src: url('../Minecraft.ttf') format('truetype');
@@ -16,151 +17,179 @@
         :root {
             --bg-color: #000000;
             --text-color: #ffffff;
-            --accent-color: #ffffff;
-            --danger-color: #ff5555; /* Soft red for "Ended" */
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.2);
+            --danger-color: #ff5555;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Minecraft', 'Courier New', monospace; /* Fallback to monospace */
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif; /* Default to clean font */
         }
 
-        /* Subtle Background Stars Effect (Optional, matches your main vibe) */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(white 1px, transparent 1px),
-                radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px;
-            background-position: 0 0, 25px 25px;
-            opacity: 0.1;
-            z-index: -1;
+        /* --- 2. NAVIGATION (Simple Return) --- */
+        .top-nav {
+            padding: 30px 40px;
         }
 
-        /* --- TYPOGRAPHY & LAYOUT --- */
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .nav-btn {
+            color: #666;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: color 0.3s;
         }
 
-        p.subtitle {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 50px;
-            text-align: center;
+        .nav-btn:hover {
+            color: #fff;
         }
 
-        .affiliate-list {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            width: 100%;
-            max-width: 600px;
+        /* --- 3. BRUTALIST CONTAINER --- */
+        .index-container {
+            max-width: 900px;
+            margin: 40px auto; /* Centered with top margin */
             padding: 0 20px;
         }
 
-        /* --- PREMIUM CARD BUTTON --- */
-        .affiliate-card {
+        .index-header {
+            border-bottom: 4px solid #fff; /* Thick white line */
+            padding-bottom: 30px;
+            margin-bottom: 0;
+        }
+
+        /* The Main Title (Kept Minecraft as requested) */
+        .minecraft-title {
+            font-family: 'Minecraft', monospace;
+            font-size: 3rem;
+            color: #fff;
+            margin: 0 0 10px 0;
+            line-height: 1;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .index-meta {
+            font-family: 'JetBrains Mono', monospace;
+            color: #888;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* --- 4. THE INTERACTIVE ROW (The "Project Index" Vibe) --- */
+        .affiliate-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px 30px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            padding: 40px 10px;
+            border-bottom: 1px solid #333;
+            text-decoration: none !important;
+            color: #fff !important;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            background: transparent;
         }
 
-        /* Hover Glow Effect */
-        .affiliate-card:hover {
-            border-color: var(--text-color);
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        /* HOVER EFFECT: Invert Colors */
+        .affiliate-row:hover {
+            background: #fff;
+            color: #000 !important;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
-        /* The arrow icon */
-        .arrow {
-            font-size: 1.5rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
+        /* Left Side: Title & Status */
+        .row-left {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .affiliate-card:hover .arrow {
-            opacity: 1;
-            transform: translateX(0);
+        .affiliate-heading {
+            font-family: 'Inter', sans-serif; /* Clean Bold Font */
+            font-weight: 800;
+            font-size: 2rem;
+            color: #fff;
+            margin: 0;
+            letter-spacing: -1px;
+            line-height: 1;
         }
 
-        /* Status Badge Styling */
+        .affiliate-row:hover .affiliate-heading {
+            color: #000;
+        }
+
+        /* The "ENDED" Badge */
         .status-badge {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border: 1px solid var(--danger-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
             color: var(--danger-color);
-            margin-left: 15px;
+            border: 1px solid var(--danger-color);
+            padding: 4px 8px;
+            width: fit-content;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        /* --- FOOTER / BACK BUTTON --- */
-        .back-link {
-            margin-top: 60px;
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s;
+        /* Right Side: Arrow */
+        .arrow-icon {
+            font-size: 1.5rem;
+            color: #fff;
+            transform: rotate(-45deg);
+            transition: transform 0.3s;
         }
 
-        .back-link:hover {
-            color: var(--text-color);
-            border-bottom-color: var(--text-color);
+        .affiliate-row:hover .arrow-icon {
+            color: #000;
+            transform: rotate(0deg) scale(1.1);
         }
 
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .minecraft-title { font-size: 2rem; }
+            .affiliate-heading { font-size: 1.5rem; }
+            
+            .affiliate-row {
+                padding: 25px 0;
+            }
+            
+            .affiliate-row:hover {
+                background: transparent;
+                color: #fff !important;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .affiliate-row:hover .affiliate-heading { color: #fff; }
+            .affiliate-row:hover .arrow-icon { color: #fff; }
+        }
     </style>
 </head>
 <body>
 
-    <main>
-        <h1>Affiliate Programs</h1>
-        <p class="subtitle">Select a program to proceed</p>
+    <nav class="top-nav">
+        <a href="../index.html" class="nav-btn">← RETURN TO HOME</a>
+    </nav>
 
-        <div class="affiliate-list">
-            
-            <a href="Janathabazar.html" class="affiliate-card">
-                <div class="card-content">
-                    JanathaBazar LuckyDraw
-                    <span class="status-badge">Ended</span>
-                </div>
-                <div class="arrow">></div>
-            </a>
+    <div class="index-container">
+        
+        <header class="index-header">
+            <h1 class="minecraft-title">AFFILIATE PROGRAMS</h1>
+            <p class="index-meta">Select a program to proceed</p>
+        </header>
 
+        <a href="Janathabazar.html" class="affiliate-row">
+            <div class="row-left">
+                <h2 class="affiliate-heading">JANATHABAZAR LUCKYDRAW</h2>
+                <span class="status-badge">ENDED</span>
             </div>
+            <div class="row-right">
+                <i class="fas fa-arrow-right arrow-icon"></i>
+            </div>
+        </a>
 
-        <a href="../index.html" class="back-link">Return to Home</a>
-    </main>
+        </div>
 
 </body>
 </html>
