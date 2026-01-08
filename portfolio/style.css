@@ -558,119 +558,161 @@ h3 {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
 }
-/* --- PROJECTS PAGE STYLES --- */
+/* --- BRUTALIST INDEX DESIGN (Premium Black & White) --- */
 
-.projects-page-container {
-    max-width: 800px; /* Narrower width for better reading experience */
-    margin: 0 auto;
-    padding-bottom: 50px;
+.index-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-.projects-header {
-    margin-bottom: 40px;
-    border-left: 3px solid var(--accent);
-    padding-left: 20px;
+.index-header {
+    border-bottom: 2px solid #fff;
+    padding-bottom: 20px;
+    margin-bottom: 0;
 }
 
-/* The Vertical Card */
-.project-card {
-    background: var(--card-bg);
-    border: 1px solid #333;
-    border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 25px;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.minecraft-title {
+    font-family: 'Minecraft', monospace;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+}
+
+.index-meta {
+    font-family: 'JetBrains Mono', monospace;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+/* The Project Row (The Magic Part) */
+.project-row {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 10px;
+    border-bottom: 1px solid #333;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-color: #555;
+/* THE HOVER EFFECT: Invert Everything */
+.project-row:hover {
+    background: #fff;
+    padding-left: 25px; /* Slight slide to right */
+    padding-right: 25px;
 }
 
-/* Project Title & Desc */
-.project-card h2 {
-    font-family: var(--font-head);
-    color: var(--text-main);
-    font-size: 1.5rem;
-    margin-top: 5px;
+.row-left {
+    display: flex;
+    align-items: baseline; /* Align ID with Title */
+    gap: 40px;
 }
 
-.project-desc {
-    color: var(--text-muted);
-    line-height: 1.6;
-    font-size: 0.95rem;
+/* 01, 02, 03 Number */
+.p-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: #444;
 }
 
-/* Top "Status" Label (e.g. AI Persona) */
-.project-status {
-    font-family: var(--font-head);
-    font-size: 0.75rem;
-    color: var(--accent);
-    background: rgba(76, 217, 100, 0.1);
-    width: fit-content;
-    padding: 5px 10px;
-    border-radius: 4px;
+/* When hovering row, change ID color */
+.project-row:hover .p-id {
+    color: #000;
+}
+
+.minecraft-heading {
+    font-family: 'Minecraft', monospace;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+/* Invert Title on Hover */
+.project-row:hover .minecraft-heading {
+    color: #000;
+}
+
+.p-desc {
+    font-family: 'Inter', sans-serif;
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0;
+    max-width: 500px;
+}
+
+.project-row:hover .p-desc {
+    color: #333;
+}
+
+.row-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 30px;
 }
 
-/* Tech Stack Tags */
-.tech-stack-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 5px;
-}
-
-.tech-tag {
-    font-family: var(--font-head);
+.tech-mono {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
-    color: #ccc;
-    background: #222;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid #333;
+    color: #666;
+    text-transform: uppercase;
 }
 
-/* Action Button Adjustments for this page */
-.project-action {
-    margin-top: 10px;
-    width: fit-content; /* Don't stretch full width on desktop */
-    display: inline-flex;
-    align-items: center;
+.project-row:hover .tech-mono {
+    color: #000;
 }
 
-.terminal-footer {
-    text-align: center;
-    margin-top: 40px;
-    font-family: var(--font-head);
-    font-size: 0.8rem;
-    opacity: 0.5;
+.arrow-icon {
+    font-size: 1.2rem;
+    color: #fff;
+    transform: rotate(-45deg); /* Angled arrow looks more premium */
+    transition: transform 0.3s;
 }
 
-/* --- MOBILE RESPONSIVE FOR PROJECTS PAGE --- */
+.project-row:hover .arrow-icon {
+    color: #000;
+    transform: rotate(0deg); /* Straightens out on hover */
+}
+
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-    .projects-page-container {
-        padding: 0 5px;
-    }
-    
-    .project-card {
-        padding: 20px; /* Less padding on phone */
+    .minecraft-title {
+        font-size: 2rem;
     }
 
-    .project-card h2 {
-        font-size: 1.3rem;
+    .project-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 25px 0;
     }
 
-    .project-action {
-        width: 100%; /* Full width button on mobile */
-        justify-content: center;
-        display: flex;
+    /* On mobile, remove the dramatic slide effect to save space */
+    .project-row:hover {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .row-left {
+        gap: 15px;
+        width: 100%;
+    }
+
+    .p-id {
+        display: none; /* Hide ID on small screens */
+    }
+
+    .minecraft-heading {
+        font-size: 1.4rem;
+        line-height: 1.2;
+    }
+
+    .row-right {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 5px;
     }
 }
