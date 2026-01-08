@@ -198,16 +198,85 @@ h3 {
     font-size: 1.2rem;
 }
 
-/* Mobile Responsive */
+/* --- MOBILE OPTIMIZATION (Restored & Fixed) --- */
 @media (max-width: 768px) {
+    
+    /* 1. Global Layout Fixes */
+    body {
+        padding: 10px; /* Tighter outer spacing to save screen space */
+    }
+
     .bento-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-columns: 1fr; /* Force single column stack */
+        gap: 12px; /* Reduce gap between cards */
     }
     
+    .card {
+        padding: 15px; /* Shrink padding inside ALL cards */
+        min-height: auto; /* Remove forced heights */
+    }
+
+    /* Force all cards to span full width */
     .hero, .stats, .project-main, .social, .about, .chat-link, .terminal-card {
-        grid-column: span 1 !important;
+        grid-column: span 1 !important; 
         grid-row: auto;
+    }
+
+    /* 2. TERMINAL FIX: Fluid Scaling (The "Don't Cut Lines" Fix) */
+    .terminal-card {
+        width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+
+    .terminal-body {
+        /* MAGIC LINE: Font size shrinks as screen shrinks (min ~10px, max ~13px) */
+        font-size: clamp(0.65rem, 3.5vw, 0.85rem); 
+        padding: 10px;
+        line-height: 1.4;
+    }
+
+    .terminal-line {
+        white-space: pre-wrap; /* CRITICAL: Allows code to wrap to next line if needed */
+        word-break: break-word; /* Breaks long words so they don't overflow */
+    }
+
+    /* 3. PROJECTS PLATTER FIX: Reduce "Bigness" */
+    .project-main h2 {
+        font-size: 1.4rem; /* Smaller heading */
+        margin-top: 5px;
+    }
+
+    .project-main p {
+        font-size: 0.9rem; /* Smaller body text */
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+    
+    /* Fix Button Alignment (Centering the text) */
+    .cta-btn {
+        width: 100%; 
+        display: flex !important; /* Force Flexbox */
+        justify-content: center;
+        align-items: center;
+        padding: 14px 0;
+        font-size: 0.9rem;
+        height: auto;
+    }
+
+    /* 4. HERO SECTION FIXES */
+    .glitch-header {
+        /* Fluid scaling for your name */
+        font-size: clamp(2rem, 10vw, 3rem); 
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* 5. Social Grid Tweak */
+    .social-grid {
+        gap: 8px;
     }
 }
 
