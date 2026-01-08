@@ -556,7 +556,7 @@ h3 {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
 }
-/* --- BRUTALIST INDEX DESIGN (FIXED) --- */
+/* --- BRUTALIST INDEX DESIGN (Professional Edition) --- */
 
 .index-container {
     max-width: 900px;
@@ -565,18 +565,20 @@ h3 {
 }
 
 .index-header {
-    border-bottom: 4px solid #fff; /* Thicker header line */
+    border-bottom: 4px solid #fff; 
     padding-bottom: 30px;
     margin-bottom: 0;
 }
 
+/* CHANGED: Switched to Inter for maximum readability and "Pro" look */
 .minecraft-title {
-    font-family: 'Minecraft', monospace;
-    font-size: 3.5rem; /* Bigger Title */
+    font-family: 'Inter', sans-serif; /* Clean, bold font */
+    font-weight: 800; /* Extra Bold */
+    font-size: 3.5rem;
     color: #fff;
     margin-bottom: 10px;
     line-height: 1;
-    letter-spacing: -2px;
+    letter-spacing: -2px; /* Tight tracking for modern feel */
 }
 
 .index-meta {
@@ -591,68 +593,61 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 10px; /* More breathing room */
-    border-bottom: 1px solid #333; /* Subtle divider */
-    text-decoration: none !important; /* CRITICAL FIX */
-    color: #fff !important; /* CRITICAL FIX */
+    padding: 40px 10px;
+    border-bottom: 1px solid #333;
+    text-decoration: none !important;
+    color: #fff !important;
     transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
     background: transparent;
 }
 
-/* THE HOVER EFFECT */
+/* Hover Effect */
 .project-row:hover {
     background: #fff;
-    color: #000 !important; /* Invert text color */
+    color: #000 !important;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-/* Layout for Left Side */
 .row-left {
     display: flex;
     align-items: baseline;
     gap: 50px;
 }
 
-/* 01, 02 Number Styling */
 .p-id {
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.2rem;
-    color: #444; /* Dark grey by default */
+    color: #444;
     font-weight: 700;
 }
 
-.project-row:hover .p-id {
-    color: #000; /* Black on hover */
-}
+.project-row:hover .p-id { color: #000; }
 
-/* Project Headings */
+/* CHANGED: Switched Project Titles to Inter (Clean & Bold) */
 .minecraft-heading {
-    font-family: 'Minecraft', monospace;
+    font-family: 'Inter', sans-serif; 
+    font-weight: 700; 
     font-size: 2rem;
-    color: #fff; /* Force White */
+    color: #fff;
     margin: 0 0 8px 0;
-    letter-spacing: 0.5px;
+    letter-spacing: -1px;
 }
 
-.project-row:hover .minecraft-heading {
-    color: #000; /* Force Black on Hover */
-}
+.project-row:hover .minecraft-heading { color: #000; }
 
-/* Descriptions */
+/* Descriptions - Kept Monospace for "Tech" feel */
 .p-desc {
-    font-family: 'Inter', sans-serif;
+    font-family: 'JetBrains Mono', monospace; 
     color: #888;
-    font-size: 1rem;
+    font-size: 0.85rem; 
     margin: 0;
     font-weight: 400;
 }
 
-.project-row:hover .p-desc {
-    color: #333;
-}
+.project-row:hover .p-desc { color: #333; }
 
-/* Right Side (Tech + Arrow) */
+/* Right Side */
 .row-right {
     display: flex;
     align-items: center;
@@ -666,9 +661,7 @@ h3 {
     letter-spacing: 1px;
 }
 
-.project-row:hover .tech-mono {
-    color: #000;
-}
+.project-row:hover .tech-mono { color: #000; }
 
 .arrow-icon {
     font-size: 1.5rem;
@@ -682,7 +675,7 @@ h3 {
     transform: rotate(0deg) scale(1.1);
 }
 
-/* MOBILE RESPONSIVE FIXES */
+/* Mobile Fixes */
 @media (max-width: 768px) {
     .minecraft-title { font-size: 2.2rem; }
     
@@ -694,17 +687,17 @@ h3 {
     }
     
     .project-row:hover {
-        background: transparent; /* Disable white bg on phone */
-        color: #fff !important; /* Keep text white */
+        background: transparent;
+        color: #fff !important;
         padding-left: 0;
         padding-right: 0;
     }
 
     .row-left { gap: 0; width: 100%; flex-direction: column; }
-    .p-id { display: none; } /* Hide numbers on mobile */
+    .p-id { display: none; }
     .row-right { width: 100%; justify-content: space-between; margin-top: 10px; }
     
-    /* Disable color inversion on mobile since there is no 'hover' */
+    /* Disable hover colors on mobile */
     .project-row:hover .minecraft-heading,
     .project-row:hover .p-desc,
     .project-row:hover .tech-mono,
