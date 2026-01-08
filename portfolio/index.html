@@ -3,67 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index | Projects</title>
+    <title>Portfolio | Ajay Pulikkal</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
     <nav class="top-nav">
-        <a href="index.html" class="nav-btn">← RETURN</a>
-        </nav>
+        <a href="/" class="nav-btn">← Return to Dashboard</a>
+    </nav>
 
-    <div class="index-container">
+    <div class="bento-container">
+        <div class="card hero">
+            <div class="hero-bg"></div>
+
+            <div class="hero-content">
+                <h5>Hello, I'm</h5>
+                
+                <h1 class="glitch-header">
+                    AJAY <span class="highlight">PULIKKAL</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    I'm a <span class="typewriter-text" id="typewriter"></span><span class="cursor">|</span>
+                </p>
+                
+                <a href="mailto:ajaypulikkal@zohomail.in?subject=Project Inquiry&body=Hello Ajay, I saw your portfolio and..." class="cta-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+    Initialize Contact <i class="fas fa-terminal" style="margin-left: 8px;"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card terminal-card">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="terminal-title">ajay@kernel:~</div>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                </div>
+        </div>
+
+        <div class="card project-main">
+            <div class="card-header">
+                <h3>Portfolio</h3>
+            </div>
+            <h2>Projects</h2>
+            <p>I have worked on various projects to improve my skills, experiment with ideas, and build practical applications.</p>
+            <div class="card-footer">
+                <a href="projects.html" class="cta-btn" style="text-decoration: none; display: inline-block;">Click to see all projects</a>
+            </div>
+        </div>
+
+        <div class="card about">
+            <h3>Who Am I?</h3>
+            <p>I’m a developer who learned by building things and breaking them a lot, from God’s Own Country. I mix technical skills with gut feeling something I call <strong>“vibe coding”</strong>. I enjoy making digital stuff that feels alive, not just boring static pages. I don’t write code just to make it run; I use it to think, try things out, mess up, and figure out real solutions.</p>
+        </div>
         
-        <header class="index-header">
-            <h1 class="minecraft-title">PROJECT_INDEX</h1>
-            <p class="index-meta">SELECTED WORKS (2024-2026)</p>
-        </header>
 
-        <a href="https://www.thecarlos.in" target="_blank" class="project-row">
-            <div class="row-left">
-                <span class="p-id">01</span>
-                <div class="p-info">
-                    <h2 class="minecraft-heading">THE C.A.R.L.O.S. PROJECT</h2>
-                    <p class="p-desc">Futuristic AI persona with KnowledgeBit integration.</p>
-                </div>
+         <div class="card chat-link">
+            <div class="chat-header">
+                <h3>Ask</h3>
+                <div class="carlos-brand">CARLOS<sup>ai</sup></div>
             </div>
-            <div class="row-right">
-                <span class="tech-mono">[HTML, JS, TS]</span>
-                <i class="fas fa-arrow-right arrow-icon"></i>
+            
+            <div class="chat-status">
+                <span class="status-dot-blink"></span> System Online
             </div>
-        </a>
 
-        <a href="https://p1-sm.vercel.app/" target="_blank" class="project-row">
-            <div class="row-left">
-                <span class="p-id">02</span>
-                <div class="p-info">
-                    <h2 class="minecraft-heading">JANATHA BAZAR STORE</h2>
-                    <p class="p-desc">Responsive e-commerce proof-of-concept with admin panel.</p>
-                </div>
+            <div class="chat-footer">
+                <p>Interact with the assistant.</p>
+                <a href="/chat.html" class="circle-btn">
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-            <div class="row-right">
-                <span class="tech-mono">[E-COMMERCE]</span>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-        </a>
+        </div>
+        <div class="card social">
+            <h3>Connect</h3>
+            <div class="social-grid">
+                <a href="https://github.com/ajaycarlos" target="_blank" class="social-btn github">
+                    <i class="fab fa-github"></i>
+                </a>
+                
+                <a href="https://x.com/ajaycarloss" target="_blank" class="social-btn twitter">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
 
-        <a href="https://www.thecarlos.in/affiliate/Janathabazar.html" target="_blank" class="project-row">
-            <div class="row-left">
-                <span class="p-id">03</span>
-                <div class="p-info">
-                    <h2 class="minecraft-heading">LUCKY DRAW SYSTEM</h2>
-                    <p class="p-desc">Secure QR-based contest registration portal.</p>
-                </div>
-            </div>
-            <div class="row-right">
-                <span class="tech-mono">[SYSTEM]</span>
-                <i class="fas fa-arrow-right arrow-icon"></i>
-            </div>
-        </a>
+                <a href="https://www.linkedin.com/in/ajaycarloss" target="_blank" class="social-btn linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
 
+                <a href="https://www.instagram.com/ajaycarloss" target="_blank" class="social-btn instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div> 
     </div>
 
+    <script src="script.js"></script>
 </body>
 </html>
