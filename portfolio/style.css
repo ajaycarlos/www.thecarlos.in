@@ -271,6 +271,7 @@ h3 {
     padding: 14px 0;          /* Balanced padding top/bottom */
     font-size: 0.9rem;
     height: auto;             /* Ensure height adapts to content */
+    }
 
     .social-grid {
         gap: 8px; /* Tighter icons */
@@ -316,15 +317,9 @@ h3 {
 }
 
 .terminal-body {
-    flex-grow: 1;
-    padding: 15px;
-    font-family: var(--font-head);
-    font-size: 0.75rem;
-    color: #4cd964; 
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    font-size: 0.75rem; /* Reduced size to fit narrow Android screens */
+    padding: 10px;
+    line-height: 1.4;
 }
 .terminal-body::-webkit-scrollbar { display: none; }
 
