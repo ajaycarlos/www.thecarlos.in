@@ -558,3 +558,119 @@ h3 {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
 }
+/* --- PROJECTS PAGE STYLES --- */
+
+.projects-page-container {
+    max-width: 800px; /* Narrower width for better reading experience */
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.projects-header {
+    margin-bottom: 40px;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+}
+
+/* The Vertical Card */
+.project-card {
+    background: var(--card-bg);
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-color: #555;
+}
+
+/* Project Title & Desc */
+.project-card h2 {
+    font-family: var(--font-head);
+    color: var(--text-main);
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.project-desc {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Top "Status" Label (e.g. AI Persona) */
+.project-status {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(76, 217, 100, 0.1);
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Tech Stack Tags */
+.tech-stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.tech-tag {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    color: #ccc;
+    background: #222;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+/* Action Button Adjustments for this page */
+.project-action {
+    margin-top: 10px;
+    width: fit-content; /* Don't stretch full width on desktop */
+    display: inline-flex;
+    align-items: center;
+}
+
+.terminal-footer {
+    text-align: center;
+    margin-top: 40px;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+/* --- MOBILE RESPONSIVE FOR PROJECTS PAGE --- */
+@media (max-width: 768px) {
+    .projects-page-container {
+        padding: 0 5px;
+    }
+    
+    .project-card {
+        padding: 20px; /* Less padding on phone */
+    }
+
+    .project-card h2 {
+        font-size: 1.3rem;
+    }
+
+    .project-action {
+        width: 100%; /* Full width button on mobile */
+        justify-content: center;
+        display: flex;
+    }
+}
