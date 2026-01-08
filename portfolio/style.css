@@ -556,3 +556,159 @@ h3 {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
 }
+/* --- BRUTALIST INDEX DESIGN (FIXED) --- */
+
+.index-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.index-header {
+    border-bottom: 4px solid #fff; /* Thicker header line */
+    padding-bottom: 30px;
+    margin-bottom: 0;
+}
+
+.minecraft-title {
+    font-family: 'Minecraft', monospace;
+    font-size: 3.5rem; /* Bigger Title */
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.index-meta {
+    font-family: 'JetBrains Mono', monospace;
+    color: #888;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* The Project Row */
+.project-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 10px; /* More breathing room */
+    border-bottom: 1px solid #333; /* Subtle divider */
+    text-decoration: none !important; /* CRITICAL FIX */
+    color: #fff !important; /* CRITICAL FIX */
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    background: transparent;
+}
+
+/* THE HOVER EFFECT */
+.project-row:hover {
+    background: #fff;
+    color: #000 !important; /* Invert text color */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Layout for Left Side */
+.row-left {
+    display: flex;
+    align-items: baseline;
+    gap: 50px;
+}
+
+/* 01, 02 Number Styling */
+.p-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    color: #444; /* Dark grey by default */
+    font-weight: 700;
+}
+
+.project-row:hover .p-id {
+    color: #000; /* Black on hover */
+}
+
+/* Project Headings */
+.minecraft-heading {
+    font-family: 'Minecraft', monospace;
+    font-size: 2rem;
+    color: #fff; /* Force White */
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+}
+
+.project-row:hover .minecraft-heading {
+    color: #000; /* Force Black on Hover */
+}
+
+/* Descriptions */
+.p-desc {
+    font-family: 'Inter', sans-serif;
+    color: #888;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.project-row:hover .p-desc {
+    color: #333;
+}
+
+/* Right Side (Tech + Arrow) */
+.row-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.tech-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.project-row:hover .tech-mono {
+    color: #000;
+}
+
+.arrow-icon {
+    font-size: 1.5rem;
+    color: #fff;
+    transform: rotate(-45deg);
+    transition: transform 0.3s;
+}
+
+.project-row:hover .arrow-icon {
+    color: #000;
+    transform: rotate(0deg) scale(1.1);
+}
+
+/* MOBILE RESPONSIVE FIXES */
+@media (max-width: 768px) {
+    .minecraft-title { font-size: 2.2rem; }
+    
+    .project-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 25px 0;
+    }
+    
+    .project-row:hover {
+        background: transparent; /* Disable white bg on phone */
+        color: #fff !important; /* Keep text white */
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .row-left { gap: 0; width: 100%; flex-direction: column; }
+    .p-id { display: none; } /* Hide numbers on mobile */
+    .row-right { width: 100%; justify-content: space-between; margin-top: 10px; }
+    
+    /* Disable color inversion on mobile since there is no 'hover' */
+    .project-row:hover .minecraft-heading,
+    .project-row:hover .p-desc,
+    .project-row:hover .tech-mono,
+    .project-row:hover .arrow-icon {
+        color: inherit;
+    }
+}
