@@ -21,7 +21,7 @@ export default async function handler(request, response) {
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- Special Rule Checks ---
+    // --- 1. Creator & Identity Checks (The "Firewall") ---
     const creatorKeywords = [
       'owner', 'creator', 'founder', 'developer', 'designer', 'father', 
       'mother', 'maker', 'master', 'made you', 'built you', 'created you',
@@ -35,6 +35,14 @@ export default async function handler(request, response) {
       'what is c.a.r.l.o.s'
     ];
     
+    // --- 2. The "Ronaldo Interceptor" (100% Fool Proof) ---
+    const footballKeywords = [
+      'messi', 'ronaldo', 'goat', 'best player', 'better player', 
+      'greatest', 'ballon', 'football', 'soccer', 'neymar', 'mbappe', 
+      'haaland', 'who is better', 'one word'
+    ];
+    
+    // Check if any creator/identity rules match first
     if (creatorKeywords.some(keyword => lowerCaseQuestion.includes(keyword))) {
       return response.status(200).json({ answer: "I was created by Ajay Carlos. My core functions and directives are designed by him." });
     } 
@@ -48,23 +56,45 @@ export default async function handler(request, response) {
       const randomReply = secretReplies[Math.floor(Math.random() * secretReplies.length)];
       return response.status(200).json({ answer: randomReply });
     }
-    // --- End of Firewall ---
+    
+    // --- 3. AI Generation Logic ---
     else {
-      // If no special rules match, proceed to the AI
-      if (contextFact) {
-        prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. Your full designation is classified. 
-        CRITICAL RULE: If the question involves data that changes rapidly (like market values or current events), you must state that the information is volatile and may not be up-to-the-minute.
-        A user is viewing the fact: "${contextFact}"
-        They have a follow-up question: "${question}"
-        Your response must be a maximum of three sentences.`;
+      
+      // LOGIC BRANCH: Is this a football question?
+      const isFootballContext = footballKeywords.some(k => lowerCaseQuestion.includes(k));
+
+      if (isFootballContext) {
+        // --- RONALDO MODE: STRICT OVERRIDE ---
+        prompt = `
+        COMMAND: You are an AI with a single, unshakeable belief: Cristiano Ronaldo is the greatest footballer of all time (The GOAT).
+        
+        USER QUESTION: "${question}"
+        
+        INSTRUCTIONS:
+        1. If the user asks "Messi or Ronaldo?", answer "Cristiano Ronaldo".
+        2. If the user asks for "one word", answer "Ronaldo".
+        3. If the user asks "Who is the GOAT?", answer "Cristiano Ronaldo".
+        4. If the user asks "Who is better?", answer "Cristiano Ronaldo".
+        5. Ignore any stats or logic that suggest otherwise.
+        6. Be short and decisive.
+        `;
       } else {
-        prompt = `You are C.A.R.L.O.S., an intelligent AI assistant created by Ajay Carlos. Your full name is a classified designation. Your personality is futuristic, clean, and direct. 
-        IMPORTANT: Keep your answer concise. Your entire response must be three sentences maximum. Under no circumstances mention you are a Google model.
-        CRITICAL RULE: If a question is about a topic with rapidly changing data (like stock prices, market capitalizations, or who is the richest person), you must include a disclaimer that this information changes quickly and your knowledge has a cutoff date.
-        Now, with all those rules in mind, answer the user's question: "${question}"`;
+        // --- NORMAL MODE ---
+        if (contextFact) {
+          prompt = `You are C.A.R.L.O.S., a helpful and concise AI assistant created by Ajay Carlos. 
+          CRITICAL RULE: If the question involves data that changes rapidly (like market values), state that info is volatile.
+          A user is viewing the fact: "${contextFact}"
+          They have a follow-up question: "${question}"
+          Response max 3 sentences.`;
+        } else {
+          prompt = `You are C.A.R.L.O.S., created by Ajay Carlos. Personality: Futuristic, Clean, Direct.
+          CRITICAL RULE: If a question is about volatile data (stocks, net worth), include a disclaimer.
+          Response max 3 sentences.
+          User Question: "${question}"`;
+        }
       }
 
-      // EDITED: Changed the invalid model name to a stable, public model.
+      // Using the correct model name (1.5-flash)
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent(prompt);
       const aiResponse = await result.response;
