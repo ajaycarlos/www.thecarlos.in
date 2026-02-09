@@ -72,6 +72,7 @@ body.light-theme {
   src: url('Minecraft.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap; /* ADDED: This prevents invisible text while loading */
 }
 
 /* ================= 4. General Body & Layout ================= */

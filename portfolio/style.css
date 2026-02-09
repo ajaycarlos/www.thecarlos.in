@@ -1,3 +1,20 @@
+/* --- FONT OPTIMIZATION --- */
+@font-face {
+    font-family: 'Minecraft';
+    /* PRO TIP: If you convert your .ttf to .woff2 (using a tool like CloudConvert),
+       uncomment the line below for 30% faster loading:
+       src: url('Minecraft.woff2') format('woff2'), url('Minecraft.ttf') format('truetype');
+    */
+    src: url('Minecraft.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* CRITICAL: Prevents invisible text during load */
+}
+
+/* Ensure the title uses the optimized font with a fallback */
+.minecraft-title {
+    font-family: 'Minecraft', 'Courier New', monospace;
+}
 :root {
     --bg-color: #0d0d0d;
     --card-bg: #161616;

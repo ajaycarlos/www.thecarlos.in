@@ -1,10 +1,37 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+const ALLOWED_ORIGINS = [
+  'https://www.thecarlos.in',
+  'https://thecarlos.in',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000'
+];
+
+const MAX_QUESTION_LENGTH = 500;
+
 export default async function handler(request, response) {
+  // --- 1. CORS & Security Firewall ---
+  const origin = request.headers.origin;
+  
+  // Only set CORS headers if the origin is explicitly allowed
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    response.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
+  response.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle CORS preflight request
+  if (request.method === 'OPTIONS') {
+    return response.status(200).end();
+  }
+
+  // Ensure strict POST method
   if (request.method !== 'POST') {
     return response.status(405).json({ error: "Method Not Allowed" });
   }
   
+  // Validate API Key presence
   if (!process.env.GOOGLE_API_KEY) {
     console.error("GOOGLE_API_KEY environment variable is not set.");
     return response.status(500).json({ error: "Server configuration error: API key is missing." });
@@ -14,14 +41,19 @@ export default async function handler(request, response) {
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
     const { question, contextFact } = request.body;
 
+    // --- 2. Input Validation ---
     if (!question) {
       return response.status(400).json({ error: "No question provided." });
+    }
+
+    if (question.length > MAX_QUESTION_LENGTH) {
+      return response.status(400).json({ error: "Question too long. Maximum 500 characters." });
     }
 
     const lowerCaseQuestion = question.toLowerCase();
     let prompt;
 
-    // --- 1. Creator & Identity Checks (The "Firewall") ---
+    // --- 3. Creator & Identity Checks (The "Firewall") ---
     const creatorKeywords = [
       'owner', 'creator', 'founder', 'developer', 'designer', 'father', 
       'mother', 'maker', 'master', 'made you', 'built you', 'created you',
@@ -35,7 +67,7 @@ export default async function handler(request, response) {
       'what is c.a.r.l.o.s'
     ];
     
-    // --- 2. The "Ronaldo Interceptor" (100% Fool Proof) ---
+    // --- 4. The "Ronaldo Interceptor" (100% Fool Proof) ---
     const footballKeywords = [
       'messi', 'ronaldo', 'goat', 'best player', 'better player', 
       'greatest', 'ballon', 'football', 'soccer', 'neymar', 'mbappe', 
@@ -57,7 +89,7 @@ export default async function handler(request, response) {
       return response.status(200).json({ answer: randomReply });
     }
     
-    // --- 3. AI Generation Logic ---
+    // --- 5. AI Generation Logic ---
     else {
       
       // LOGIC BRANCH: Is this a football question?
@@ -94,7 +126,7 @@ export default async function handler(request, response) {
         }
       }
 
-      // Using the correct model name (1.5-flash)
+      // Using the correct model name (2.5-flash)
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent(prompt);
       const aiResponse = await result.response;

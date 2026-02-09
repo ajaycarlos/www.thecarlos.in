@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatWindow = document.getElementById('chat-window');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
-    let thinkingInterval = null; // To hold the interval for the thinking animation
+    const chatButton = chatForm.querySelector('button'); // Select the submit button
+    
+    let thinkingInterval = null; 
     
     // --- Theme switcher logic ---
     const themeSwitcher = document.getElementById('theme-switcher');
@@ -24,9 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
     themeSwitcher.addEventListener('click', toggleTheme);
     // --- End theme logic ---
 
-    // --- NEW: "Living AI" Thinking Animation ---
+    // --- Thinking Animation ---
     function startThinkingAnimation(divElement) {
-        // Stop any previous animation
         if (thinkingInterval) clearInterval(thinkingInterval);
         
         const characters = ['▓', '▒', '░'];
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             divElement.textContent = `Processing${dots}`;
             count++;
-        }, 150); // Update speed
+        }, 150);
     }
 
     function stopThinkingAnimation() {
@@ -49,11 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Function to add a message to the chat window
+    // Securely add message (Using textContent prevents XSS)
     function addMessage(message, sender) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
-        messageDiv.textContent = message;
+        messageDiv.textContent = message; // SECURITY: textContent prevents HTML injection
         chatWindow.appendChild(messageDiv);
         chatWindow.scrollTop = chatWindow.scrollHeight;
         return messageDiv;
@@ -70,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (i < text.length) {
                 divElement.textContent += text.charAt(i);
                 i++;
+                chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll while typing
                 setTimeout(type, speed);
             } else {
                 divElement.classList.remove('typing');
@@ -78,18 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
         type();
     }
 
-    // Handle form submission (UPDATED)
+    // Handle form submission with UI Locking
     chatForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const userInput = chatInput.value.trim();
         if (userInput === '') return;
 
+        // 1. Lock UI to prevent spam/abuse
+        chatInput.disabled = true;
+        if (chatButton) chatButton.disabled = true;
+
         addMessage(userInput, 'user');
         chatInput.value = '';
 
-        // Show thinking indicator
         const thinkingMessage = addMessage("", 'ai');
-        startThinkingAnimation(thinkingMessage); // Start the new animation
+        startThinkingAnimation(thinkingMessage);
 
         try {
             const response = await fetch('/api/ask-carlos', {
@@ -100,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }),
             });
             
-            stopThinkingAnimation(); // Stop the animation once response is received
+            stopThinkingAnimation();
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -111,9 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
             typewriterForAi(data.answer, thinkingMessage);
 
         } catch (error) {
-            stopThinkingAnimation(); // Also stop the animation on error
-            thinkingMessage.textContent = "Sorry, an error occurred. Please try again.";
+            stopThinkingAnimation();
+            thinkingMessage.textContent = "Connection error. Please try again.";
             console.error('Error:', error);
+        } finally {
+            // 2. Unlock UI always
+            chatInput.disabled = false;
+            if (chatButton) chatButton.disabled = false;
+            chatInput.focus(); // Restore focus for better UX
         }
     });
 
